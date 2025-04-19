@@ -15,3 +15,4 @@ D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracke
 D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.pdb
 D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.genruntimeconfig.cache
 D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\ref\DSaA_Project_TimeTracker.dll
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.TaskForm.resources

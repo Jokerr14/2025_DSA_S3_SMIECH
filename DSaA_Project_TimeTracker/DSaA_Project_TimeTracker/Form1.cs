@@ -7,20 +7,6 @@ namespace DSaA_Project_TimeTracker
         public Form1()
         {
             InitializeComponent();
-            userTabControl.SelectedIndexChanged += new EventHandler(logOutTab_Selected);
-        }
-
-        void logOutTab_Selected(object sender, EventArgs e)
-        {
-            TabControl tabControl = sender as TabControl;
-            if (tabControl != null && tabControl.SelectedTab == logOutUserTab)
-            {
-                adminViewPanel.Visible = false;
-                userViewPanel.Visible = false;
-                loginPanel.Visible = true;
-                tabControl.SelectedTab = tasksUserTab;
-            }
-
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -59,9 +45,20 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             employeesAdminPanel.Visible = false;
+            loginLoginTextbox.Text = "";
+            loginPasswordTextbox.Text = "";
             loginPanel.Visible = true;
         }
-
+        private void logOutUserButton_Click(object sender, EventArgs e)
+        {
+            adminViewPanel.Visible = false;
+            userViewPanel.Visible = false;
+            teamsUserPanel.Visible = false;
+            tasksUserPanel.Visible = false;
+            loginLoginTextbox.Text = "";
+            loginPasswordTextbox.Text = "";
+            loginPanel.Visible = true;
+        }
         private void projectsAdminButton_Click(object sender, EventArgs e)
         {
             projectsAdminPanel.Visible = true;
@@ -94,7 +91,17 @@ namespace DSaA_Project_TimeTracker
             employeesAdminPanel.Visible = true;
         }
 
+        private void tasksUserButton_Click(object sender, EventArgs e)
+        {
+            teamsUserPanel.Visible = false;
+            tasksUserPanel.Visible = true;
+        }
 
+        private void teamsUserButton_Click(object sender, EventArgs e)
+        {
+            tasksUserPanel.Visible = false;
+            teamsUserPanel.Visible = true;
+        }
 
         ////////////////////////////TO DO///////////////////////////////////////////
         //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
@@ -159,6 +166,20 @@ namespace DSaA_Project_TimeTracker
         {
 
         }
+
+        private void button4_Click_1(object sender, EventArgs e)
+        {
+            // Create an instance of the TaskForm
+            TaskForm taskForm = new TaskForm();
+
+            // Set the form to open as a dialog without closing the current form
+            taskForm.ShowDialog();
+        }
+
+
+
+
+
 
         ///////////////////////////////////////////////////////////////////////
 
