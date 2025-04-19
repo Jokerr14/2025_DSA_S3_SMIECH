@@ -1,0 +1,17 @@
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\bin\Debug\net8.0-windows\DSaA_Project_TimeTracker.exe
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\bin\Debug\net8.0-windows\DSaA_Project_TimeTracker.deps.json
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\bin\Debug\net8.0-windows\DSaA_Project_TimeTracker.runtimeconfig.json
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\bin\Debug\net8.0-windows\DSaA_Project_TimeTracker.dll
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\bin\Debug\net8.0-windows\DSaA_Project_TimeTracker.pdb
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.Form1.resources
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.csproj.GenerateResource.cache
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.GeneratedMSBuildEditorConfig.editorconfig
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.AssemblyInfoInputs.cache
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.AssemblyInfo.cs
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.csproj.CoreCompileInputs.cache
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.sourcelink.json
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.dll
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\refint\DSaA_Project_TimeTracker.dll
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.pdb
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\DSaA_Project_TimeTracker.genruntimeconfig.cache
+D:\M\Polibuda\DSaA\Sem 6\Project Repo\2025_DSA_S3_SMIECH\DSaA_Project_TimeTracker\DSaA_Project_TimeTracker\obj\Debug\net8.0-windows\ref\DSaA_Project_TimeTracker.dll

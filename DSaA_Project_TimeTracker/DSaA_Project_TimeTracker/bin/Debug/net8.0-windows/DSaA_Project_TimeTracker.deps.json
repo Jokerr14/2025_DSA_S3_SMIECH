@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "DSaA_Project_TimeTracker/1.0.0": {
+        "runtime": {
+          "DSaA_Project_TimeTracker.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "DSaA_Project_TimeTracker/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
