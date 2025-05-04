@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DSaA_Project_TimeTracker")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec262a7ce231ebba69d5d46d485a8077f037ab07")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3c57e06d71d9a5e15e4e34fa3c5a3cedae9d4f3a")]
 [assembly: System.Reflection.AssemblyProductAttribute("DSaA_Project_TimeTracker")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DSaA_Project_TimeTracker")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

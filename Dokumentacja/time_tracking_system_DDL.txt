@@ -84,3 +84,13 @@ CREATE TABLE UserHistory (
     CONSTRAINT FK_UserHistory_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
 );
 GO
+
+CREATE TABLE TaskAssignments (
+    TaskID INT,
+    UserID INT,
+    TimeSpentHours DECIMAL(5, 2) NULL,
+    PRIMARY KEY (TaskID, UserID),
+    CONSTRAINT FK_TaskAssignments_Tasks FOREIGN KEY (TaskID) REFERENCES Tasks(TaskID),
+    CONSTRAINT FK_TaskAssignments_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
+);
+GO
