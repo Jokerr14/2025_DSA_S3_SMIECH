@@ -66,5 +66,27 @@ namespace DSaA_Project_TimeTracker.Database
         {
             throw new NotImplementedException();
         }
+
+        public async Task<UserDto?> Login(LoginUserDto loginUserDto)
+        {
+            using (var context = new TTDbContext())
+            {
+                // Try to find the user by email
+                var user = await context.Users
+                    .Include(u => u.Role) // include role navigation property
+                    .FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
+
+                if (user == null)
+                    return null; 
+
+                // add hashing passwords
+                if (user.PasswordHash != loginUserDto.Password)
+                    return null; 
+
+                // Map entity to DTO and return it
+                var userDto = _mapper.Map<UserDto>(user);
+                return userDto;
+            }
+        }
     }
 }
