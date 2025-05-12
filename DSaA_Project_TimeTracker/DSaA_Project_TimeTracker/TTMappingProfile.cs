@@ -10,6 +10,8 @@ namespace DSaA_Project_TimeTracker
         {
             CreateMap<User, UserDto>()
                 .ForMember(m => m.RoleName, c => c.MapFrom(s => s.Role.RoleName));
+            CreateMap<LoginUserDto, User>();
+
         }
     }
 }
