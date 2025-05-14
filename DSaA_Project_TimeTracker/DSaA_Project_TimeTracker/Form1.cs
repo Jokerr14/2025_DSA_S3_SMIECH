@@ -56,7 +56,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(tasksProjectNameAdminLabel, "Name of project that the task belongs to.", tasksAdminPanel),
                         CreateHelpLabel(tasksAdminListbox, "List of tasks in selected project.", tasksAdminPanel),
 
-                        CreateHelpLabel(tasksNameAdminTextbox, "Name of selected task", tasksAdminPanel),
+                        CreateHelpLabel(tasksNameAdminTextbox, "Name of selected task.", tasksAdminPanel),
                         CreateHelpLabel(tasksDescriptionAdminTextbox, "Description of selected task.", tasksAdminPanel),
 
                         CreateHelpLabel(tasksStatusAdminTextbox, "Status of selected task.", tasksAdminPanel),
@@ -363,12 +363,20 @@ namespace DSaA_Project_TimeTracker
 
         private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditTask addEditTask = new AddEditTask
+            {
+                PanelToShow = "AddTask" 
+            };
+            addEditTask.ShowDialog();
         }
 
         private void tasksEditTaskAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditTask addEditTask = new AddEditTask
+            {
+                PanelToShow = "EditTask"
+            };
+            addEditTask.ShowDialog();
         }
 
         private void tasksDeleteTaskAdminButton_Click(object sender, EventArgs e)

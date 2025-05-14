@@ -137,7 +137,7 @@
             loginPanel.Location = new Point(3, 2);
             loginPanel.Margin = new Padding(3, 2, 3, 2);
             loginPanel.Name = "loginPanel";
-            loginPanel.Size = new Size(1101, 501);
+            loginPanel.Size = new Size(1112, 575);
             loginPanel.TabIndex = 0;
             // 
             // loginAuthorLabel
@@ -616,7 +616,7 @@
             tasksNameAdminLabel.AutoSize = true;
             tasksNameAdminLabel.Location = new Point(319, 10);
             tasksNameAdminLabel.Name = "tasksNameAdminLabel";
-            tasksNameAdminLabel.Size = new Size(65, 15);
+            tasksNameAdminLabel.Size = new Size(64, 15);
             tasksNameAdminLabel.TabIndex = 4;
             tasksNameAdminLabel.Text = "Task Name";
             // 
@@ -1012,7 +1012,7 @@
             teamsNameAdminLabel.AutoSize = true;
             teamsNameAdminLabel.Location = new Point(312, 10);
             teamsNameAdminLabel.Name = "teamsNameAdminLabel";
-            teamsNameAdminLabel.Size = new Size(71, 15);
+            teamsNameAdminLabel.Size = new Size(70, 15);
             teamsNameAdminLabel.TabIndex = 4;
             teamsNameAdminLabel.Text = "Team Name";
             // 
@@ -1042,9 +1042,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1116, 579);
-            Controls.Add(loginPanel);
             Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
+            Controls.Add(loginPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
