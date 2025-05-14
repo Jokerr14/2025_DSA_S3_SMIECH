@@ -333,32 +333,56 @@ namespace DSaA_Project_TimeTracker
 
         private void projectsAddProjectAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditProject addEditProject = new AddEditProject
+            {
+                PanelToShow = "AddProject"
+            };
+            addEditProject.ShowDialog();
         }
 
         private void projectsEditProjectAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditProject addEditProject = new AddEditProject
+            {
+                PanelToShow = "EditProject"
+            };
+            addEditProject.ShowDialog();
         }
 
         private void projectsDeleteProjectAdminButton_Click(object sender, EventArgs e)
         {
-
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteProject"
+            };
+            confirmDelete.ShowDialog();
         }
 
         private void teamsAddTeamAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditTeam addEditTeam = new AddEditTeam
+            {
+                PanelToShow = "AddTeam"
+            };
+            addEditTeam.ShowDialog();
         }
 
         private void teamsEditTeamAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditTeam addEditTeam = new AddEditTeam
+            {
+                PanelToShow = "EditTeam"
+            };
+            addEditTeam.ShowDialog();
         }
 
         private void teamsDeleteTeamAdminButton_Click(object sender, EventArgs e)
         {
-
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteTeam"
+            };
+            confirmDelete.ShowDialog();
         }
 
         private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
@@ -381,22 +405,38 @@ namespace DSaA_Project_TimeTracker
 
         private void tasksDeleteTaskAdminButton_Click(object sender, EventArgs e)
         {
-
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteTask"
+            };
+            confirmDelete.ShowDialog();
         }
 
         private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditEmployee addEditEmployee = new AddEditEmployee
+            {
+                PanelToShow = "AddEmployee"
+            };
+            addEditEmployee.ShowDialog();
         }
 
         private void employeesEditEmployeeAdminButton_Click(object sender, EventArgs e)
         {
-
+            AddEditEmployee addEditEmployee = new AddEditEmployee
+            {
+                PanelToShow = "EditEmployee"
+            };
+            addEditEmployee.ShowDialog();
         }
 
         private void employeesDeleteEmployeeAdminButton_Click(object sender, EventArgs e)
         {
-
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteEmployee"
+            };
+            confirmDelete.ShowDialog();
         }
 
         private void button4_Click_1(object sender, EventArgs e)
