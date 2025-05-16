@@ -1,16 +1,7 @@
 using DSaA_Project_TimeTracker.Database;
-using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs.User;
-using DSaA_Project_TimeTracker.DTOs.Team;
-using Microsoft.VisualBasic.ApplicationServices;
-using System.Text;
-using System.Windows.Forms;
+using DSaA_Project_TimeTracker.DTOs;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using DSaA_Project_TimeTracker.Database.Repositories;
-using DSaA_Project_TimeTracker.DTOs.Project;
-using DSaA_Project_TimeTracker.DTOs.TeamProject;
-using DSaA_Project_TimeTracker.DTOs.UserHistory;
-using DSaA_Project_TimeTracker.DTOs.Task;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -26,6 +17,8 @@ namespace DSaA_Project_TimeTracker
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+        private readonly UserRepo _userRepo = new UserRepo();
+
 
         private void InitializeHelpLabels()
         {
@@ -57,7 +50,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(projectsDeleteProjectAdminButton, "Click to delete the selected project.", projectsAdminPanel)
                     }
                 },
-                {                  
+                {
                     tasksAdminPanel, new Label[]
                     {
                         CreateHelpLabel(tasksProjectNameAdminLabel, "Name of project that the task belongs to.", tasksAdminPanel),
@@ -433,6 +426,42 @@ namespace DSaA_Project_TimeTracker
         private void helpButtonAdmin_Click(object sender, EventArgs e)
         {
             ToggleHelpLabels();
+        }
+
+
+        //Logging system
+        private async void loginButton_Click(object sender, EventArgs e)
+        {
+            var loginDto = new LoginUserDto
+            {
+                Username = loginLoginTextbox.Text,
+                Password = loginPasswordTextbox.Text
+            };
+
+            var user = await _userRepo.Login(loginDto);
+
+            if (user != null)
+            {
+                if (user.RoleName == "Admin")
+                {
+                    //show admin panel
+                    adminViewPanel.Visible = true;
+                    userViewPanel.Visible = false;
+                    loginPanel.Visible = false;
+                }
+                else
+                {
+                    //show user panel
+                    adminViewPanel.Visible = false;
+                    userViewPanel.Visible = true;
+                    loginPanel.Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid email or password.");
+            }
+
         }
 
 
