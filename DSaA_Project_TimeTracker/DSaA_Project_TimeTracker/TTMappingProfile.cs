@@ -70,10 +70,10 @@ namespace DSaA_Project_TimeTracker
 
             #region TaskProgram Map
 
-            CreateMap<TaskProgram, TaskProgramDto>()
+            CreateMap<TaskToDo, TaskProgramDto>()
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId));
 
-            CreateMap<ModifyTaskProgramDto, TaskProgram>();
+            CreateMap<ModifyTaskProgramDto, TaskToDo>();
 
             #endregion
 

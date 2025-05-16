@@ -12,13 +12,19 @@ public class TTDbContext : DbContext
     public DbSet<Project> Projects { get; set; }
     public DbSet<TeamProject> TeamProjects { get; set; }
     public DbSet<TeamMember> TeamMembers { get; set; }
-    public DbSet<TaskProgram> Tasks { get; set; }
+    public DbSet<TaskToDo> Tasks { get; set; }
     public DbSet<UserHistory> UserHistory { get; set; }
     public DbSet<TaskAssignment> TaskAssignments { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Role)
+            .WithMany(r => r.Users)
+            .HasForeignKey(u => u.RoleId)
+            .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<TeamMember>()
             .HasKey(tm => new { tm.TeamId, tm.UserId });
@@ -34,7 +40,7 @@ public class TTDbContext : DbContext
             .HasForeignKey(tm => tm.UserId);
 
         modelBuilder.Entity<TeamProject>()
-        .HasKey(tp => new { tp.TeamId, tp.ProjectId });
+            .HasKey(tp => new { tp.TeamId, tp.ProjectId });
 
         modelBuilder.Entity<TeamProject>()
             .HasOne(tp => tp.Team)
@@ -46,17 +52,12 @@ public class TTDbContext : DbContext
             .WithMany(p => p.TeamProjects)
             .HasForeignKey(tp => tp.ProjectId);
 
-        modelBuilder.Entity<UserHistory>()
-            .HasOne(uh => uh.User)
-            .WithMany(u => u.UserHistories)
-            .HasForeignKey(uh => uh.UserId);
-
         modelBuilder.Entity<TaskAssignment>()
             .HasKey(ta => new { ta.TaskId, ta.UserId });
 
         modelBuilder.Entity<TaskAssignment>()
-            .HasOne(ta => ta.TaskProgram)
-            .WithMany(tp => tp.TaskAssignments)  
+            .HasOne(ta => ta.TaskToDo)
+            .WithMany(t => t.TaskAssignments)
             .HasForeignKey(ta => ta.TaskId);
 
         modelBuilder.Entity<TaskAssignment>()
@@ -64,14 +65,13 @@ public class TTDbContext : DbContext
             .WithMany(u => u.TaskAssignments)
             .HasForeignKey(ta => ta.UserId);
 
-        modelBuilder.Entity<TaskProgram>()
-        .HasKey(tp => tp.Id);
+        modelBuilder.Entity<UserHistory>()
+            .HasKey(uh => uh.Id);
 
-        modelBuilder.Entity<TaskProgram>()
-            .HasOne(tp => tp.Project)
-            .WithMany(p => p.TaskPrograms)
-            .HasForeignKey(tp => tp.ProjectId)
-            .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<UserHistory>()
+            .HasOne(uh => uh.User)
+            .WithMany(u => u.UserEvents)
+            .HasForeignKey(uh => uh.UserId);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -12,7 +12,7 @@ namespace DSaA_Project_TimeTracker.Database.Entities
         public int UserId { get; set; }
         public decimal? TimeSpentHours { get; set; }
 
-        public virtual TaskProgram TaskProgram { get; set; }
+        public virtual TaskToDo TaskToDo { get; set; }
         public virtual User User { get; set; }
     }
 

@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-//i really hope this works lmao
-
 namespace DSaA_Project_TimeTracker.Database.Entities
 {
     public class TeamProject

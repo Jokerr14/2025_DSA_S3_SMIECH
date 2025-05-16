@@ -348,6 +348,8 @@ namespace DSaA_Project_TimeTracker
             ResetHelpState(); // Reset help state when switching panels
             tasksUserPanel.Visible = false;
             teamsUserPanel.Visible = true;
+            var repo = new UserRepo();
+            var user = repo.GetById(0);
         }
 
         ////////////////////////////TO DO///////////////////////////////////////////
