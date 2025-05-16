@@ -16,4 +16,8 @@ public class User
 
     public int RoleId { get; set; }
     public virtual Role Role { get; set; }
+
+    public virtual ICollection<TeamMember> TeamMembers { get; set; }
+    public virtual ICollection<UserHistory> UserEvents { get; set; }
+    public virtual ICollection<TaskAssignment> TaskAssignments { get; set; }
 }

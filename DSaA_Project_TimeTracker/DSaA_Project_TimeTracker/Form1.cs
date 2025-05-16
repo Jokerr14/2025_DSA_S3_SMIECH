@@ -246,11 +246,27 @@ namespace DSaA_Project_TimeTracker
             loginPanel.Visible = false;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
             adminViewPanel.Visible = true;
             userViewPanel.Visible = false;
             loginPanel.Visible = false;
+
+            var teamRepo = new TeamRepo();
+            var userRepo = new UserRepo();
+            var roleRepo = new RoleRepo();
+            var projectRepo = new ProjectRepo();
+            var tpRepo = new TeamProjectRepo();
+            var uhRepo = new UserHistoryRepo();
+            var taskRepo = new TaskRepo();
+            
+            var a = await userRepo.GetAll();
+            var b = await teamRepo.GetAll();
+            var c = await roleRepo.GetAll();
+            var d = await projectRepo.GetAll();
+            var ea = await tpRepo.GetAll();
+            var his = await uhRepo.GetAll();
+            var ta = await taskRepo.GetAll();
         }
 
         private void logOutAdminButton_Click(object sender, EventArgs e)
@@ -325,6 +341,8 @@ namespace DSaA_Project_TimeTracker
             ResetHelpState(); // Reset help state when switching panels
             tasksUserPanel.Visible = false;
             teamsUserPanel.Visible = true;
+            var repo = new UserRepo();
+            var user = repo.GetById(0);
         }
 
         ////////////////////////////TO DO///////////////////////////////////////////
