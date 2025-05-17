@@ -1,5 +1,7 @@
 using DSaA_Project_TimeTracker.Database;
 using DSaA_Project_TimeTracker.DTOs;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.DTOs.TeamProject;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
@@ -254,18 +256,18 @@ namespace DSaA_Project_TimeTracker
 
             var teamRepo = new TeamRepo();
             var userRepo = new UserRepo();
-            var roleRepo = new RoleRepo();
+           // var roleRepo = new RoleRepo();
             var projectRepo = new ProjectRepo();
-            var tpRepo = new TeamProjectRepo();
+           // var tpRepo = new TeamProjectRepo();
             var uhRepo = new UserHistoryRepo();
             var taskRepo = new TaskRepo();
             
             var a = await userRepo.GetAll();
             var b = await teamRepo.GetAll();
-            var c = await roleRepo.GetAll();
+            //var c = await roleRepo.GetAll();
             var d = await projectRepo.GetAll();
-            var ea = await tpRepo.GetAll();
-            var his = await uhRepo.GetAll();
+            //var ea = await tpRepo.GetAll();
+            //var his = await uhRepo.GetAll();
             var ta = await taskRepo.GetAll();
         }
 
@@ -347,7 +349,7 @@ namespace DSaA_Project_TimeTracker
 
         ////////////////////////////TO DO///////////////////////////////////////////
         //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
-        //Maybe it opens a new window to input necessary data??
+        
 
         private void projectsAddProjectAdminButton_Click(object sender, EventArgs e)
         {
@@ -486,29 +488,29 @@ namespace DSaA_Project_TimeTracker
                 Password = loginPasswordTextbox.Text
             };
 
-            var user = await _userRepo.Login(loginDto);
+            /* var user = await _userRepo.Login(loginDto);
 
-            if (user != null)
-            {
-                if (user.RoleName == "Admin")
-                {
-                    //show admin panel
-                    adminViewPanel.Visible = true;
-                    userViewPanel.Visible = false;
-                    loginPanel.Visible = false;
-                }
-                else
-                {
-                    //show user panel
-                    adminViewPanel.Visible = false;
-                    userViewPanel.Visible = true;
-                    loginPanel.Visible = false;
-                }
-            }
-            else
-            {
-                MessageBox.Show("Invalid email or password.");
-            }
+             if (user != null)
+             {
+                 if (user.RoleName == "Admin")
+                 {
+                     //show admin panel
+                     adminViewPanel.Visible = true;
+                     userViewPanel.Visible = false;
+                     loginPanel.Visible = false;
+                 }
+                 else
+                 {
+                     //show user panel
+                     adminViewPanel.Visible = false;
+                     userViewPanel.Visible = true;
+                     loginPanel.Visible = false;
+                 }
+             }
+             else
+             {
+                 MessageBox.Show("Invalid email or password.");
+             }*/
 
         }
 

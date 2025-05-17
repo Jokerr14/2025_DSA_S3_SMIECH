@@ -88,7 +88,7 @@ namespace DSaA_Project_TimeTracker
             #region TaskAssignment Map
 
             CreateMap<TaskAssignment, TaskAssignmentDto>()
-                .ForMember(dest => dest.TaskTitle, opt => opt.MapFrom(src => src.TaskProgram.Title))
+                .ForMember(dest => dest.TaskTitle, opt => opt.MapFrom(src => src.TaskToDo.Title))
                 .ForMember(dest => dest.UserUsername, opt => opt.MapFrom(src => src.User.Username));
 
             CreateMap<ModifyTaskAssignmentDto, TaskAssignment>();
