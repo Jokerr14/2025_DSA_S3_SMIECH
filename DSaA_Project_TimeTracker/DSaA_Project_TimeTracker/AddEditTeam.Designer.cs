@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             addTeamPanel = new Panel();
-            editTeamPanel = new Panel();
             addTeamHelpButton = new Button();
             AddTaskNameLabel = new Label();
             addNewTeamDescTextBox = new TextBox();
@@ -38,6 +37,7 @@
             addNewTeamNameTextBox = new TextBox();
             label1 = new Label();
             label2 = new Label();
+            editTeamPanel = new Panel();
             editTeamHelpButton = new Button();
             label5 = new Label();
             editTeamDescTextBox = new TextBox();
@@ -64,21 +64,6 @@
             addTeamPanel.Name = "addTeamPanel";
             addTeamPanel.Size = new Size(762, 527);
             addTeamPanel.TabIndex = 0;
-            // 
-            // editTeamPanel
-            // 
-            editTeamPanel.Controls.Add(editTeamHelpButton);
-            editTeamPanel.Controls.Add(label5);
-            editTeamPanel.Controls.Add(editTeamDescTextBox);
-            editTeamPanel.Controls.Add(discardEditTeamButton);
-            editTeamPanel.Controls.Add(saveEditTeamButton);
-            editTeamPanel.Controls.Add(editTeamNameTextBox);
-            editTeamPanel.Controls.Add(label6);
-            editTeamPanel.Controls.Add(label8);
-            editTeamPanel.Location = new Point(12, 12);
-            editTeamPanel.Name = "editTeamPanel";
-            editTeamPanel.Size = new Size(762, 527);
-            editTeamPanel.TabIndex = 1;
             // 
             // addTeamHelpButton
             // 
@@ -156,6 +141,21 @@
             label2.TabIndex = 33;
             label2.Text = "Description";
             // 
+            // editTeamPanel
+            // 
+            editTeamPanel.Controls.Add(editTeamHelpButton);
+            editTeamPanel.Controls.Add(label5);
+            editTeamPanel.Controls.Add(editTeamDescTextBox);
+            editTeamPanel.Controls.Add(discardEditTeamButton);
+            editTeamPanel.Controls.Add(saveEditTeamButton);
+            editTeamPanel.Controls.Add(editTeamNameTextBox);
+            editTeamPanel.Controls.Add(label6);
+            editTeamPanel.Controls.Add(label8);
+            editTeamPanel.Location = new Point(12, 12);
+            editTeamPanel.Name = "editTeamPanel";
+            editTeamPanel.Size = new Size(762, 527);
+            editTeamPanel.TabIndex = 1;
+            // 
             // editTeamHelpButton
             // 
             editTeamHelpButton.Location = new Point(688, 35);
@@ -182,7 +182,6 @@
             editTeamDescTextBox.Margin = new Padding(3, 2, 3, 2);
             editTeamDescTextBox.Multiline = true;
             editTeamDescTextBox.Name = "editTeamDescTextBox";
-            editTeamDescTextBox.ReadOnly = true;
             editTeamDescTextBox.ScrollBars = ScrollBars.Vertical;
             editTeamDescTextBox.Size = new Size(606, 267);
             editTeamDescTextBox.TabIndex = 41;

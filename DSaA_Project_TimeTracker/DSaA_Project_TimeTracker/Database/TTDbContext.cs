@@ -52,6 +52,12 @@ public class TTDbContext : DbContext
             .WithMany(p => p.TeamProjects)
             .HasForeignKey(tp => tp.ProjectId);
 
+        modelBuilder.Entity<TaskToDo>()
+            .HasOne(x => x.Project)
+            .WithMany(t => t.Tasks)
+            .HasForeignKey(x => x.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<TaskAssignment>()
             .HasKey(ta => new { ta.TaskId, ta.UserId });
 

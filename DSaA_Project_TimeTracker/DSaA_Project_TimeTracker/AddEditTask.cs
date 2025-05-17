@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.DTOs.Task;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -19,7 +21,12 @@ namespace DSaA_Project_TimeTracker
             get => _panelToShow;
             set => _panelToShow = value;
         }
-
+        private DSaA_Project_TimeTracker.DTOs.Project.ProjectDto _project;
+        public AddEditTask(DSaA_Project_TimeTracker.DTOs.Project.ProjectDto project)
+        {
+            InitializeComponent();
+            _project = project;
+        }
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
@@ -171,9 +178,28 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveNewTaskButton_Click(object sender, EventArgs e)
+        private async void saveNewTaskButton_Click(object sender, EventArgs e)
         {
-
+            int projectId = 0;
+            if (_project is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto project)
+            {
+                projectId = project.Id;
+            }
+            var taskName = addNewTaskNameTextBox.Text;
+            var taskDesc = addNewTaskDescTextBox.Text;
+            var taskStatus = addNewTaskStatusComboBox.Text.ToString();
+            var taskDate = addNewTaskDatePicker.Value;
+            var newTask = new DTOs.Task.ModifyTaskProgramDto
+            {
+                Title = taskName,
+                Description = taskDesc,
+                Status = taskStatus,
+                DueDate = taskDate,
+                ProjectId = projectId
+            };
+            var repo = new DSaA_Project_TimeTracker.Database.Repos.TaskRepo();
+            await repo.Add(newTask);
+            this.Close();
         }
 
         private void saveEditTaskButton_Click(object sender, EventArgs e)

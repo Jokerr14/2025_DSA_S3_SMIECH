@@ -177,9 +177,30 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-        private void saveNewEmployeeButton_Click(object sender, EventArgs e)
+        private async void saveNewEmployeeButton_Click(object sender, EventArgs e)
         {
+            var username = addNewEmployeeNameTextBox.Text;
+            var email = addNewEmployeeMailTextBox.Text;
+            var role = addNewEmployeeRoleComboBox.Text.ToString();
+            int roleNum;
+            if (role == "Admin")
+            {
+                roleNum = 1;
+            }
+            else { roleNum = 2; };
 
+            var status = addNewEmployeeStatusComboBox.Text.ToString();
+            var newEmployee = new DTOs.User.AddUserDto
+            {
+                Username = username,
+                Email = email,
+                RoleId = roleNum,
+                EmploymentStatus = status
+            };
+            var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
+            await repo.Add(newEmployee);
+
+            this.Close();
         }
     }
 }

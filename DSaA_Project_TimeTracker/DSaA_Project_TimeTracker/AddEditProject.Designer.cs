@@ -110,7 +110,6 @@
             addProjectDescTextBox.Margin = new Padding(3, 2, 3, 2);
             addProjectDescTextBox.Multiline = true;
             addProjectDescTextBox.Name = "addProjectDescTextBox";
-            addProjectDescTextBox.ReadOnly = true;
             addProjectDescTextBox.ScrollBars = ScrollBars.Vertical;
             addProjectDescTextBox.Size = new Size(606, 267);
             addProjectDescTextBox.TabIndex = 41;

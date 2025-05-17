@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DSaA_Project_TimeTracker.DTOs.Task;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,7 @@ namespace DSaA_Project_TimeTracker.DTOs.Project
         public string Description { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
+
+        public List<TaskProgramDto> Tasks { get; set; }
     }
 }

@@ -49,6 +49,9 @@ namespace DSaA_Project_TimeTracker
 
             #region Project Map
 
+            CreateMap<Team, TeamDto>()
+                .ForMember(x => x.Members, x => x.MapFrom(y => y.TeamMembers.Select(z => z.User)));
+
             CreateMap<Project, ProjectDto>().ReverseMap();
 
             CreateMap<ModifyProjectDto, Project>();
@@ -69,6 +72,9 @@ namespace DSaA_Project_TimeTracker
             #endregion
 
             #region TaskProgram Map
+            CreateMap<Project, ProjectDto>()
+                .ForMember(dest => dest.Tasks, opt => opt.MapFrom(src => src.Tasks));
+
 
             CreateMap<TaskToDo, TaskProgramDto>()
                 .ForMember(dest => dest.ProjectId, opt => opt.MapFrom(src => src.ProjectId));

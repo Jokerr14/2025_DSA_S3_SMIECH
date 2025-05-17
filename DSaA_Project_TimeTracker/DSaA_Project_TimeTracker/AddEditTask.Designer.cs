@@ -183,7 +183,6 @@
             addNewTaskDescTextBox.Margin = new Padding(3, 2, 3, 2);
             addNewTaskDescTextBox.Multiline = true;
             addNewTaskDescTextBox.Name = "addNewTaskDescTextBox";
-            addNewTaskDescTextBox.ReadOnly = true;
             addNewTaskDescTextBox.ScrollBars = ScrollBars.Vertical;
             addNewTaskDescTextBox.Size = new Size(606, 267);
             addNewTaskDescTextBox.TabIndex = 16;

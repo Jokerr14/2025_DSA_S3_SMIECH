@@ -4,6 +4,8 @@ using DSaA_Project_TimeTracker.Database.Repos;
 using DSaA_Project_TimeTracker.DTOs.TeamProject;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.Team;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -19,6 +21,16 @@ namespace DSaA_Project_TimeTracker
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+        private List<DSaA_Project_TimeTracker.DTOs.Project.ProjectDto> _projectsCache = new();
+        private int currentProjectId;
+        private List<DSaA_Project_TimeTracker.DTOs.Team.TeamDto> _teamsCache = new();
+        private List<DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto> _tasksCache = new();
+        private List<DSaA_Project_TimeTracker.DTOs.User.UserDto> _usersCache = new();
+
+
+
+
+
         private readonly UserRepo _userRepo = new UserRepo();
 
 
@@ -254,39 +266,44 @@ namespace DSaA_Project_TimeTracker
             userViewPanel.Visible = false;
             loginPanel.Visible = false;
 
-            var teamRepo = new TeamRepo();
+            //var teamRepo = new TeamRepo();    //MOVED TO APPROPRIATE FUNCTION
             var userRepo = new UserRepo();
-           // var roleRepo = new RoleRepo();
-            var projectRepo = new ProjectRepo();
-           // var tpRepo = new TeamProjectRepo();
+            // var roleRepo = new RoleRepo();   //not working
+            //var projectRepo = new ProjectRepo();      //MOVED TO APPROPRIATE FUNCTION
+            // var tpRepo = new TeamProjectRepo();  //not working
             var uhRepo = new UserHistoryRepo();
-            var taskRepo = new TaskRepo();
-            
+            //var taskRepo = new TaskRepo();        //MOVED TO APPROPRIATE FUNCTION
+
             var a = await userRepo.GetAll();
-            var b = await teamRepo.GetAll();
-            //var c = await roleRepo.GetAll();
-            var d = await projectRepo.GetAll();
-            //var ea = await tpRepo.GetAll();
-            //var his = await uhRepo.GetAll();
-            var ta = await taskRepo.GetAll();
+            //var b = await teamRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
+            //var c = await roleRepo.GetAll();  //not working
+            //var d = await projectRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
+            //var ea = await tpRepo.GetAll();   //not working
+            //var his = await uhRepo.GetAll();  //not working
+            //var ta = await taskRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
         }
+
+
+        ////////////////////LOG OUT///////////////////
 
         private void logOutAdminButton_Click(object sender, EventArgs e)
         {
-            ResetHelpState(); // Reset help state when switching panels
+            ResetHelpState();
             adminViewPanel.Visible = false;
             userViewPanel.Visible = false;
             projectsAdminPanel.Visible = false;
             tasksAdminPanel.Visible = false;
+            tasksAdminButton.Enabled = false;
             teamsAdminPanel.Visible = false;
             employeesAdminPanel.Visible = false;
+            employeesAdminButton.Enabled = false;
             loginLoginTextbox.Text = "";
             loginPasswordTextbox.Text = "";
             loginPanel.Visible = true;
         }
         private void logOutUserButton_Click(object sender, EventArgs e)
         {
-            ResetHelpState(); // Reset help state when switching panels
+            ResetHelpState();
             adminViewPanel.Visible = false;
             userViewPanel.Visible = false;
             teamsUserPanel.Visible = false;
@@ -295,62 +312,52 @@ namespace DSaA_Project_TimeTracker
             loginPasswordTextbox.Text = "";
             loginPanel.Visible = true;
         }
-        private void projectsAdminButton_Click(object sender, EventArgs e)
+
+        ///////////////////////////////////////PROJECTS//////////////////////////////////////
+        //Enter projects view as admin
+        private async void projectsAdminButton_Click(object sender, EventArgs e)
         {
-            ResetHelpState(); // Reset help state when switching panels
+            ResetHelpState();
             projectsAdminPanel.Visible = true;
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             employeesAdminPanel.Visible = false;
+            employeesAdminButton.Enabled = false;
+            tasksAdminButton.Enabled = false;
+            projectsNameAdminTextbox.Text = "";
+            projectsDescriptionAdminTextbox.Text = "";
+            projectsStartDateAdminDatePicker.Value = DateTime.Now;
+            projectsEndDateAdminDatePicker.Value = DateTime.Now;
+            projectsAdminListbox.Items.Clear();
+
+            var projectRepo = new ProjectRepo();
+            var projects = await projectRepo.GetAll();
+            if (projects != null)
+            {
+                _projectsCache = projects.ToList();
+                projectsAdminListbox.DisplayMember = "ProjectName";
+                projectsAdminListbox.ValueMember = "Id";
+                foreach (var project in _projectsCache)
+                {
+                    projectsAdminListbox.Items.Add(project);
+                }
+            }
         }
 
-        private void tasksAdminButton_Click(object sender, EventArgs e)
+        //Select project from the list
+        private void projectsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ResetHelpState(); // Reset help state when switching panels
-            projectsAdminPanel.Visible = false;
-            tasksAdminPanel.Visible = true;
-            teamsAdminPanel.Visible = false;
-            employeesAdminPanel.Visible = false;
+            if (projectsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto selectedProject)
+            {
+                projectsNameAdminTextbox.Text = selectedProject.ProjectName;
+                projectsDescriptionAdminTextbox.Text = selectedProject.Description;
+                projectsStartDateAdminDatePicker.Value = selectedProject.StartDate ?? DateTime.Now;
+                projectsEndDateAdminDatePicker.Value = selectedProject.EndDate ?? DateTime.Now;
+                tasksAdminButton.Enabled = true;
+            }
         }
 
-        private void teamsAdminButton_Click(object sender, EventArgs e)
-        {
-            ResetHelpState(); // Reset help state when switching panels
-            projectsAdminPanel.Visible = false;
-            tasksAdminPanel.Visible = false;
-            teamsAdminPanel.Visible = true;
-            employeesAdminPanel.Visible = false;
-        }
-
-        private void employeesAdminButton_Click(object sender, EventArgs e)
-        {
-            ResetHelpState(); // Reset help state when switching panels
-            projectsAdminPanel.Visible = false;
-            tasksAdminPanel.Visible = false;
-            teamsAdminPanel.Visible = false;
-            employeesAdminPanel.Visible = true;
-        }
-
-        private void tasksUserButton_Click(object sender, EventArgs e)
-        {
-            ResetHelpState(); // Reset help state when switching panels
-            teamsUserPanel.Visible = false;
-            tasksUserPanel.Visible = true;
-        }
-
-        private void teamsUserButton_Click(object sender, EventArgs e)
-        {
-            ResetHelpState(); // Reset help state when switching panels
-            tasksUserPanel.Visible = false;
-            teamsUserPanel.Visible = true;
-            var repo = new UserRepo();
-            var user = repo.GetById(0);
-        }
-
-        ////////////////////////////TO DO///////////////////////////////////////////
-        //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
-        
-
+        //Add project button
         private void projectsAddProjectAdminButton_Click(object sender, EventArgs e)
         {
             AddEditProject addEditProject = new AddEditProject
@@ -360,6 +367,7 @@ namespace DSaA_Project_TimeTracker
             addEditProject.ShowDialog();
         }
 
+        //Edit project button
         private void projectsEditProjectAdminButton_Click(object sender, EventArgs e)
         {
             AddEditProject addEditProject = new AddEditProject
@@ -369,14 +377,189 @@ namespace DSaA_Project_TimeTracker
             addEditProject.ShowDialog();
         }
 
+        //Delete project button
         private void projectsDeleteProjectAdminButton_Click(object sender, EventArgs e)
         {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            if (selectedProject == null)
+                return;
+
+            DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedProject)
             {
                 PanelToShow = "DeleteProject"
             };
             confirmDelete.ShowDialog();
         }
+
+        ///////////////////////////////////////TASKS//////////////////////////////////////
+        private async void tasksAdminButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+            projectsAdminPanel.Visible = false;
+            tasksAdminPanel.Visible = true;
+            teamsAdminPanel.Visible = false;
+            employeesAdminPanel.Visible = false;
+            tasksNameAdminTextbox.Text = "";
+            tasksDescriptionAdminTextbox.Text = "";
+            tasksStatusAdminTextbox.Text = "";
+            tasksDueDateAdminDatePicker.Value = DateTime.Now;
+            tasksAdminListbox.Items.Clear();
+
+            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var project = await new ProjectRepo().GetById(selectedProject.Id);
+
+            if (project != null)
+            {
+                tasksAdminListbox.DisplayMember = "Title";
+                tasksAdminListbox.ValueMember = "Id";
+                foreach (var task in project.Tasks)
+                {
+
+                    tasksAdminListbox.Items.Add(task);
+
+                }
+            }
+            currentProjectId = selectedProject.Id;
+            tasksProjectNameAdminLabel.Text = selectedProject.ProjectName;
+
+        }
+        
+        private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (tasksAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto selectedTask)
+            {
+                tasksNameAdminTextbox.Text = selectedTask.Title;
+                tasksDescriptionAdminTextbox.Text = selectedTask.Description;
+                tasksStatusAdminTextbox.Text = selectedTask.Status;
+                tasksDueDateAdminDatePicker.Value = selectedTask.DueDate ?? DateTime.Now;
+            }
+        }
+
+        private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
+        {
+            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            if (selectedProject == null)
+            {
+                MessageBox.Show("Please select a project first.");
+                return;
+            }
+            AddEditTask addEditTask = new AddEditTask(selectedProject)
+            {
+                PanelToShow = "AddTask"
+            };
+            addEditTask.ShowDialog();
+        }
+
+        private void tasksEditTaskAdminButton_Click(object sender, EventArgs e)
+        {
+            AddEditTask addEditTask = new AddEditTask
+            {
+                PanelToShow = "EditTask"
+            };
+            addEditTask.ShowDialog();
+        }
+
+        private void tasksDeleteTaskAdminButton_Click(object sender, EventArgs e)
+        {
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteTask"
+            };
+            confirmDelete.ShowDialog();
+        }
+
+        ///////////////////////////////////////TEAMS//////////////////////////////////////
+        private async void teamsAdminButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+            projectsAdminPanel.Visible = false;
+            tasksAdminPanel.Visible = false;
+            teamsAdminPanel.Visible = true;
+            employeesAdminPanel.Visible = false;
+            employeesAdminButton.Enabled = false;
+            tasksAdminButton.Enabled = false;
+            teamsNameAdminTexbox.Text = "";
+            teamsDescriptionAdminTextbox.Text = "";
+            teamsAdminListbox.Items.Clear();
+
+            var teamRepo = new TeamRepo();
+            var teams = await teamRepo.GetAll();
+            if (teams != null)
+            {
+
+                _teamsCache = teams.ToList();
+                teamsAdminListbox.DisplayMember = "TeamName";
+                teamsAdminListbox.ValueMember = "Id";
+                foreach (var team in _teamsCache)
+                {
+                    teamsAdminListbox.Items.Add(team);
+                }
+
+            }
+        }
+
+        private void teamsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (teamsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Team.TeamDto selectedTeam)
+            {
+                teamsNameAdminTexbox.Text = selectedTeam.TeamName;
+                teamsDescriptionAdminTextbox.Text = selectedTeam.Description;
+                employeesAdminButton.Enabled = true;
+            }
+        }
+
+        ///////////////////////////////////////EMPLOYEES//////////////////////////////////////
+        private async void employeesAdminButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+            projectsAdminPanel.Visible = false;
+            tasksAdminPanel.Visible = false;
+            teamsAdminPanel.Visible = false;
+            employeesAdminPanel.Visible = true;
+            employeesEmailAdminTextbox.Text = "";
+            employeesUsernameAdminTexbox.Text = "";
+            employeesRoleAdminTextbox.Text = "";
+            employeesAdminListbox.Items.Clear();
+
+            var selectedTeam = teamsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Team.TeamDto;
+            var team = await new TeamRepo().GetById(selectedTeam.Id);
+             if (team != null)
+             {
+                 employeesAdminListbox.DisplayMember = "Username";
+                 employeesAdminListbox.ValueMember = "Id";
+                 foreach (var user in team.Members)
+                 {
+                     
+                         employeesAdminListbox.Items.Add(user);
+                     
+                 }
+             }
+            teamNameEmployeesAdminPanel.Text = selectedTeam.TeamName;
+
+        
+        }
+
+        private void tasksUserButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+            teamsUserPanel.Visible = false;
+            tasksUserPanel.Visible = true;
+        }
+
+        private void teamsUserButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+            tasksUserPanel.Visible = false;
+            teamsUserPanel.Visible = true;
+            var repo = new UserRepo();
+            var user = repo.GetById(0);
+        }
+
+        ////////////////////////////TO DO///////////////////////////////////////////
+        //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
+
+
+        
 
         private void teamsAddTeamAdminButton_Click(object sender, EventArgs e)
         {
@@ -405,32 +588,7 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
-        private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
-        {
-            AddEditTask addEditTask = new AddEditTask
-            {
-                PanelToShow = "AddTask" 
-            };
-            addEditTask.ShowDialog();
-        }
-
-        private void tasksEditTaskAdminButton_Click(object sender, EventArgs e)
-        {
-            AddEditTask addEditTask = new AddEditTask
-            {
-                PanelToShow = "EditTask"
-            };
-            addEditTask.ShowDialog();
-        }
-
-        private void tasksDeleteTaskAdminButton_Click(object sender, EventArgs e)
-        {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
-            {
-                PanelToShow = "DeleteTask"
-            };
-            confirmDelete.ShowDialog();
-        }
+        
 
         private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
         {
@@ -513,6 +671,12 @@ namespace DSaA_Project_TimeTracker
              }*/
 
         }
+
+
+
+
+
+
 
 
 

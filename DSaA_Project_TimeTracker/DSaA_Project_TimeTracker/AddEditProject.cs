@@ -176,9 +176,23 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-        private void saveAddProjectButton_Click(object sender, EventArgs e)
+        private async void saveAddProjectButton_Click(object sender, EventArgs e)
         {
+            var name = addProjectNameTextBox.Text.Trim();
+            var desc = addProjectDescTextBox.Text.Trim();
+            var startDate = addProjectStartDatePicker.Value;
+            var endDate = addProjectEndDatePicker.Value;
+            var newProject = new DSaA_Project_TimeTracker.DTOs.Project.ModifyProjectDto
+            {
+                ProjectName = name,
+                Description = desc,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+            var repo = new DSaA_Project_TimeTracker.Database.Repos.ProjectRepo();
+            await repo.Add(newProject);
 
+            this.Close();
         }
     }
 }

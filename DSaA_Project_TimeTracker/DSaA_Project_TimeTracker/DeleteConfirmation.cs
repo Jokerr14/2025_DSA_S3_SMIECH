@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Repos;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -15,11 +16,17 @@ namespace DSaA_Project_TimeTracker
 
         private string _panelToShow;
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+        public object ItemToDelete { get; set; }
         public string PanelToShow
         {
             get => _panelToShow;
             set => _panelToShow = value;
         }
+        public DeleteConfirmation(object itemToDelete) : this()
+        {
+            ItemToDelete = itemToDelete;
+        }
+
         public DeleteConfirmation()
         {
             InitializeComponent();
@@ -71,9 +78,13 @@ namespace DSaA_Project_TimeTracker
             }
         }
 
-        private void deleteTeamTrueButton_Click(object sender, EventArgs e)
+        private async void deleteTeamTrueButton_Click(object sender, EventArgs e)
         {
-
+            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Team.TeamDto team)
+            {
+                await new TeamRepo().DeleteById(team.Id);
+            }
+            this.Close();
         }
 
         private void deleteTeamFalseButton_Click(object sender, EventArgs e)
@@ -81,9 +92,13 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void deleteEmployeeTrueButton_Click(object sender, EventArgs e)
+        private async void deleteEmployeeTrueButton_Click(object sender, EventArgs e)
         {
-
+            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.User.UserDto user)
+            {
+                await new UserRepo().DeleteById(user.Id);
+            }
+            this.Close();
         }
 
         private void deleteEmployeeFalseButton_Click(object sender, EventArgs e)
@@ -91,9 +106,13 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void deleteTaskTrueButton_Click(object sender, EventArgs e)
+        private async void deleteTaskTrueButton_Click(object sender, EventArgs e)
         {
-
+            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto task)
+            {
+                await new TaskRepo().DeleteById(task.Id);
+            }
+            this.Close();
         }
 
         private void deleteTaskFalseButton_Click(object sender, EventArgs e)
@@ -101,9 +120,13 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void deleteProjectTrueButton_Click(object sender, EventArgs e)
+        private async void deleteProjectTrueButton_Click(object sender, EventArgs e)
         {
-
+            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto project)
+            {
+                await new ProjectRepo().DeleteById(project.Id);
+            }
+            this.Close();
         }
 
         private void deleteProjectFalseButton_Click(object sender, EventArgs e)

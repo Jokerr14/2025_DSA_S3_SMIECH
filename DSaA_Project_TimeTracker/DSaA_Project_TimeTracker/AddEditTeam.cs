@@ -167,9 +167,18 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveNewTeamButton_Click(object sender, EventArgs e)
+        private async void saveNewTeamButton_Click(object sender, EventArgs e)
         {
-
+            var teamName = addNewTeamNameTextBox.Text;
+            var teamDescription = addNewTeamDescTextBox.Text;
+            var newTeam = new DSaA_Project_TimeTracker.DTOs.Team.TeamDto
+            {
+                TeamName = teamName,
+                Description = teamDescription
+            };
+            var repo = new DSaA_Project_TimeTracker.Database.Repos.TeamRepo();
+            await repo.Add(newTeam);
+            this.Close();
         }
 
         private void saveEditTeamButton_Click(object sender, EventArgs e)

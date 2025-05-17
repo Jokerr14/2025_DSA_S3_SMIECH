@@ -116,9 +116,9 @@
             label5.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.Location = new Point(341, 21);
             label5.Name = "label5";
-            label5.Size = new Size(96, 30);
+            label5.Size = new Size(151, 30);
             label5.TabIndex = 55;
-            label5.Text = "Edit Task";
+            label5.Text = "Edit Employee";
             // 
             // discardEditEmployeeButton
             // 
@@ -205,6 +205,7 @@
             // addNewEmployeeStatusComboBox
             // 
             addNewEmployeeStatusComboBox.FormattingEnabled = true;
+            addNewEmployeeStatusComboBox.Items.AddRange(new object[] { "Employed", "Retired", "Fired" });
             addNewEmployeeStatusComboBox.Location = new Point(133, 256);
             addNewEmployeeStatusComboBox.Name = "addNewEmployeeStatusComboBox";
             addNewEmployeeStatusComboBox.Size = new Size(606, 23);
@@ -213,6 +214,7 @@
             // addNewEmployeeRoleComboBox
             // 
             addNewEmployeeRoleComboBox.FormattingEnabled = true;
+            addNewEmployeeRoleComboBox.Items.AddRange(new object[] { "User", "Admin" });
             addNewEmployeeRoleComboBox.Location = new Point(133, 195);
             addNewEmployeeRoleComboBox.Name = "addNewEmployeeRoleComboBox";
             addNewEmployeeRoleComboBox.Size = new Size(606, 23);
@@ -239,7 +241,7 @@
             // 
             AddTaskNameLabel.AutoSize = true;
             AddTaskNameLabel.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            AddTaskNameLabel.Location = new Point(330, 11);
+            AddTaskNameLabel.Location = new Point(300, 11);
             AddTaskNameLabel.Name = "AddTaskNameLabel";
             AddTaskNameLabel.Size = new Size(205, 30);
             AddTaskNameLabel.TabIndex = 41;
