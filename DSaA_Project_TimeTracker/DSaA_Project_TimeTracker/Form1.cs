@@ -28,12 +28,9 @@ namespace DSaA_Project_TimeTracker
         private List<DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto> _tasksCache = new();
         private List<DSaA_Project_TimeTracker.DTOs.User.UserDto> _usersCache = new();
 
-
-
-
-
         private readonly UserRepo _userRepo = new UserRepo();
 
+        private int userId = 0; // SUS idk what else to do
 
         private void InitializeHelpLabels()
         {
@@ -540,11 +537,41 @@ namespace DSaA_Project_TimeTracker
         
         }
 
-        private void tasksUserButton_Click(object sender, EventArgs e)
+        private async void tasksUserButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
             teamsUserPanel.Visible = false;
             tasksUserPanel.Visible = true;
+
+            tasksTodoUserListbox.Items.Clear();
+            tasksDoneUserListbox.Items.Clear();
+
+            var _taskRepo = new TaskRepo();
+            var _taskAssignRepo = new TaskAssignmentRepo();
+
+            var tasks = await _taskRepo.GetAll();
+            var taskAssignments = await _taskAssignRepo.GetAll();
+
+            var loggedUserTasks = taskAssignments.Where(x => x.UserId == userId).ToList();
+
+            if (loggedUserTasks != null && tasks != null)
+            {
+                tasksTodoUserListbox.DisplayMember = "Title";
+                tasksTodoUserListbox.ValueMember = "Id";
+                tasksDoneUserListbox.DisplayMember = "Title";
+                tasksDoneUserListbox.ValueMember = "Id";
+
+                var userTaskIds = loggedUserTasks.Select(x => x.TaskId).ToHashSet();
+                var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+
+                foreach (var task in userTasks)
+                {
+                    if (task.Status == "ToDo")
+                        tasksTodoUserListbox.Items.Add(task);
+                    else if (task.Status == "Done")
+                        tasksDoneUserListbox.Items.Add(task);
+                }
+            }
         }
 
         private void teamsUserButton_Click(object sender, EventArgs e)
@@ -648,10 +675,11 @@ namespace DSaA_Project_TimeTracker
             };
 
              var user = await _userRepo.Login(loginDto);
-
-             if (user != null)
+             
+            if (user != null)
              {
-                 if (user.RoleName == "Admin")
+                userId = user.Id;
+                if (user.RoleName == "Admin")
                  {
                      //show admin panel
                      adminViewPanel.Visible = true;

@@ -43,17 +43,17 @@
             logOutUserButton = new Button();
             teamsUserButton = new Button();
             tasksUserButton = new Button();
-            teamsUserPanel = new Panel();
-            teamsMembersUserLabel = new Label();
-            teamsMembersUserListbox = new ListBox();
-            teamsNameUserListbox = new ListBox();
-            label5 = new Label();
             tasksUserPanel = new Panel();
             button4 = new Button();
             tasksDoneUserLabel = new Label();
             tasksTodoUserLabel = new Label();
             tasksDoneUserListbox = new ListBox();
             tasksTodoUserListbox = new ListBox();
+            teamsUserPanel = new Panel();
+            teamsMembersUserLabel = new Label();
+            teamsMembersUserListbox = new ListBox();
+            teamsNameUserListbox = new ListBox();
+            label5 = new Label();
             adminViewPanel = new Panel();
             helpButtonAdmin = new Button();
             logOutAdminButton = new Button();
@@ -114,8 +114,8 @@
             tasksAdminListbox = new ListBox();
             loginPanel.SuspendLayout();
             userViewPanel.SuspendLayout();
-            teamsUserPanel.SuspendLayout();
             tasksUserPanel.SuspendLayout();
+            teamsUserPanel.SuspendLayout();
             adminViewPanel.SuspendLayout();
             employeesAdminPanel.SuspendLayout();
             projectsAdminPanel.SuspendLayout();
@@ -234,8 +234,8 @@
             userViewPanel.Controls.Add(logOutUserButton);
             userViewPanel.Controls.Add(teamsUserButton);
             userViewPanel.Controls.Add(tasksUserButton);
-            userViewPanel.Controls.Add(teamsUserPanel);
             userViewPanel.Controls.Add(tasksUserPanel);
+            userViewPanel.Controls.Add(teamsUserPanel);
             userViewPanel.Location = new Point(3, 2);
             userViewPanel.Margin = new Padding(3, 2, 3, 2);
             userViewPanel.Name = "userViewPanel";
@@ -286,59 +286,6 @@
             tasksUserButton.Text = "My Tasks";
             tasksUserButton.UseVisualStyleBackColor = true;
             tasksUserButton.Click += tasksUserButton_Click;
-            // 
-            // teamsUserPanel
-            // 
-            teamsUserPanel.Controls.Add(teamsMembersUserLabel);
-            teamsUserPanel.Controls.Add(teamsMembersUserListbox);
-            teamsUserPanel.Controls.Add(teamsNameUserListbox);
-            teamsUserPanel.Controls.Add(label5);
-            teamsUserPanel.Location = new Point(3, 58);
-            teamsUserPanel.Margin = new Padding(3, 2, 3, 2);
-            teamsUserPanel.Name = "teamsUserPanel";
-            teamsUserPanel.Size = new Size(1096, 519);
-            teamsUserPanel.TabIndex = 4;
-            teamsUserPanel.Visible = false;
-            // 
-            // teamsMembersUserLabel
-            // 
-            teamsMembersUserLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            teamsMembersUserLabel.Location = new Point(381, 2);
-            teamsMembersUserLabel.Name = "teamsMembersUserLabel";
-            teamsMembersUserLabel.Size = new Size(709, 28);
-            teamsMembersUserLabel.TabIndex = 3;
-            teamsMembersUserLabel.Text = "The selected team contains the following members:";
-            teamsMembersUserLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // teamsMembersUserListbox
-            // 
-            teamsMembersUserListbox.FormattingEnabled = true;
-            teamsMembersUserListbox.ItemHeight = 15;
-            teamsMembersUserListbox.Location = new Point(381, 31);
-            teamsMembersUserListbox.Margin = new Padding(3, 2, 3, 2);
-            teamsMembersUserListbox.Name = "teamsMembersUserListbox";
-            teamsMembersUserListbox.Size = new Size(710, 454);
-            teamsMembersUserListbox.TabIndex = 2;
-            // 
-            // teamsNameUserListbox
-            // 
-            teamsNameUserListbox.FormattingEnabled = true;
-            teamsNameUserListbox.ItemHeight = 15;
-            teamsNameUserListbox.Location = new Point(3, 31);
-            teamsNameUserListbox.Margin = new Padding(3, 2, 3, 2);
-            teamsNameUserListbox.Name = "teamsNameUserListbox";
-            teamsNameUserListbox.Size = new Size(373, 454);
-            teamsNameUserListbox.TabIndex = 1;
-            // 
-            // label5
-            // 
-            label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(4, 2);
-            label5.Name = "label5";
-            label5.Size = new Size(372, 30);
-            label5.TabIndex = 0;
-            label5.Text = "You are currently assigned to the following teams:";
-            label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // tasksUserPanel
             // 
@@ -398,12 +345,64 @@
             // tasksTodoUserListbox
             // 
             tasksTodoUserListbox.ItemHeight = 15;
-            tasksTodoUserListbox.Items.AddRange(new object[] { "Example Task" });
             tasksTodoUserListbox.Location = new Point(3, 29);
             tasksTodoUserListbox.Margin = new Padding(3, 2, 3, 2);
             tasksTodoUserListbox.Name = "tasksTodoUserListbox";
             tasksTodoUserListbox.Size = new Size(543, 454);
             tasksTodoUserListbox.TabIndex = 0;
+            // 
+            // teamsUserPanel
+            // 
+            teamsUserPanel.Controls.Add(teamsMembersUserLabel);
+            teamsUserPanel.Controls.Add(teamsMembersUserListbox);
+            teamsUserPanel.Controls.Add(teamsNameUserListbox);
+            teamsUserPanel.Controls.Add(label5);
+            teamsUserPanel.Location = new Point(3, 58);
+            teamsUserPanel.Margin = new Padding(3, 2, 3, 2);
+            teamsUserPanel.Name = "teamsUserPanel";
+            teamsUserPanel.Size = new Size(1096, 519);
+            teamsUserPanel.TabIndex = 4;
+            teamsUserPanel.Visible = false;
+            // 
+            // teamsMembersUserLabel
+            // 
+            teamsMembersUserLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            teamsMembersUserLabel.Location = new Point(381, 2);
+            teamsMembersUserLabel.Name = "teamsMembersUserLabel";
+            teamsMembersUserLabel.Size = new Size(709, 28);
+            teamsMembersUserLabel.TabIndex = 3;
+            teamsMembersUserLabel.Text = "The selected team contains the following members:";
+            teamsMembersUserLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // teamsMembersUserListbox
+            // 
+            teamsMembersUserListbox.FormattingEnabled = true;
+            teamsMembersUserListbox.ItemHeight = 15;
+            teamsMembersUserListbox.Location = new Point(381, 31);
+            teamsMembersUserListbox.Margin = new Padding(3, 2, 3, 2);
+            teamsMembersUserListbox.Name = "teamsMembersUserListbox";
+            teamsMembersUserListbox.Size = new Size(710, 454);
+            teamsMembersUserListbox.TabIndex = 2;
+            // 
+            // teamsNameUserListbox
+            // 
+            teamsNameUserListbox.FormattingEnabled = true;
+            teamsNameUserListbox.ItemHeight = 15;
+            teamsNameUserListbox.Location = new Point(3, 31);
+            teamsNameUserListbox.Margin = new Padding(3, 2, 3, 2);
+            teamsNameUserListbox.Name = "teamsNameUserListbox";
+            teamsNameUserListbox.Size = new Size(373, 454);
+            teamsNameUserListbox.TabIndex = 1;
+            // 
+            // label5
+            // 
+            label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label5.Location = new Point(4, 2);
+            label5.Name = "label5";
+            label5.Size = new Size(372, 30);
+            label5.TabIndex = 0;
+            label5.Text = "You are currently assigned to the following teams:";
+            label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // adminViewPanel
             // 
@@ -1047,17 +1046,17 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1116, 579);
+            Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
             Controls.Add(adminViewPanel);
-            Controls.Add(userViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             userViewPanel.ResumeLayout(false);
-            teamsUserPanel.ResumeLayout(false);
             tasksUserPanel.ResumeLayout(false);
+            teamsUserPanel.ResumeLayout(false);
             adminViewPanel.ResumeLayout(false);
             employeesAdminPanel.ResumeLayout(false);
             employeesAdminPanel.PerformLayout();
