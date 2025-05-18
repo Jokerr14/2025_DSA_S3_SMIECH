@@ -100,4 +100,23 @@ public class UserRepo
 
         }
     }
+
+    public async Task<UserDto?> Login(LoginUserDto loginUserDto)
+    {
+        using (var context = new TTDbContext())
+        {
+            var user = await context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
+
+            if (user == null)
+                return null;
+
+            if (user.PasswordHash != loginUserDto.Password)
+                return null;
+
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+    }
 }

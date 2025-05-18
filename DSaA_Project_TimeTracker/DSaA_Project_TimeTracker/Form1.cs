@@ -6,6 +6,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.Team;
+using DSaA_Project_TimeTracker.DTOs.User;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -646,7 +647,7 @@ namespace DSaA_Project_TimeTracker
                 Password = loginPasswordTextbox.Text
             };
 
-            /* var user = await _userRepo.Login(loginDto);
+             var user = await _userRepo.Login(loginDto);
 
              if (user != null)
              {
@@ -668,7 +669,7 @@ namespace DSaA_Project_TimeTracker
              else
              {
                  MessageBox.Show("Invalid email or password.");
-             }*/
+             }
 
         }
 
