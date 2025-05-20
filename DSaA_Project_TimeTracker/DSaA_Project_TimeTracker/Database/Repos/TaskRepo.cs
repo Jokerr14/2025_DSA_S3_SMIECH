@@ -17,7 +17,7 @@ public class TaskRepo
         });
         _mapper = config.CreateMapper();
     }
-    public async Task<IEnumerable<TaskProgramDto>?> GetAll()
+    public async Task<IEnumerable<TaskToDoDto>?> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -30,11 +30,11 @@ public class TaskRepo
             if (tasks is null)
                 return null;
             
-            return _mapper.Map<List<TaskProgramDto>>(tasks);
+            return _mapper.Map<List<TaskToDoDto>>(tasks);
         }
     }
 
-    public async Task<TaskProgramDto?> GetById(int id)
+    public async Task<TaskToDoDto?> GetById(int id)
     {
         using (var context = new TTDbContext())
         {
@@ -47,12 +47,12 @@ public class TaskRepo
             if (task is null)
                 return null;
             
-            var taskDto = _mapper.Map<TaskProgramDto>(task);
+            var taskDto = _mapper.Map<TaskToDoDto>(task);
             return taskDto;
         }
     }
 
-    public async Task Add(ModifyTaskProgramDto taskAddDto)
+    public async Task Add(ModifyTaskToDoDto taskAddDto)
     {
         using (var context = new TTDbContext())
         {
@@ -62,7 +62,7 @@ public class TaskRepo
         }
     }
 
-    public async Task UpdateById(int id, ModifyTaskProgramDto taskUpdateDto)
+    public async Task UpdateById(int id, ModifyTaskToDoDto taskUpdateDto)
     {
         using (var context = new TTDbContext())
         {

@@ -18,7 +18,7 @@ public class UserHistoryRepo
         _mapper = config.CreateMapper();
     }
 
-    public async Task Add(ModifyUserHistoryDto userHistoryDto)
+    public async Task Add(UserEventDto userHistoryDto)
     {
         using (var context = new TTDbContext())
         {
@@ -28,7 +28,7 @@ public class UserHistoryRepo
         }
     }
 
-    public async Task UpdateById(int id, ModifyUserHistoryDto modifyHistoryDto)
+    public async Task UpdateById(int id, UserEventDto modifyHistoryDto)
     {
         using (var context = new TTDbContext())
         {

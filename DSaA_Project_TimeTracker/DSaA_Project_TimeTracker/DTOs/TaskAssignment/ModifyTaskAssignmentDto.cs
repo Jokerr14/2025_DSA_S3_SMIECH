@@ -8,8 +8,6 @@ namespace DSaA_Project_TimeTracker.DTOs.TaskAssignment
 {
     public class ModifyTaskAssignmentDto
     {
-        public int TaskId { get; set; }
-        public int UserId { get; set; }
         public decimal? TimeSpentHours { get; set; }
     }
 }

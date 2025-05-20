@@ -64,7 +64,7 @@ public class UserRepo
             var user = _mapper.Map<User>(addUserDto);
 
             //hash the password here
-            user.PasswordHash = addUserDto.PasswordHash;
+            user.PasswordHash = addUserDto.Password;
 
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
