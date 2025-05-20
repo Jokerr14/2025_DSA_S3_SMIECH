@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using DSaA_Project_TimeTracker.Database.Entities;
 
-namespace DSaA_Project_TimeTracker.DTOs
+namespace DSaA_Project_TimeTracker.DTOs.User
 {
     public class LoginUserDto
     {
-        public string Username { get; set;}
-        public string Password { get; set;}
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

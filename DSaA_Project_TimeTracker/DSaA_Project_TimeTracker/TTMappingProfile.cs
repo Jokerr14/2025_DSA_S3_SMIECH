@@ -25,6 +25,8 @@ namespace DSaA_Project_TimeTracker
 
             CreateMap<UpdateUserDto, User>();
 
+            CreateMap<LoginUserDto, User>();
+
             #endregion 
 
             #region Team Map
