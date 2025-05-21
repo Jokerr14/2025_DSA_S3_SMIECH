@@ -44,10 +44,15 @@
             deleteTeamFalseButton = new Button();
             deleteTeamTrueButton = new Button();
             label3 = new Label();
+            deleteHistoryRecordPanel = new Panel();
+            deleteHistoryRecordFalseButton = new Button();
+            deleteHistoryRecordTrueButton = new Button();
+            label5 = new Label();
             deleteProjectPanel.SuspendLayout();
             deleteTaskPanel.SuspendLayout();
             deleteEmployeePanel.SuspendLayout();
             deleteTeamPanel.SuspendLayout();
+            deleteHistoryRecordPanel.SuspendLayout();
             SuspendLayout();
             // 
             // deleteProjectPanel
@@ -206,11 +211,51 @@
             label3.TabIndex = 6;
             label3.Text = "Are you sure you want to delete this team?";
             // 
+            // deleteHistoryRecordPanel
+            // 
+            deleteHistoryRecordPanel.Controls.Add(deleteHistoryRecordFalseButton);
+            deleteHistoryRecordPanel.Controls.Add(deleteHistoryRecordTrueButton);
+            deleteHistoryRecordPanel.Controls.Add(label5);
+            deleteHistoryRecordPanel.Location = new Point(1, 3);
+            deleteHistoryRecordPanel.Name = "deleteHistoryRecordPanel";
+            deleteHistoryRecordPanel.Size = new Size(372, 173);
+            deleteHistoryRecordPanel.TabIndex = 4;
+            // 
+            // deleteHistoryRecordFalseButton
+            // 
+            deleteHistoryRecordFalseButton.Location = new Point(224, 99);
+            deleteHistoryRecordFalseButton.Name = "deleteHistoryRecordFalseButton";
+            deleteHistoryRecordFalseButton.Size = new Size(75, 23);
+            deleteHistoryRecordFalseButton.TabIndex = 8;
+            deleteHistoryRecordFalseButton.Text = "no";
+            deleteHistoryRecordFalseButton.UseVisualStyleBackColor = true;
+            deleteHistoryRecordFalseButton.Click += deleteHistoryRecordFalseButton_Click;
+            // 
+            // deleteHistoryRecordTrueButton
+            // 
+            deleteHistoryRecordTrueButton.Location = new Point(74, 99);
+            deleteHistoryRecordTrueButton.Name = "deleteHistoryRecordTrueButton";
+            deleteHistoryRecordTrueButton.Size = new Size(75, 23);
+            deleteHistoryRecordTrueButton.TabIndex = 7;
+            deleteHistoryRecordTrueButton.Text = "yes";
+            deleteHistoryRecordTrueButton.UseVisualStyleBackColor = true;
+            deleteHistoryRecordTrueButton.Click += deleteHistoryRecordTrueButton_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(74, 51);
+            label5.Name = "label5";
+            label5.Size = new Size(238, 15);
+            label5.TabIndex = 6;
+            label5.Text = "Are you sure you want to delete this record?";
+            // 
             // DeleteConfirmation
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(376, 179);
+            ClientSize = new Size(376, 182);
+            Controls.Add(deleteHistoryRecordPanel);
             Controls.Add(deleteTaskPanel);
             Controls.Add(deleteEmployeePanel);
             Controls.Add(deleteProjectPanel);
@@ -225,6 +270,8 @@
             deleteEmployeePanel.PerformLayout();
             deleteTeamPanel.ResumeLayout(false);
             deleteTeamPanel.PerformLayout();
+            deleteHistoryRecordPanel.ResumeLayout(false);
+            deleteHistoryRecordPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -246,5 +293,9 @@
         private Label label2;
         private Label label3;
         private Label label4;
+        private Panel deleteHistoryRecordPanel;
+        private Button deleteHistoryRecordFalseButton;
+        private Button deleteHistoryRecordTrueButton;
+        private Label label5;
     }
 }
