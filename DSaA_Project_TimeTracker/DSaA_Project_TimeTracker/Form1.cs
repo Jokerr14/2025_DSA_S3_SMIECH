@@ -646,7 +646,7 @@ namespace DSaA_Project_TimeTracker
                 Password = loginPasswordTextbox.Text
             };
 
-            /* var user = await _userRepo.Login(loginDto);
+             var user = await _userRepo.Login(loginDto);
 
              if (user != null)
              {
@@ -668,7 +668,7 @@ namespace DSaA_Project_TimeTracker
              else
              {
                  MessageBox.Show("Invalid email or password.");
-             }*/
+             }
 
         }
 

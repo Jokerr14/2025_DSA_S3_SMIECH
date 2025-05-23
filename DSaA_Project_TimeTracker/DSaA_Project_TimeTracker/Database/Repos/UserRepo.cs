@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs;
 using DSaA_Project_TimeTracker.DTOs.User;
 using Microsoft.EntityFrameworkCore;
 
@@ -86,6 +87,29 @@ public class UserRepo
         }
     }
 
+
+    /////////////////////////////////////////////////TEMPORARY RETURNING THIS FUNCTION BACK FROM THE GRAVE, PLEASE DONT SCREAM///////////////////////////
+    /////////////////////////////////////////////////REMOVE THIS FUNCTION ONCE PROPER LOGGING IN IS IMPLEMENTED WITH UPDATED DTO'S///////////////////////
+    public async Task<UserDto?> Login(LoginUserDto loginUserDto)
+    {
+        using (var context = new TTDbContext())
+        {
+            // Try to find the user by email
+            var user = await context.Users
+                .Include(u => u.Role) // include role navigation property
+                .FirstOrDefaultAsync(u => u.Username == loginUserDto.Username);
+            if (user == null)
+                return null;
+            // add hashing passwords
+            if (user.PasswordHash != loginUserDto.Password)
+                return null;
+            // Map entity to DTO and return it
+            var userDto = _mapper.Map<UserDto>(user);
+            return userDto;
+        }
+    }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///
     public async Task DeleteById(int id)
     {
         using (var context = new TTDbContext())
