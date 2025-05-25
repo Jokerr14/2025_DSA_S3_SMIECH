@@ -1,25 +1,12 @@
 ﻿using AutoMapper;
 using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs.TaskAssignment;
 using Microsoft.EntityFrameworkCore;
 
 namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class TaskAssignmentRepo
 {
-    private readonly IMapper _mapper;
-
-    public TaskAssignmentRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-
-        _mapper = config.CreateMapper();
-    }
-
-    public async Task<IEnumerable<TaskAssignmentDto>?> GetAll()
+    public async Task<IEnumerable<TaskAssignment>> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -29,14 +16,13 @@ public class TaskAssignmentRepo
                 .ToListAsync();
 
             if (taskAssignments is null)
-                return null;
+                return new List<TaskAssignment>();
 
-            var taskAssignmentDtos = _mapper.Map<List<TaskAssignmentDto>>(taskAssignments);
-            return taskAssignmentDtos;
+            return taskAssignments;
         }
     }
 
-    public async Task<TaskAssignmentDto?> GetById(int taskId, int userId)
+    public async Task<TaskAssignment> GetById(int taskId, int userId)
     {
         using (var context = new TTDbContext())
         {
@@ -46,23 +32,23 @@ public class TaskAssignmentRepo
                 .FirstOrDefaultAsync(ta => ta.TaskId == taskId && ta.UserId == userId);
 
             if (taskAssignment is null)
-                return null;
+                return new TaskAssignment();
 
-            return _mapper.Map<TaskAssignmentDto>(taskAssignment);
+            return taskAssignment;
         }
     }
 
-    public async Task Add(ModifyTaskAssignmentDto createDto)
+    public async Task Add(int taskId, int userId)
     {
         using (var context = new TTDbContext())
         {
-            var taskAssignment = _mapper.Map<TaskAssignment>(createDto);
-            context.TaskAssignments.Add(taskAssignment);
+            var taskAssignment = new TaskAssignment() { TaskId = taskId, UserId = userId };
+            await context.TaskAssignments.AddAsync(taskAssignment);
             await context.SaveChangesAsync();
         }
     }
 
-    public async Task Update(int taskId, int userId, ModifyTaskAssignmentDto updateDto)
+    public async Task Update(int taskId, int userId, decimal timeHoursSpent)
     {
         using (var context = new TTDbContext())
         {
@@ -71,7 +57,7 @@ public class TaskAssignmentRepo
 
             if (taskAssignment != null)
             {
-                _mapper.Map(updateDto, taskAssignment);
+                taskAssignment.TimeSpentHours = timeHoursSpent;
                 await context.SaveChangesAsync();
             }
         }

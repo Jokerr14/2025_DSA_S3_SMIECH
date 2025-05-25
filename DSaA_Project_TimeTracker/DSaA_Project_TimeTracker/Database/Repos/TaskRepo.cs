@@ -7,17 +7,7 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class TaskRepo
 {
-    private readonly IMapper _mapper;
-
-    public TaskRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-        _mapper = config.CreateMapper();
-    }
-    public async Task<IEnumerable<TaskProgramDto>?> GetAll()
+    public async Task<IEnumerable<TaskToDo>> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -28,13 +18,13 @@ public class TaskRepo
                 .ToListAsync();
 
             if (tasks is null)
-                return null;
+                return new List<TaskToDo>();
             
-            return _mapper.Map<List<TaskProgramDto>>(tasks);
+            return tasks;
         }
     }
 
-    public async Task<TaskProgramDto?> GetById(int id)
+    public async Task<TaskToDo> GetById(int id)
     {
         using (var context = new TTDbContext())
         {
@@ -45,41 +35,50 @@ public class TaskRepo
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (task is null)
-                return null;
+                return new TaskToDo();
             
-            var taskDto = _mapper.Map<TaskProgramDto>(task);
-            return taskDto;
+            return task;
         }
     }
 
-    public async Task Add(ModifyTaskProgramDto taskAddDto)
+    public async Task Add(int projectId, ModifyTaskToDoDto taskAddDto)
     {
         using (var context = new TTDbContext())
         {
-            var task = _mapper.Map<TaskToDo>(taskAddDto);
-            context.Tasks.Add(task);
+            var task = new TaskToDo()
+            {
+                ProjectId = projectId,
+                Title = taskAddDto.Title,
+                Description = taskAddDto.Description,
+                Status = taskAddDto.Status,
+                DueDate = taskAddDto.DueDate,
+            };
+            await context.Tasks.AddAsync(task);
             await context.SaveChangesAsync();
         }
     }
 
-    public async Task UpdateById(int id, ModifyTaskProgramDto taskUpdateDto)
+    public async Task UpdateById(int taskId, ModifyTaskToDoDto taskUpdateDto)
     {
         using (var context = new TTDbContext())
         {
-            var task = await context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+            var task = await context.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
             if (task != null)
             {
-                _mapper.Map(taskUpdateDto, task);
+                task.Title = taskUpdateDto.Title;
+                task.Description = taskUpdateDto.Description;
+                task.Status = taskUpdateDto.Status;
+                task.DueDate = taskUpdateDto.DueDate;
                 await context.SaveChangesAsync();
             }
         }
     }
 
-    public async Task DeleteById(int id)
+    public async Task DeleteById(int taskId)
     {
         using (var context = new TTDbContext())
         {
-            var task = await context.Tasks.FirstOrDefaultAsync(x => x.Id == id);
+            var task = await context.Tasks.FirstOrDefaultAsync(x => x.Id == taskId);
             if (task != null)
             {
                 context.Tasks.Remove(task);
