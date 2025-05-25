@@ -2,6 +2,7 @@
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs;
 using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace DSaA_Project_TimeTracker.Database.Repos;
@@ -55,8 +56,7 @@ public class UserRepo
                 EmploymentStatus = addUserDto.EmploymentStatus,
             };
 
-            //hash the password here
-            user.PasswordHash = addUserDto.Password;
+            user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
 
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
