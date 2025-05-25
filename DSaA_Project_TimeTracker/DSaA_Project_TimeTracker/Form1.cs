@@ -54,7 +54,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(projectsNameAdminTextbox, "Name of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsDescriptionAdminTextbox, "Description of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsStartDateAdminDatePicker, "Start date of selected project.", projectsAdminPanel),
-                        CreateHelpLabel(projectsEndDateAdminDatePicker, "End date of selected project.", projectsAdminPanel),
+                        CreateHelpLabel(projectsEndDateAdminDatePicker, "Expected finish date of selected project.", projectsAdminPanel),
 
                         CreateHelpLabel(projectsAddProjectAdminButton, "Click to add a new project.", projectsAdminPanel),
                         CreateHelpLabel(projectsEditProjectAdminButton, "Click to edit the selected project.", projectsAdminPanel),
@@ -101,9 +101,16 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesRoleAdminTextbox, "Role of the employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesStatusAdminTextbox, "Status of the employee.", employeesAdminPanel),
 
+                        CreateHelpLabel(addHistoryRecordButton, "Click to add a new history record.", employeesAdminPanel),
+                        CreateHelpLabel(editHistoryRecordButton, "Click to edit the selected history record.", employeesAdminPanel),
+                        CreateHelpLabel(deleteHistoryRecordButton, "Click to delete the selected history record.", employeesAdminPanel),
+                        CreateHelpLabel(employeeHistoryListView, "List of history records of the selected employee.", employeesAdminPanel),
+
                         CreateHelpLabel(employeesAddEmployeeAdminButton, "Click to add a new employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesEditEmployeeAdminButton, "Click to edit the selected employee.", employeesAdminPanel),
-                        CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel)
+                        CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
+                        CreateHelpLabel(generateSummaryReportButton, "Click to generate a summary report.", employeesAdminPanel),
+                        CreateHelpLabel(generateDetailedReportButton, "Click to generate a detailed report.", employeesAdminPanel)
                     }
                 },
                 {
@@ -420,7 +427,7 @@ namespace DSaA_Project_TimeTracker
             tasksProjectNameAdminLabel.Text = selectedProject.ProjectName;
 
         }
-        
+
         private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tasksAdminListbox.SelectedItem is TaskToDo selectedTask)
@@ -533,7 +540,7 @@ namespace DSaA_Project_TimeTracker
              }
             teamNameEmployeesAdminPanel.Text = selectedTeam.TeamName;
 
-        
+
         }
 
         private async void tasksUserButton_Click(object sender, EventArgs e)
@@ -586,7 +593,7 @@ namespace DSaA_Project_TimeTracker
         //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
 
 
-        
+
 
         private void teamsAddTeamAdminButton_Click(object sender, EventArgs e)
         {
@@ -615,7 +622,7 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
-        
+
 
         private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
         {
@@ -698,6 +705,43 @@ namespace DSaA_Project_TimeTracker
                  MessageBox.Show("Invalid email or password.");
              }
 
+        }
+
+        private void generateSummaryReportButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void generateDetailedReportButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord
+            {
+                PanelToShow = "AddHistoryRecord"
+            };
+            addEditHistoryRecord.ShowDialog();
+        }
+
+        private void editHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord
+            {
+                PanelToShow = "EditHistoryRecord"
+            };
+            addEditHistoryRecord.ShowDialog();
+        }
+
+        private void deleteHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            {
+                PanelToShow = "DeleteHistoryRecord"
+            };
+            confirmDelete.ShowDialog();
         }
 
 

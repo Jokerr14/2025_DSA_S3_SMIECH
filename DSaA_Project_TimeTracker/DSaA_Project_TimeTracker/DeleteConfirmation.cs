@@ -49,25 +49,26 @@ namespace DSaA_Project_TimeTracker
                 deleteTaskPanel.Visible = false;
                 deleteEmployeePanel.Visible = false;
                 deleteProjectPanel.Visible = true;
+                deleteHistoryRecordPanel.Visible = false;
 
             }
             else if (_panelToShow == "DeleteTask")
             {
                 deleteTaskPanel.BringToFront();
                 deleteProjectPanel.Visible = false;
-
                 deleteTaskPanel.Visible = true;
                 deleteEmployeePanel.Visible = false;
                 deleteTeamPanel.Visible = false;
+                deleteHistoryRecordPanel.Visible = false;
             }
             else if (_panelToShow == "DeleteTeam")
             {
                 deleteTeamPanel.BringToFront();
                 deleteProjectPanel.Visible = false;
                 deleteTeamPanel.Visible = true;
-
                 deleteEmployeePanel.Visible = false;
                 deleteTaskPanel.Visible = false;
+                deleteHistoryRecordPanel.Visible = false;
             }
             else if (_panelToShow == "DeleteEmployee")
             {
@@ -76,7 +77,18 @@ namespace DSaA_Project_TimeTracker
                 deleteTeamPanel.Visible = false;
                 deleteTaskPanel.Visible = false;
                 deleteEmployeePanel.Visible = true;
+                deleteHistoryRecordPanel.Visible = false;
             }
+            else if (_panelToShow == "DeleteHistoryRecord")
+            {
+                deleteHistoryRecordPanel.BringToFront();
+                deleteProjectPanel.Visible = false;
+                deleteTeamPanel.Visible = false;
+                deleteTaskPanel.Visible = false;
+                deleteEmployeePanel.Visible = false;
+                deleteHistoryRecordPanel.Visible = true;
+            }
+
         }
 
         private async void deleteTeamTrueButton_Click(object sender, EventArgs e)
@@ -131,6 +143,16 @@ namespace DSaA_Project_TimeTracker
         }
 
         private void deleteProjectFalseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void deleteHistoryRecordTrueButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void deleteHistoryRecordFalseButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
