@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs;
 using DSaA_Project_TimeTracker.DTOs.User;
 using Microsoft.EntityFrameworkCore;
 
