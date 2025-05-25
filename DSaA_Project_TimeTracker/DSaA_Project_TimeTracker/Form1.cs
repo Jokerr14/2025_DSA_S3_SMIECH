@@ -1,11 +1,11 @@
 using DSaA_Project_TimeTracker.Database;
 using DSaA_Project_TimeTracker.DTOs;
 using DSaA_Project_TimeTracker.Database.Repos;
-using DSaA_Project_TimeTracker.DTOs.TeamProject;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.Team;
+using DSaA_Project_TimeTracker.DTOs.User;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -21,18 +21,15 @@ namespace DSaA_Project_TimeTracker
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
-        private List<DSaA_Project_TimeTracker.DTOs.Project.ProjectDto> _projectsCache = new();
+        private List<Project> _projectsCache = new();
         private int currentProjectId;
-        private List<DSaA_Project_TimeTracker.DTOs.Team.TeamDto> _teamsCache = new();
-        private List<DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto> _tasksCache = new();
-        private List<DSaA_Project_TimeTracker.DTOs.User.UserDto> _usersCache = new();
-
-
-
-
+        private List<Team> _teamsCache = new();
+        private List<TaskToDo> _tasksCache = new();
+        private List<User> _usersCache = new();
 
         private readonly UserRepo _userRepo = new UserRepo();
 
+        private int userId = 0; // SUS idk what else to do
 
         private void InitializeHelpLabels()
         {
@@ -57,7 +54,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(projectsNameAdminTextbox, "Name of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsDescriptionAdminTextbox, "Description of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsStartDateAdminDatePicker, "Start date of selected project.", projectsAdminPanel),
-                        CreateHelpLabel(projectsEndDateAdminDatePicker, "End date of selected project.", projectsAdminPanel),
+                        CreateHelpLabel(projectsEndDateAdminDatePicker, "Expected finish date of selected project.", projectsAdminPanel),
 
                         CreateHelpLabel(projectsAddProjectAdminButton, "Click to add a new project.", projectsAdminPanel),
                         CreateHelpLabel(projectsEditProjectAdminButton, "Click to edit the selected project.", projectsAdminPanel),
@@ -354,7 +351,7 @@ namespace DSaA_Project_TimeTracker
         //Select project from the list
         private void projectsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (projectsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto selectedProject)
+            if (projectsAdminListbox.SelectedItem is Project selectedProject)
             {
                 projectsNameAdminTextbox.Text = selectedProject.ProjectName;
                 projectsDescriptionAdminTextbox.Text = selectedProject.Description;
@@ -387,7 +384,7 @@ namespace DSaA_Project_TimeTracker
         //Delete project button
         private void projectsDeleteProjectAdminButton_Click(object sender, EventArgs e)
         {
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             if (selectedProject == null)
                 return;
 
@@ -412,7 +409,7 @@ namespace DSaA_Project_TimeTracker
             tasksDueDateAdminDatePicker.Value = DateTime.Now;
             tasksAdminListbox.Items.Clear();
 
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             var project = await new ProjectRepo().GetById(selectedProject.Id);
 
             if (project != null)
@@ -433,7 +430,7 @@ namespace DSaA_Project_TimeTracker
 
         private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tasksAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto selectedTask)
+            if (tasksAdminListbox.SelectedItem is TaskToDo selectedTask)
             {
                 tasksNameAdminTextbox.Text = selectedTask.Title;
                 tasksDescriptionAdminTextbox.Text = selectedTask.Description;
@@ -444,7 +441,7 @@ namespace DSaA_Project_TimeTracker
 
         private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
         {
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             if (selectedProject == null)
             {
                 MessageBox.Show("Please select a project first.");
@@ -507,7 +504,7 @@ namespace DSaA_Project_TimeTracker
 
         private void teamsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (teamsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Team.TeamDto selectedTeam)
+            if (teamsAdminListbox.SelectedItem is Team selectedTeam)
             {
                 teamsNameAdminTexbox.Text = selectedTeam.TeamName;
                 teamsDescriptionAdminTextbox.Text = selectedTeam.Description;
@@ -528,29 +525,59 @@ namespace DSaA_Project_TimeTracker
             employeesRoleAdminTextbox.Text = "";
             employeesAdminListbox.Items.Clear();
 
-            var selectedTeam = teamsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Team.TeamDto;
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
             var team = await new TeamRepo().GetById(selectedTeam.Id);
-            if (team != null)
-            {
-                employeesAdminListbox.DisplayMember = "Username";
-                employeesAdminListbox.ValueMember = "Id";
-                foreach (var user in team.Members)
-                {
-
-                    employeesAdminListbox.Items.Add(user);
-
-                }
-            }
+             if (team != null)
+             {
+                 employeesAdminListbox.DisplayMember = "Username";
+                 employeesAdminListbox.ValueMember = "Id";
+                 foreach (var member in team.TeamMembers)
+                 {
+                     
+                         employeesAdminListbox.Items.Add(member.User.Username);
+                     
+                 }
+             }
             teamNameEmployeesAdminPanel.Text = selectedTeam.TeamName;
 
 
         }
 
-        private void tasksUserButton_Click(object sender, EventArgs e)
+        private async void tasksUserButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
             teamsUserPanel.Visible = false;
             tasksUserPanel.Visible = true;
+
+            tasksTodoUserListbox.Items.Clear();
+            tasksDoneUserListbox.Items.Clear();
+
+            var _taskRepo = new TaskRepo();
+            var _taskAssignRepo = new TaskAssignmentRepo();
+
+            var tasks = await _taskRepo.GetAll();
+            var taskAssignments = await _taskAssignRepo.GetAll();
+
+            var loggedUserTasks = taskAssignments.Where(x => x.UserId == userId).ToList();
+
+            if (loggedUserTasks != null && tasks != null)
+            {
+                tasksTodoUserListbox.DisplayMember = "Title";
+                tasksTodoUserListbox.ValueMember = "Id";
+                tasksDoneUserListbox.DisplayMember = "Title";
+                tasksDoneUserListbox.ValueMember = "Id";
+
+                var userTaskIds = loggedUserTasks.Select(x => x.TaskId).ToHashSet();
+                var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+
+                foreach (var task in userTasks)
+                {
+                    if (task.Status == "ToDo")
+                        tasksTodoUserListbox.Items.Add(task);
+                    else if (task.Status == "Done")
+                        tasksDoneUserListbox.Items.Add(task);
+                }
+            }
         }
 
         private void teamsUserButton_Click(object sender, EventArgs e)
@@ -653,11 +680,12 @@ namespace DSaA_Project_TimeTracker
                 Password = loginPasswordTextbox.Text
             };
 
-            /* var user = await _userRepo.Login(loginDto);
-
-             if (user != null)
+             var user = await _userRepo.Login(loginDto);
+             
+            if (user != null)
              {
-                 if (user.RoleName == "Admin")
+                userId = user.Id;
+                if (user.Role.RoleName == "Admin")
                  {
                      //show admin panel
                      adminViewPanel.Visible = true;
@@ -675,7 +703,7 @@ namespace DSaA_Project_TimeTracker
              else
              {
                  MessageBox.Show("Invalid email or password.");
-             }*/
+             }
 
         }
 

@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DSaA_Project_TimeTracker.DTOs.UserHistory
 {
-    public class UserHistoryDto
+    public class UserEventDto
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
         public string EventType { get; set; }
         public DateTime EventDate { get; set; }
         public string Notes { get; set; }

@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.Database.Repos;
 
 namespace DSaA_Project_TimeTracker
@@ -92,7 +93,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void deleteTeamTrueButton_Click(object sender, EventArgs e)
         {
-            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Team.TeamDto team)
+            if (ItemToDelete is Team team)
             {
                 await new TeamRepo().DeleteById(team.Id);
             }
@@ -106,7 +107,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void deleteEmployeeTrueButton_Click(object sender, EventArgs e)
         {
-            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.User.UserDto user)
+            if (ItemToDelete is User user)
             {
                 await new UserRepo().DeleteById(user.Id);
             }
@@ -120,7 +121,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void deleteTaskTrueButton_Click(object sender, EventArgs e)
         {
-            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto task)
+            if (ItemToDelete is TaskToDo task)
             {
                 await new TaskRepo().DeleteById(task.Id);
             }
@@ -134,7 +135,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void deleteProjectTrueButton_Click(object sender, EventArgs e)
         {
-            if (ItemToDelete is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto project)
+            if (ItemToDelete is Project project)
             {
                 await new ProjectRepo().DeleteById(project.Id);
             }

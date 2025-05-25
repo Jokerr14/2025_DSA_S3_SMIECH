@@ -7,48 +7,45 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class UserHistoryRepo
 {
-    private readonly IMapper _mapper;
-    public UserHistoryRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-
-        _mapper = config.CreateMapper();
-    }
-
-    public async Task Add(ModifyUserHistoryDto userHistoryDto)
+    public async Task Add(int userId, UserEventDto userHistoryDto)
     {
         using (var context = new TTDbContext())
         {
-            var userHistory = _mapper.Map<UserHistory>(userHistoryDto);
+            var userHistory = new UserHistory()
+            {
+                UserId = userId,
+                EventType = userHistoryDto.EventType,
+                EventDate = userHistoryDto.EventDate,
+                Notes = userHistoryDto.Notes
+            };
             context.UserHistory.Add(userHistory);
             await context.SaveChangesAsync();
         }
     }
 
-    public async Task UpdateById(int id, ModifyUserHistoryDto modifyHistoryDto)
+    public async Task UpdateById(int eventId, UserEventDto modifyHistoryDto)
     {
         using (var context = new TTDbContext())
         {
             var userHistory = await context.UserHistory
-                .FirstOrDefaultAsync(uh => uh.Id == id);
+                .FirstOrDefaultAsync(uh => uh.Id == eventId);
 
             if (userHistory != null)
             {
-                _mapper.Map(modifyHistoryDto, userHistory);
+                userHistory.EventType = modifyHistoryDto.EventType;
+                userHistory.EventDate = modifyHistoryDto.EventDate;
+                userHistory.Notes = modifyHistoryDto.Notes;
                 await context.SaveChangesAsync();
             }
         }
     }
 
-    public async Task DeleteById(int id)
+    public async Task DeleteById(int eventId)
     {
         using (var context = new TTDbContext())
         {
             var userHistory = await context.UserHistory
-                .FirstOrDefaultAsync(uh => uh.Id == id);
+                .FirstOrDefaultAsync(uh => uh.Id == eventId);
 
             if (userHistory != null)
             {

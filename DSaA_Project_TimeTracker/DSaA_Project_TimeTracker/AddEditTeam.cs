@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.DTOs.Team;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -171,7 +172,7 @@ namespace DSaA_Project_TimeTracker
         {
             var teamName = addNewTeamNameTextBox.Text;
             var teamDescription = addNewTeamDescTextBox.Text;
-            var newTeam = new DSaA_Project_TimeTracker.DTOs.Team.TeamDto
+            var newTeam = new ModifyTeamDto
             {
                 TeamName = teamName,
                 Description = teamDescription

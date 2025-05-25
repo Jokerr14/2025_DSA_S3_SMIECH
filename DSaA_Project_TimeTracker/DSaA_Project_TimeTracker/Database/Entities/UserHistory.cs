@@ -10,9 +10,9 @@ namespace DSaA_Project_TimeTracker.Database.Entities
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public string EventType { get; set; }
-        public DateTime EventDate { get; set; }
-        public string Notes { get; set; }
+        public string EventType { get; set; } = "";
+        public DateTime? EventDate { get; set; }
+        public string Notes { get; set; } = "";
         public virtual User User { get; set; }
     }
 }

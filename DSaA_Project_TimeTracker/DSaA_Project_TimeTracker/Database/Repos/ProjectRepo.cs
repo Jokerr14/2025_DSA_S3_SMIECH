@@ -7,19 +7,7 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class ProjectRepo
 {
-    private readonly IMapper _mapper;
-
-    public ProjectRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-
-        _mapper = config.CreateMapper();
-    }
-
-    public async Task<List<ProjectDto>?> GetAll()
+    public async Task<List<Project>> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -30,13 +18,13 @@ public class ProjectRepo
                 .ToListAsync();
 
             if (projects is null)
-                return null;
+                return new List<Project>();
 
-            return _mapper.Map<List<ProjectDto>>(projects);
+            return projects;
         }
     }
 
-    public async Task<ProjectDto?> GetById(int id)
+    public async Task<Project> GetById(int id)
     {
         using (var context = new TTDbContext())
         {
@@ -47,9 +35,9 @@ public class ProjectRepo
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (project is null)
-                return null;
+                return new Project();
 
-            return _mapper.Map<ProjectDto>(project);
+            return project;
         }
     }
 
@@ -57,21 +45,30 @@ public class ProjectRepo
     {
         using (var context = new TTDbContext())
         {
-            var project = _mapper.Map<Project>(addProjectDto);
-            context.Projects.Add(project);
+            var project = new Project()
+            {
+                ProjectName = addProjectDto.ProjectName,
+                Description = addProjectDto.Description,
+                StartDate = addProjectDto.StartDate,
+                EndDate = addProjectDto.EndDate,
+            };
+            await context.Projects.AddAsync(project);
             await context.SaveChangesAsync();
         }
     }
 
-    public async Task UpdateById(int id, ModifyProjectDto projectDto)
+    public async Task UpdateById(int projectId, ModifyProjectDto projectDto)
     {
         using (var context = new TTDbContext())
         {
-            var project = await context.Projects.FirstOrDefaultAsync(x => x.Id == id);
+            var project = await context.Projects.FirstOrDefaultAsync(x => x.Id == projectId);
 
             if (project is not null)
             {
-                _mapper.Map(projectDto, project);
+                project.ProjectName = projectDto.ProjectName;
+                project.Description = projectDto.Description;
+                project.StartDate = projectDto.StartDate;
+                project.EndDate = projectDto.EndDate;
                 await context.SaveChangesAsync();
             }
         }
