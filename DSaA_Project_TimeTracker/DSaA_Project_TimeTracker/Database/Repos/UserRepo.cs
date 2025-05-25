@@ -54,6 +54,7 @@ public class UserRepo
                 Username = addUserDto.Username,
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
+                RoleId = 1,
             };
 
             user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
