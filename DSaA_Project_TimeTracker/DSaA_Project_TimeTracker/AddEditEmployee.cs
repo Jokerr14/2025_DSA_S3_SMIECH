@@ -194,7 +194,7 @@ namespace DSaA_Project_TimeTracker
             {
                 Username = username,
                 Email = email,
-                RoleId = roleNum,
+                Password = "defaultPassword", // Placeholder, should be replaced with actual password handling
                 EmploymentStatus = status
             };
             var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();

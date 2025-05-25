@@ -1,7 +1,6 @@
 using DSaA_Project_TimeTracker.Database;
 using DSaA_Project_TimeTracker.DTOs;
 using DSaA_Project_TimeTracker.Database.Repos;
-using DSaA_Project_TimeTracker.DTOs.TeamProject;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
@@ -22,11 +21,11 @@ namespace DSaA_Project_TimeTracker
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
-        private List<DSaA_Project_TimeTracker.DTOs.Project.ProjectDto> _projectsCache = new();
+        private List<Project> _projectsCache = new();
         private int currentProjectId;
-        private List<DSaA_Project_TimeTracker.DTOs.Team.TeamDto> _teamsCache = new();
-        private List<DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto> _tasksCache = new();
-        private List<DSaA_Project_TimeTracker.DTOs.User.UserDto> _usersCache = new();
+        private List<Team> _teamsCache = new();
+        private List<TaskToDo> _tasksCache = new();
+        private List<User> _usersCache = new();
 
         private readonly UserRepo _userRepo = new UserRepo();
 
@@ -345,7 +344,7 @@ namespace DSaA_Project_TimeTracker
         //Select project from the list
         private void projectsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (projectsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Project.ProjectDto selectedProject)
+            if (projectsAdminListbox.SelectedItem is Project selectedProject)
             {
                 projectsNameAdminTextbox.Text = selectedProject.ProjectName;
                 projectsDescriptionAdminTextbox.Text = selectedProject.Description;
@@ -378,7 +377,7 @@ namespace DSaA_Project_TimeTracker
         //Delete project button
         private void projectsDeleteProjectAdminButton_Click(object sender, EventArgs e)
         {
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             if (selectedProject == null)
                 return;
 
@@ -403,7 +402,7 @@ namespace DSaA_Project_TimeTracker
             tasksDueDateAdminDatePicker.Value = DateTime.Now;
             tasksAdminListbox.Items.Clear();
 
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             var project = await new ProjectRepo().GetById(selectedProject.Id);
 
             if (project != null)
@@ -424,7 +423,7 @@ namespace DSaA_Project_TimeTracker
         
         private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (tasksAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Task.TaskProgramDto selectedTask)
+            if (tasksAdminListbox.SelectedItem is TaskToDo selectedTask)
             {
                 tasksNameAdminTextbox.Text = selectedTask.Title;
                 tasksDescriptionAdminTextbox.Text = selectedTask.Description;
@@ -435,7 +434,7 @@ namespace DSaA_Project_TimeTracker
 
         private void tasksAddTaskAdminButton_Click(object sender, EventArgs e)
         {
-            var selectedProject = projectsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Project.ProjectDto;
+            var selectedProject = projectsAdminListbox.SelectedItem as Project;
             if (selectedProject == null)
             {
                 MessageBox.Show("Please select a project first.");
@@ -498,7 +497,7 @@ namespace DSaA_Project_TimeTracker
 
         private void teamsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (teamsAdminListbox.SelectedItem is DSaA_Project_TimeTracker.DTOs.Team.TeamDto selectedTeam)
+            if (teamsAdminListbox.SelectedItem is Team selectedTeam)
             {
                 teamsNameAdminTexbox.Text = selectedTeam.TeamName;
                 teamsDescriptionAdminTextbox.Text = selectedTeam.Description;
@@ -519,16 +518,16 @@ namespace DSaA_Project_TimeTracker
             employeesRoleAdminTextbox.Text = "";
             employeesAdminListbox.Items.Clear();
 
-            var selectedTeam = teamsAdminListbox.SelectedItem as DSaA_Project_TimeTracker.DTOs.Team.TeamDto;
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
             var team = await new TeamRepo().GetById(selectedTeam.Id);
              if (team != null)
              {
                  employeesAdminListbox.DisplayMember = "Username";
                  employeesAdminListbox.ValueMember = "Id";
-                 foreach (var user in team.Members)
+                 foreach (var member in team.TeamMembers)
                  {
                      
-                         employeesAdminListbox.Items.Add(user);
+                         employeesAdminListbox.Items.Add(member.User.Username);
                      
                  }
              }
@@ -679,7 +678,7 @@ namespace DSaA_Project_TimeTracker
             if (user != null)
              {
                 userId = user.Id;
-                if (user.RoleName == "Admin")
+                if (user.Role.RoleName == "Admin")
                  {
                      //show admin panel
                      adminViewPanel.Visible = true;
