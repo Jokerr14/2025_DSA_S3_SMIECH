@@ -9,9 +9,9 @@ namespace DSaA_Project_TimeTracker.Database.Entities;
 public class TaskToDo
 {
     public int Id { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public string Status {  get; set; }
+    public string Title { get; set; } = "";
+    public string Description { get; set; } = "";
+    public string Status { get; set; } = "";
     public DateTime? DueDate { get; set; }
     public int ProjectId { get; set; }
 

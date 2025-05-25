@@ -7,19 +7,7 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class TeamRepo
 {
-    private readonly IMapper _mapper;
-
-    public TeamRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-
-        _mapper = config.CreateMapper();
-    }
-
-    public async Task<IEnumerable<TeamDto>?> GetAll()
+    public async Task<IEnumerable<Team>> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -31,14 +19,13 @@ public class TeamRepo
                 .ToListAsync();
 
             if (teams is null)
-                return null;
+                return new List<Team>();
 
-            var teamDtos = _mapper.Map<List<TeamDto>>(teams);
-            return teamDtos;
+            return teams;
         }
     }
 
-    public async Task<TeamDto?> GetById(int id)
+    public async Task<Team> GetById(int id)
     {
         using (var context = new TTDbContext())
         {
@@ -50,32 +37,39 @@ public class TeamRepo
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (team is null)
-                return null;
+                return new Team();
             
-            var teamDto = _mapper.Map<TeamDto>(team);
-            return teamDto;
+            return team;
         }
     }
 
-    public async Task Add(TeamDto addTeamDto)
+    public async Task Add(ModifyTeamDto addTeamDto)
     {
         using (var context = new TTDbContext())
         {
-            var team = _mapper.Map<Team>(addTeamDto);
+            var team = new Team()
+            {
+                TeamName = addTeamDto.TeamName,
+                Description = addTeamDto.Description,
+            };
 
-            context.Teams.Add(team);
+            await context.Teams.AddAsync(team);
             await context.SaveChangesAsync();
         }
     }
 
-    public async Task UpdateById(int id, TeamDto teamDto)
+    public async Task UpdateById(int teamId, ModifyTeamDto teamDto)
     {
         using (var context = new TTDbContext())
         {
-            var team = await context.Teams.FirstOrDefaultAsync(x => x.Id == id);
+            var team = await context.Teams.FirstOrDefaultAsync(x => x.Id == teamId);
 
-            _mapper.Map(teamDto, team);
-            await context.SaveChangesAsync();
+            if (team is not null)
+            {
+                team.TeamName = teamDto.TeamName;
+                team.Description = teamDto.Description;
+                await context.SaveChangesAsync();
+            }
         }
     }
 

@@ -9,9 +9,9 @@ namespace DSaA_Project_TimeTracker.DTOs.User
 {
     public class UpdateUserDto
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string EmploymentStatus { get; set; }
+        public string Username { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string EmploymentStatus { get; set; } = "";
     }
 }
 

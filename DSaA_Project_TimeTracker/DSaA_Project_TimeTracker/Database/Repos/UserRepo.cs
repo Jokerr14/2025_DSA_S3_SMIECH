@@ -7,19 +7,7 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class UserRepo
 {
-    private readonly IMapper _mapper;
-
-    public UserRepo()
-    {
-        var config = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<TTMappingProfile>();
-        });
-
-        _mapper = config.CreateMapper();
-    }
-
-    public async Task<IEnumerable<UserDto>?> GetAll()
+    public async Task<IEnumerable<User>> GetAll()
     {
         using (var context = new TTDbContext())
         {
@@ -31,14 +19,13 @@ public class UserRepo
                 .ToListAsync();
 
             if (users is null)
-                return null;
+                return new List<User>();
           
-            var userDtos = _mapper.Map<List<UserDto>>(users);
-            return userDtos;
+            return users;
         }
     }
 
-    public async Task<UserDto?> GetById(int id)
+    public async Task<User> GetById(int id)
     {
         using (var context = new TTDbContext())
         {
@@ -50,10 +37,9 @@ public class UserRepo
             .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user is null)
-                return null;
+                return new User();
             
-            var userDto = _mapper.Map<UserDto>(user);
-            return userDto;
+            return user;
         }
     }
 
@@ -61,7 +47,12 @@ public class UserRepo
     {
         using (var context = new TTDbContext())
         {
-            var user = _mapper.Map<User>(addUserDto);
+            var user = new User()
+            {
+                Username = addUserDto.Username,
+                Email = addUserDto.Email,
+                EmploymentStatus = addUserDto.EmploymentStatus,
+            };
 
             //hash the password here
             user.PasswordHash = addUserDto.Password;
@@ -71,26 +62,28 @@ public class UserRepo
         }
     }
 
-    public async Task UpdateById(int id, UpdateUserDto updateUserDto)
+    public async Task UpdateById(int userId, UpdateUserDto updateUserDto)
     {
         using (var context = new TTDbContext())
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user != null)
             {
-                user = _mapper.Map(updateUserDto, user);
+                user.Username = updateUserDto.Username;
+                user.Email = updateUserDto.Email;
+                user.EmploymentStatus = updateUserDto.EmploymentStatus;
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
             }
         }
     }
 
-    public async Task DeleteById(int id)
+    public async Task DeleteById(int userId)
     {
         using (var context = new TTDbContext())
         {
-            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == id);
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
             if (user != null)
             {
@@ -101,7 +94,7 @@ public class UserRepo
         }
     }
 
-    public async Task<UserDto?> Login(LoginUserDto loginUserDto)
+    public async Task<User?> Login(LoginUserDto loginUserDto)
     {
         using (var context = new TTDbContext())
         {
@@ -115,8 +108,7 @@ public class UserRepo
             if (user.PasswordHash != loginUserDto.Password)
                 return null;
 
-            var userDto = _mapper.Map<UserDto>(user);
-            return userDto;
+            return user;
         }
     }
 }
