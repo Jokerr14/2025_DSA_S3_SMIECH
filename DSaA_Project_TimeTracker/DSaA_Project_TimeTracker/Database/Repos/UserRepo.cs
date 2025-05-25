@@ -51,6 +51,7 @@ public class UserRepo
         {
             var user = new User()
             {
+                
                 Username = addUserDto.Username,
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
@@ -58,7 +59,7 @@ public class UserRepo
             };
 
             user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
-
+            
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
         }

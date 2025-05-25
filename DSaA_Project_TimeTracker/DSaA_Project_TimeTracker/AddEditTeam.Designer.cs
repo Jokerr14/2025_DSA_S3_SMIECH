@@ -91,7 +91,6 @@
             addNewTeamDescTextBox.Margin = new Padding(3, 2, 3, 2);
             addNewTeamDescTextBox.Multiline = true;
             addNewTeamDescTextBox.Name = "addNewTeamDescTextBox";
-            addNewTeamDescTextBox.ReadOnly = true;
             addNewTeamDescTextBox.ScrollBars = ScrollBars.Vertical;
             addNewTeamDescTextBox.Size = new Size(606, 267);
             addNewTeamDescTextBox.TabIndex = 40;
@@ -236,8 +235,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(788, 557);
-            Controls.Add(editTeamPanel);
             Controls.Add(addTeamPanel);
+            Controls.Add(editTeamPanel);
             Name = "AddEditTeam";
             Text = "AddEditTeam";
             addTeamPanel.ResumeLayout(false);

@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.DTOs.Project;
+using DSaA_Project_TimeTracker.Database.Entities;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -23,6 +26,11 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
+        public object ItemToEdit { get; set; }
+        public AddEditProject(object itemToEdit) : this()
+        {
+            ItemToEdit = itemToEdit;
+        }
         public AddEditProject()
         {
             InitializeComponent();
@@ -148,6 +156,12 @@ namespace DSaA_Project_TimeTracker
                 editProjectPanel.BringToFront();
                 addProjectPanel.Visible = false;
                 editProjectPanel.Visible = true;
+                editProjectNameTextBox.Text = ((Project)ItemToEdit).ProjectName;
+                editProjectDescTextBox.Text = ((Project)ItemToEdit).Description;
+                editStartDatePicker.Value = ((Project)ItemToEdit).StartDate ?? DateTime.Now;
+                editEndDatePicker.Value = ((Project)ItemToEdit).EndDate ?? DateTime.Now;
+
+
             }
         }
 
@@ -171,9 +185,22 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveEditProjectButton_Click(object sender, EventArgs e)
+        private async void saveEditProjectButton_Click(object sender, EventArgs e)
         {
-
+            var name = editProjectNameTextBox.Text.Trim();
+            var desc = editProjectDescTextBox.Text.Trim();
+            var startDate = editStartDatePicker.Value;
+            var endDate = editEndDatePicker.Value;
+            var modifiedProject = new ModifyProjectDto
+            {
+                ProjectName = name,
+                Description = desc,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+            var repo = new ProjectRepo();
+            await repo.UpdateById(((Project)ItemToEdit).Id, modifiedProject);
+            this.Close();
         }
 
         private async void saveAddProjectButton_Click(object sender, EventArgs e)

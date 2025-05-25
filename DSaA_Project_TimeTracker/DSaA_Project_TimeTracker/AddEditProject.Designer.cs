@@ -236,7 +236,6 @@
             editProjectDescTextBox.Margin = new Padding(3, 2, 3, 2);
             editProjectDescTextBox.Multiline = true;
             editProjectDescTextBox.Name = "editProjectDescTextBox";
-            editProjectDescTextBox.ReadOnly = true;
             editProjectDescTextBox.ScrollBars = ScrollBars.Vertical;
             editProjectDescTextBox.Size = new Size(606, 267);
             editProjectDescTextBox.TabIndex = 53;
@@ -316,8 +315,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(818, 698);
-            Controls.Add(addProjectPanel);
             Controls.Add(editProjectPanel);
+            Controls.Add(addProjectPanel);
             Name = "AddEditProject";
             Text = "AddEditProjects";
             addProjectPanel.ResumeLayout(false);

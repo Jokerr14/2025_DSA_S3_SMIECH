@@ -147,9 +147,13 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void deleteHistoryRecordTrueButton_Click(object sender, EventArgs e)
+        private async void deleteHistoryRecordTrueButton_Click(object sender, EventArgs e)
         {
-
+            if (ItemToDelete is UserHistory record)
+            {
+                await new UserHistoryRepo().DeleteById(record.Id);
+            }
+            this.Close();
         }
 
         private void deleteHistoryRecordFalseButton_Click(object sender, EventArgs e)

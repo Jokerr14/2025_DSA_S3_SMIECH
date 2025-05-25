@@ -7,6 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Database.Repos;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -15,6 +18,7 @@ namespace DSaA_Project_TimeTracker
         
         private string _panelToShow;
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+        
         public string PanelToShow
         {
             get => _panelToShow;
@@ -24,6 +28,11 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
+        public object ItemToEdit { get; set; }
+        public AddEditEmployee(object itemToEdit) : this()
+        {
+            ItemToEdit = itemToEdit;
+        }
         public AddEditEmployee()
         {
             InitializeComponent();
@@ -149,6 +158,11 @@ namespace DSaA_Project_TimeTracker
                 editEmployeePanel.BringToFront();
                 addEmployeePanel.Visible = false;
                 editEmployeePanel.Visible = true;
+                editEmployeeNameTextBox.Text = ((User)ItemToEdit).Username;
+                editEmployeeMailTextBox.Text = ((User)ItemToEdit).Email;
+                //editEmployeeRoleComboBox.Text = ((User)ItemToEdit).Role.RoleName;
+                editEmployeeStatusComboBox.Text = ((User)ItemToEdit).EmploymentStatus;
+
             }
         }
 
@@ -172,9 +186,31 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveEditEmployeeButton_Click(object sender, EventArgs e)
+        private async void saveEditEmployeeButton_Click(object sender, EventArgs e)
         {
-
+            var username = editEmployeeNameTextBox.Text;
+            var email = editEmployeeMailTextBox.Text;
+            var role = editEmployeeRoleComboBox.Text.ToString();
+            int roleNum;
+            if (role == "Admin")
+            {
+                roleNum = 1;
+            }
+            else { roleNum = 2; }
+            ;
+            var status = editEmployeeStatusComboBox.Text.ToString();
+            var editedEmployee = new DTOs.User.UpdateUserDto
+            {
+                
+                Username = username,
+                Email = email,
+                
+                EmploymentStatus = status,
+                //RoleId = roleNum
+            };
+            var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
+            await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
+            this.Close();
         }
 
         private async void saveNewEmployeeButton_Click(object sender, EventArgs e)
@@ -190,16 +226,16 @@ namespace DSaA_Project_TimeTracker
             else { roleNum = 2; };
 
             var status = addNewEmployeeStatusComboBox.Text.ToString();
-            var newEmployee = new DTOs.User.AddUserDto
+            var newEmployee = new AddUserDto
             {
                 Username = username,
                 Email = email,
                 Password = "defaultPassword", // Placeholder, should be replaced with actual password handling
                 EmploymentStatus = status
             };
-            var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
+            var repo = new UserRepo();
             await repo.Add(newEmployee);
-
+            
             this.Close();
         }
     }

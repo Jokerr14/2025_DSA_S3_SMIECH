@@ -241,7 +241,6 @@
             editTaskDescTextBox.Margin = new Padding(3, 2, 3, 2);
             editTaskDescTextBox.Multiline = true;
             editTaskDescTextBox.Name = "editTaskDescTextBox";
-            editTaskDescTextBox.ReadOnly = true;
             editTaskDescTextBox.ScrollBars = ScrollBars.Vertical;
             editTaskDescTextBox.Size = new Size(606, 267);
             editTaskDescTextBox.TabIndex = 27;
@@ -321,8 +320,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 710);
-            Controls.Add(addTaskPanel);
             Controls.Add(editTaskPanel);
+            Controls.Add(addTaskPanel);
             Name = "AddEditTask";
             Text = "AddEditTask";
             addTaskPanel.ResumeLayout(false);
