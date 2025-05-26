@@ -43,16 +43,16 @@
             logOutUserButton = new Button();
             teamsUserButton = new Button();
             tasksUserButton = new Button();
-            tasksUserPanel = new Panel();
-            tasksDoneUserLabel = new Label();
-            tasksTodoUserLabel = new Label();
-            tasksDoneUserListbox = new ListBox();
-            tasksTodoUserListbox = new ListBox();
             teamsUserPanel = new Panel();
             teamsMembersUserLabel = new Label();
             teamsMembersUserListbox = new ListBox();
             teamsNameUserListbox = new ListBox();
             label5 = new Label();
+            tasksUserPanel = new Panel();
+            tasksDoneUserLabel = new Label();
+            tasksTodoUserLabel = new Label();
+            tasksDoneUserListbox = new ListBox();
+            tasksTodoUserListbox = new ListBox();
             adminViewPanel = new Panel();
             helpButtonAdmin = new Button();
             logOutAdminButton = new Button();
@@ -62,6 +62,9 @@
             projectsAdminButton = new Button();
             employeesAdminPanel = new Panel();
             employeeHistoryListView = new ListView();
+            columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
             deleteHistoryRecordButton = new Button();
             editHistoryRecordButton = new Button();
             addHistoryRecordButton = new Button();
@@ -122,8 +125,8 @@
             Notes = new ColumnHeader();
             loginPanel.SuspendLayout();
             userViewPanel.SuspendLayout();
-            tasksUserPanel.SuspendLayout();
             teamsUserPanel.SuspendLayout();
+            tasksUserPanel.SuspendLayout();
             adminViewPanel.SuspendLayout();
             employeesAdminPanel.SuspendLayout();
             projectsAdminPanel.SuspendLayout();
@@ -295,58 +298,6 @@
             tasksUserButton.UseVisualStyleBackColor = true;
             tasksUserButton.Click += tasksUserButton_Click;
             // 
-            // tasksUserPanel
-            // 
-            tasksUserPanel.Controls.Add(tasksDoneUserLabel);
-            tasksUserPanel.Controls.Add(tasksTodoUserLabel);
-            tasksUserPanel.Controls.Add(tasksDoneUserListbox);
-            tasksUserPanel.Controls.Add(tasksTodoUserListbox);
-            tasksUserPanel.Location = new Point(3, 60);
-            tasksUserPanel.Margin = new Padding(3, 2, 3, 2);
-            tasksUserPanel.Name = "tasksUserPanel";
-            tasksUserPanel.Size = new Size(1096, 517);
-            tasksUserPanel.TabIndex = 3;
-            tasksUserPanel.Visible = false;
-            // 
-            // tasksDoneUserLabel
-            // 
-            tasksDoneUserLabel.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tasksDoneUserLabel.Location = new Point(550, 8);
-            tasksDoneUserLabel.Name = "tasksDoneUserLabel";
-            tasksDoneUserLabel.Size = new Size(542, 19);
-            tasksDoneUserLabel.TabIndex = 3;
-            tasksDoneUserLabel.Text = "Done:";
-            tasksDoneUserLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // tasksTodoUserLabel
-            // 
-            tasksTodoUserLabel.Font = new Font("Segoe UI", 11F);
-            tasksTodoUserLabel.Location = new Point(4, 10);
-            tasksTodoUserLabel.Name = "tasksTodoUserLabel";
-            tasksTodoUserLabel.Size = new Size(542, 19);
-            tasksTodoUserLabel.TabIndex = 2;
-            tasksTodoUserLabel.Text = "To Do:";
-            tasksTodoUserLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // tasksDoneUserListbox
-            // 
-            tasksDoneUserListbox.FormattingEnabled = true;
-            tasksDoneUserListbox.ItemHeight = 15;
-            tasksDoneUserListbox.Location = new Point(550, 29);
-            tasksDoneUserListbox.Margin = new Padding(3, 2, 3, 2);
-            tasksDoneUserListbox.Name = "tasksDoneUserListbox";
-            tasksDoneUserListbox.Size = new Size(543, 454);
-            tasksDoneUserListbox.TabIndex = 1;
-            // 
-            // tasksTodoUserListbox
-            // 
-            tasksTodoUserListbox.ItemHeight = 15;
-            tasksTodoUserListbox.Location = new Point(3, 29);
-            tasksTodoUserListbox.Margin = new Padding(3, 2, 3, 2);
-            tasksTodoUserListbox.Name = "tasksTodoUserListbox";
-            tasksTodoUserListbox.Size = new Size(543, 454);
-            tasksTodoUserListbox.TabIndex = 0;
-            // 
             // teamsUserPanel
             // 
             teamsUserPanel.Controls.Add(teamsMembersUserLabel);
@@ -401,6 +352,58 @@
             label5.Text = "You are currently assigned to the following teams:";
             label5.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // tasksUserPanel
+            // 
+            tasksUserPanel.Controls.Add(tasksDoneUserLabel);
+            tasksUserPanel.Controls.Add(tasksTodoUserLabel);
+            tasksUserPanel.Controls.Add(tasksDoneUserListbox);
+            tasksUserPanel.Controls.Add(tasksTodoUserListbox);
+            tasksUserPanel.Location = new Point(3, 60);
+            tasksUserPanel.Margin = new Padding(3, 2, 3, 2);
+            tasksUserPanel.Name = "tasksUserPanel";
+            tasksUserPanel.Size = new Size(1096, 517);
+            tasksUserPanel.TabIndex = 3;
+            tasksUserPanel.Visible = false;
+            // 
+            // tasksDoneUserLabel
+            // 
+            tasksDoneUserLabel.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tasksDoneUserLabel.Location = new Point(550, 8);
+            tasksDoneUserLabel.Name = "tasksDoneUserLabel";
+            tasksDoneUserLabel.Size = new Size(542, 19);
+            tasksDoneUserLabel.TabIndex = 3;
+            tasksDoneUserLabel.Text = "Done:";
+            tasksDoneUserLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // tasksTodoUserLabel
+            // 
+            tasksTodoUserLabel.Font = new Font("Segoe UI", 11F);
+            tasksTodoUserLabel.Location = new Point(4, 10);
+            tasksTodoUserLabel.Name = "tasksTodoUserLabel";
+            tasksTodoUserLabel.Size = new Size(542, 19);
+            tasksTodoUserLabel.TabIndex = 2;
+            tasksTodoUserLabel.Text = "To Do:";
+            tasksTodoUserLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // tasksDoneUserListbox
+            // 
+            tasksDoneUserListbox.FormattingEnabled = true;
+            tasksDoneUserListbox.ItemHeight = 15;
+            tasksDoneUserListbox.Location = new Point(550, 29);
+            tasksDoneUserListbox.Margin = new Padding(3, 2, 3, 2);
+            tasksDoneUserListbox.Name = "tasksDoneUserListbox";
+            tasksDoneUserListbox.Size = new Size(543, 454);
+            tasksDoneUserListbox.TabIndex = 1;
+            // 
+            // tasksTodoUserListbox
+            // 
+            tasksTodoUserListbox.ItemHeight = 15;
+            tasksTodoUserListbox.Location = new Point(3, 29);
+            tasksTodoUserListbox.Margin = new Padding(3, 2, 3, 2);
+            tasksTodoUserListbox.Name = "tasksTodoUserListbox";
+            tasksTodoUserListbox.Size = new Size(543, 454);
+            tasksTodoUserListbox.TabIndex = 0;
+            // 
             // adminViewPanel
             // 
             adminViewPanel.Controls.Add(helpButtonAdmin);
@@ -409,10 +412,10 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
+            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Controls.Add(tasksAdminPanel);
             adminViewPanel.Controls.Add(teamsAdminPanel);
-            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
@@ -518,12 +521,32 @@
             // 
             // employeeHistoryListView
             // 
+            employeeHistoryListView.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
+            employeeHistoryListView.FullRowSelect = true;
+            employeeHistoryListView.GridLines = true;
             employeeHistoryListView.Location = new Point(428, 243);
             employeeHistoryListView.Margin = new Padding(3, 4, 3, 4);
             employeeHistoryListView.Name = "employeeHistoryListView";
             employeeHistoryListView.Size = new Size(658, 182);
             employeeHistoryListView.TabIndex = 23;
             employeeHistoryListView.UseCompatibleStateImageBehavior = false;
+            employeeHistoryListView.View = View.Details;
+            employeeHistoryListView.SelectedIndexChanged += employeeHistoryListView_SelectedIndexChanged;
+            // 
+            // columnHeader1
+            // 
+            columnHeader1.Text = "Event";
+            columnHeader1.Width = 110;
+            // 
+            // columnHeader2
+            // 
+            columnHeader2.Text = "Date";
+            columnHeader2.Width = 80;
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Notes";
+            columnHeader3.Width = 450;
             // 
             // deleteHistoryRecordButton
             // 
@@ -1116,17 +1139,17 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1140, 650);
+            Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
-            Controls.Add(adminViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
             loginPanel.ResumeLayout(false);
             loginPanel.PerformLayout();
             userViewPanel.ResumeLayout(false);
-            tasksUserPanel.ResumeLayout(false);
             teamsUserPanel.ResumeLayout(false);
+            tasksUserPanel.ResumeLayout(false);
             adminViewPanel.ResumeLayout(false);
             employeesAdminPanel.ResumeLayout(false);
             employeesAdminPanel.PerformLayout();
@@ -1243,5 +1266,8 @@
         private ColumnHeader Event;
         private ColumnHeader Date;
         private ColumnHeader Notes;
+        private ColumnHeader columnHeader1;
+        private ColumnHeader columnHeader2;
+        private ColumnHeader columnHeader3;
     }
 }

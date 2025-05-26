@@ -150,6 +150,7 @@
             // 
             // addNewTaskStatusComboBox
             // 
+            addNewTaskStatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             addNewTaskStatusComboBox.FormattingEnabled = true;
             addNewTaskStatusComboBox.Items.AddRange(new object[] { "ToDo", "Done" });
             addNewTaskStatusComboBox.Location = new Point(124, 440);
@@ -209,6 +210,7 @@
             // 
             // editTaskStatusComboBox
             // 
+            editTaskStatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             editTaskStatusComboBox.FormattingEnabled = true;
             editTaskStatusComboBox.Items.AddRange(new object[] { "ToDo", "Done" });
             editTaskStatusComboBox.Location = new Point(124, 440);
@@ -322,8 +324,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(784, 710);
-            Controls.Add(addTaskPanel);
             Controls.Add(editTaskPanel);
+            Controls.Add(addTaskPanel);
             Name = "AddEditTask";
             Text = "AddEditTask";
             addTaskPanel.ResumeLayout(false);
