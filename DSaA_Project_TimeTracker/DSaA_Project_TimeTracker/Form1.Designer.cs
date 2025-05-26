@@ -63,6 +63,9 @@
             projectsAdminButton = new Button();
             employeesAdminPanel = new Panel();
             employeeHistoryListView = new ListView();
+            Event = new ColumnHeader();
+            Date = new ColumnHeader();
+            Notes = new ColumnHeader();
             deleteHistoryRecordButton = new Button();
             editHistoryRecordButton = new Button();
             addHistoryRecordButton = new Button();
@@ -527,12 +530,33 @@
             // 
             // employeeHistoryListView
             // 
+            employeeHistoryListView.Columns.AddRange(new ColumnHeader[] { Event, Date, Notes });
+            employeeHistoryListView.FullRowSelect = true;
+            employeeHistoryListView.GridLines = true;
             employeeHistoryListView.Location = new Point(428, 243);
+            employeeHistoryListView.MultiSelect = false;
             employeeHistoryListView.Name = "employeeHistoryListView";
-            employeeHistoryListView.Size = new Size(658, 182);
-            employeeHistoryListView.TabIndex = 23;
+            employeeHistoryListView.ShowGroups = false;
+            employeeHistoryListView.Size = new Size(658, 174);
+            employeeHistoryListView.TabIndex = 22;
             employeeHistoryListView.UseCompatibleStateImageBehavior = false;
-            employeeHistoryListView.SelectedIndexChanged += employeeHistoryListView_SelectedIndexChanged;
+            employeeHistoryListView.View = View.Details;
+            employeeHistoryListView.SelectedIndexChanged += employeeHistoryListView_SelectedIndexChanged_1;
+            // 
+            // Event
+            // 
+            Event.Text = "Event";
+            Event.Width = 120;
+            // 
+            // Date
+            // 
+            Date.Text = "Date";
+            Date.Width = 100;
+            // 
+            // Notes
+            // 
+            Notes.Text = "Notes";
+            Notes.Width = 430;
             // 
             // deleteHistoryRecordButton
             // 
@@ -1245,5 +1269,8 @@
         private Button editHistoryRecordButton;
         private Button addHistoryRecordButton;
         private ListView employeeHistoryListView;
+        private ColumnHeader Event;
+        private ColumnHeader Date;
+        private ColumnHeader Notes;
     }
 }

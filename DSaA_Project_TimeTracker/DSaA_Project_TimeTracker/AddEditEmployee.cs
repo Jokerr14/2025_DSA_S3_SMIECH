@@ -16,10 +16,10 @@ namespace DSaA_Project_TimeTracker
 {
     public partial class AddEditEmployee : Form
     {
-        
+
         private string _panelToShow;
         private Dictionary<Control, Label[]> subPanelHelpLabels;
-        
+
         public string PanelToShow
         {
             get => _panelToShow;
@@ -55,6 +55,8 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(editEmployeeMailTextBox, "Change E-mail.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeRoleComboBox, "Change role.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeStatusComboBox, "Change status.", editEmployeePanel),
+                        CreateHelpLabel(editEmployeePasswordTextBox, "(Optional) Update the user's password.", editEmployeePanel),
+                        CreateHelpLabel(editEmployeeConfirmPasswordTextBox, "(Only if above is filled) confirm the password by re-typing it.", editEmployeePanel),
                         CreateHelpLabel(discardEditEmployeeButton, "Discard all changes.", editEmployeePanel),
                         CreateHelpLabel(saveEditEmployeeButton, "Save all changes.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeHelpButton, "Show help.", editEmployeePanel),
@@ -67,8 +69,10 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(addNewEmployeeMailTextBox, "Add E-mail.", addEmployeePanel),
                         CreateHelpLabel(addNewEmployeeRoleComboBox, "Add role.", addEmployeePanel),
                         CreateHelpLabel(addNewEmployeeStatusComboBox, "Set status of employment.", addEmployeePanel),
-                        CreateHelpLabel(discardNewEmployeeButton, "Discard task.", addEmployeePanel),
-                        CreateHelpLabel(saveNewEmployeeButton, "Save task.", addEmployeePanel),
+                        CreateHelpLabel(addNewEmployeePasswordTextBox, "Add a password for the user.", addEmployeePanel),
+                        CreateHelpLabel(addNewEmployeeConfirmPasswordTextBox, "Confirm the password by re-typing it.", addEmployeePanel),
+                        CreateHelpLabel(discardNewEmployeeButton, "Discard changes.", addEmployeePanel),
+                        CreateHelpLabel(saveNewEmployeeButton, "Save changes.", addEmployeePanel),
                         CreateHelpLabel(addEmployeeHelpButton, "Show help.", addEmployeePanel),
 
                     }
@@ -189,59 +193,87 @@ namespace DSaA_Project_TimeTracker
 
         private async void saveEditEmployeeButton_Click(object sender, EventArgs e)
         {
-            var username = editEmployeeNameTextBox.Text;
-            var email = editEmployeeMailTextBox.Text;
-            var role = editEmployeeRoleComboBox.Text.ToString();
-            var password = "";
-            int roleNum;
-            if (role == "Admin")
-            {
-                roleNum = 1;
-            }
-            else { roleNum = 2; }
-            ;
-            var status = editEmployeeStatusComboBox.Text.ToString();
-            if(editEmployeePasswordTextBox.Text != string.Empty) { password = PasswordHasher.HashPasword(editEmployeePasswordTextBox.Text); }
-            else { password = ((User)ItemToEdit).PasswordHash; }
-            var editedEmployee = new DTOs.User.AddUserDto
-                {
 
-                    Username = username,
-                    Email = email,
-                    EmploymentStatus = status,
+            if (editEmployeePasswordTextBox.Text != editEmployeeConfirmPasswordTextBox.Text)
+            {
+                MessageBox.Show("Passwords do not match.");
+                return;
+            }
+            else if (editEmployeeNameTextBox.Text == string.Empty || editEmployeeMailTextBox.Text == string.Empty || editEmployeeRoleComboBox.Text.ToString() == string.Empty || editEmployeeStatusComboBox.Text.ToString() == string.Empty)
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            else
+            {
+
+                var password = ((User)ItemToEdit).PasswordHash;
+                if (editEmployeePasswordTextBox.Text != string.Empty) { password = PasswordHasher.HashPasword(editEmployeePasswordTextBox.Text); }
+                var role = editEmployeeRoleComboBox.Text.ToString();
+                int roleNum;
+                if (role == "Admin")
+                {
+                    roleNum = 1;
+                }
+                else { roleNum = 2; }
+
+                var editedEmployee = new AddUserDto
+                {
+                    Username = editEmployeeNameTextBox.Text,
+                    Email = editEmployeeMailTextBox.Text,
+                    EmploymentStatus = editEmployeeStatusComboBox.Text.ToString(),
                     Password = password,
                     RoleId = roleNum
                 };
-            var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
-            await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
-            this.Close();
+                var repo = new UserRepo();
+                await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
+                this.Close();
+            }
         }
 
         private async void saveNewEmployeeButton_Click(object sender, EventArgs e)
         {
-            
-            var role = addNewEmployeeRoleComboBox.Text.ToString();
-            int roleNum;
-            if (role == "Admin")
+            if (addNewEmployeePasswordTextBox.Text == string.Empty || addNewEmployeeConfirmPasswordTextBox.Text == string.Empty)
             {
-                roleNum = 1;
+                MessageBox.Show("Please fill in both password fields.");
+                return;
             }
-            else { roleNum = 2; };
-
-            var status = addNewEmployeeStatusComboBox.Text.ToString();
-            var newEmployee = new AddUserDto
+            else if (addNewEmployeePasswordTextBox.Text != addNewEmployeeConfirmPasswordTextBox.Text)
             {
-                Username = addNewEmployeeNameTextBox.Text,
-                Email = addNewEmployeeMailTextBox.Text,
-                Password = addNewEmployeePasswordTextBox.Text,
-                EmploymentStatus = status,
-                RoleId = roleNum,
-            };
-            
-            var repo = new UserRepo();
-            await repo.Add(newEmployee);
-            
-            this.Close();
+                MessageBox.Show("Passwords do not match.");
+                return;
+            }
+            else if (addNewEmployeeNameTextBox.Text == string.Empty || addNewEmployeeMailTextBox.Text == string.Empty || addNewEmployeeRoleComboBox.Text.ToString() == string.Empty || addNewEmployeeStatusComboBox.Text.ToString() == string.Empty)
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            else
+            {
+                var initialTeamId = ((Team)ItemToEdit).Id;
+                var role = addNewEmployeeRoleComboBox.Text.ToString();
+                int roleNum;
+                if (role == "Admin") { roleNum = 1; }
+                else { roleNum = 2; }
+                ;
+
+                var newEmployee = new AddUserDto
+                {
+                    Username = addNewEmployeeNameTextBox.Text,
+                    Email = addNewEmployeeMailTextBox.Text,
+                    Password = addNewEmployeePasswordTextBox.Text,
+                    EmploymentStatus = addNewEmployeeStatusComboBox.Text.ToString(),
+                    RoleId = roleNum,
+                    TeamId = initialTeamId,
+                };
+
+                var repo = new UserRepo();
+                await repo.Add(newEmployee);
+
+                this.Close();
+            }
+
         }
+
     }
 }

@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs;
+﻿using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.User;
 using DSaA_Project_TimeTracker.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +11,16 @@ public class UserRepo
     {
         using (var context = new TTDbContext())
         {
-             var users = await context.Users
-                .Include(x => x.Role)
-                .Include(x => x.UserEvents)
-                .Include(x => x.TaskAssignments)
-                    .ThenInclude(x => x.TaskToDo)
-                .ToListAsync();
+            var users = await context.Users
+               .Include(x => x.Role)
+               .Include(x => x.UserEvents)
+               .Include(x => x.TaskAssignments)
+                   .ThenInclude(x => x.TaskToDo)
+               .ToListAsync();
 
             if (users is null)
                 return new List<User>();
-          
+
             return users;
         }
     }
@@ -40,28 +38,35 @@ public class UserRepo
 
             if (user is null)
                 return new User();
-            
+
             return user;
         }
     }
 
     public async Task Add(AddUserDto addUserDto)
     {
+        var assignRepo = new AssignmentsRepo();
         using (var context = new TTDbContext())
         {
             var user = new User()
             {
-                
+
                 Username = addUserDto.Username,
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
                 RoleId = 2,
+
             };
 
             user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
-            
+
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+
+            if (addUserDto.TeamId.HasValue)
+            {
+                await assignRepo.AssignMemberToTeam(addUserDto.TeamId.Value, user.Id);
+            }
         }
     }
 
@@ -110,7 +115,7 @@ public class UserRepo
             if (user == null)
                 return null;
 
-            if(!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash))
+            if (!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash))
                 return null;
 
             return user;

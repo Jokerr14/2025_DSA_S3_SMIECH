@@ -194,7 +194,19 @@ namespace DSaA_Project_TimeTracker
 
         private async void saveEditHistoryRecordButton_Click(object sender, EventArgs e)
         {
-
+            var modifyHistoryRecord = new UserEventDto();
+            {
+                modifyHistoryRecord.EventType = editEventTypeTextBox.Text;
+                modifyHistoryRecord.EventDate = editEventDateDatePicker.Value;
+                modifyHistoryRecord.Notes = editNotesTextBox.Text;
+            };
+            if (string.IsNullOrWhiteSpace(modifyHistoryRecord.EventType) || string.IsNullOrWhiteSpace(modifyHistoryRecord.Notes))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            await new UserHistoryRepo().UpdateById(((UserHistory)ItemToEdit).Id, modifyHistoryRecord);
+            this.Close();
         }
 
         private async void saveNewHistoryRecordButton_Click(object sender, EventArgs e)
