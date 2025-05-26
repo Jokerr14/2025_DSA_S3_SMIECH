@@ -657,7 +657,7 @@ namespace DSaA_Project_TimeTracker
                     employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
                     employeesStatusAdminTextbox.Text = selectedUser.EmploymentStatus;
                     employeeHistoryListView.Items.Clear();
-                    var selectedUserRecords = selectedUser.UserEvents; //.Where(x => x.UserId == userId).ToList();
+                    var selectedUserRecords = selectedUser.UserEvents;
 
                     if (selectedUserRecords != null)
                     {
@@ -679,12 +679,11 @@ namespace DSaA_Project_TimeTracker
                 }
             }
         }
-        private void employeeHistoryListView_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void employeeHistoryListView_SelectedIndexChanged(object sender, EventArgs e)
         {
             editHistoryRecordButton.Enabled = true;
             deleteHistoryRecordButton.Enabled = true;
         }
-
         private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
         {
             var selectedTeam = teamsAdminListbox.SelectedItem as Team;
@@ -948,6 +947,8 @@ namespace DSaA_Project_TimeTracker
         {
 
         }
+
+
 
 
 
