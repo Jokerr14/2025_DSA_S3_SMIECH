@@ -15,10 +15,50 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
+        private async void tasksTodoUserListbox_DoubleClick_Handler(object sender, EventArgs e)
+        {
+            if (tasksTodoUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
+
+        private async void tasksDoneUserListbox_DoubleClick_Handler(object sender, EventArgs e)
+        {
+            if (tasksDoneUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
         public Form1()
         {
             InitializeComponent();
             InitializeHelpLabels();
+
+            tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
+            tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
@@ -332,7 +372,7 @@ namespace DSaA_Project_TimeTracker
         private async void projectsAdminButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
-            
+
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             employeesAdminPanel.Visible = false;
@@ -393,7 +433,7 @@ namespace DSaA_Project_TimeTracker
         }
 
         ///////////////////////////////////////TASKS//////////////////////////////////////
-        
+
         private async void loadTasks()
         {
             ResetHelpState();
@@ -425,7 +465,7 @@ namespace DSaA_Project_TimeTracker
 
         }
         private async void tasksAdminButton_Click(object sender, EventArgs e)
-        {     
+        {
             projectsAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             employeesAdminPanel.Visible = false;
@@ -486,7 +526,7 @@ namespace DSaA_Project_TimeTracker
         }
 
         ///////////////////////////////////////TEAMS//////////////////////////////////////
-        
+
         private async void loadTeams()
         {
             ResetHelpState();
@@ -606,36 +646,37 @@ namespace DSaA_Project_TimeTracker
             teamsAdminPanel.Visible = false;
             loadEmployees();
         }
-
         private void employeesAdminListbox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
-
-            if (employeesAdminListbox.SelectedItem is User selectedUser)
             {
-                employeesUsernameAdminTexbox.Text = selectedUser.Username;
-                employeesEmailAdminTextbox.Text = selectedUser.Email;
-                employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
-                employeesStatusAdminTextbox.Text = selectedUser.EmploymentStatus;
-                employeeHistoryListView.Items.Clear();
-                var selectedUserRecords = selectedUser.UserEvents; //.Where(x => x.UserId == userId).ToList();
 
-                if (selectedUserRecords != null)
+                if (employeesAdminListbox.SelectedItem is User selectedUser)
                 {
+                    employeesUsernameAdminTexbox.Text = selectedUser.Username;
+                    employeesEmailAdminTextbox.Text = selectedUser.Email;
+                    employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
+                    employeesStatusAdminTextbox.Text = selectedUser.EmploymentStatus;
+                    employeeHistoryListView.Items.Clear();
+                    var selectedUserRecords = selectedUser.UserEvents; //.Where(x => x.UserId == userId).ToList();
 
-
-                    foreach (var record in selectedUserRecords)
+                    if (selectedUserRecords != null)
                     {
-                        var listViewItem = new ListViewItem(record.EventType);
-                        listViewItem.SubItems.Add(record.EventDate.ToString());
-                        listViewItem.SubItems.Add(record.Notes);
-                        listViewItem.Tag = record;
-                        employeeHistoryListView.Items.Add(listViewItem);
-                    }
-                }
 
-                employeesEditEmployeeAdminButton.Enabled = true;
-                employeesDeleteEmployeeAdminButton.Enabled = true;
-                employeesAdminButton.Enabled = true;
+
+                        foreach (var record in selectedUserRecords)
+                        {
+                            var listViewItem = new ListViewItem(record.EventType);
+                            listViewItem.SubItems.Add(record.EventDate.ToString());
+                            listViewItem.SubItems.Add(record.Notes);
+                            listViewItem.Tag = record;
+                            employeeHistoryListView.Items.Add(listViewItem);
+                        }
+                    }
+
+                    employeesEditEmployeeAdminButton.Enabled = true;
+                    employeesDeleteEmployeeAdminButton.Enabled = true;
+                    employeesAdminButton.Enabled = true;
+                }
             }
         }
         private void employeeHistoryListView_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -772,24 +813,84 @@ namespace DSaA_Project_TimeTracker
             }
         }
 
-        private void teamsUserButton_Click(object sender, EventArgs e)
+        private async void teamsUserButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
             tasksUserPanel.Visible = false;
             teamsUserPanel.Visible = true;
-            var repo = new UserRepo();
-            var user = repo.GetById(0);
+            var _userRepo = new UserRepo();
+            var teams = new TeamRepo();
+            var userTeams = await teams.GetAll();
+            var loggedUser = await _userRepo.GetById(userId);
+            var loggedUserTeams = userTeams.Where(x => x.TeamMembers.Any(m => m.UserId == loggedUser.Id)).ToList();
+            if (loggedUserTeams != null && loggedUserTeams.Count > 0)
+            {
+                teamsNameUserListbox.DisplayMember = "TeamName";
+                teamsNameUserListbox.ValueMember = "Id";
+                teamsMembersUserListbox.Items.Clear();
+                teamsNameUserListbox.Items.Clear();
+                foreach (var team in loggedUserTeams)
+                {
+                    teamsNameUserListbox.Items.Add(team);
+                }
+            }
+        }
+
+        private async void teamsNameUserListbox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var userSelectedTeam = teamsNameUserListbox.SelectedItem as Team;
+            var team = await new TeamRepo().GetById(userSelectedTeam.Id);
+            if (team != null)
+            {
+                teamsMembersUserListbox.DisplayMember = "Username";
+                teamsMembersUserListbox.ValueMember = "Id";
+                teamsMembersUserListbox.Items.Clear();
+                foreach (var member in team.TeamMembers)
+                {
+                    teamsMembersUserListbox.Items.Add(member.User);
+                }
+            }
         }
         //////////////////////////////////////////////////////////////////////////////////////
 
-        private void button4_Click_1(object sender, EventArgs e)
+        private async void tasksTodoUserListbox_DoubleClick(object sender, EventArgs e)
         {
-            // Create an instance of the TaskForm
-            TaskForm taskForm = new TaskForm();
+            if (tasksTodoUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
 
-            // Set the form to open as a dialog without closing the current form
-            taskForm.ShowDialog();
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
         }
+
+        private async void tasksDoneUserListbox_DoubleClick(object sender, EventArgs e)
+        {
+            if (tasksDoneUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
+
 
         private void helpButtonUser_Click(object sender, EventArgs e)
         {
@@ -847,6 +948,10 @@ namespace DSaA_Project_TimeTracker
         {
 
         }
+
+
+
+
         ///////////////////////////////////////////////////////////////////////
 
     }

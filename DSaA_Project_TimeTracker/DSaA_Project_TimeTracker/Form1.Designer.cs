@@ -44,7 +44,6 @@
             teamsUserButton = new Button();
             tasksUserButton = new Button();
             tasksUserPanel = new Panel();
-            button4 = new Button();
             tasksDoneUserLabel = new Label();
             tasksTodoUserLabel = new Label();
             tasksDoneUserListbox = new ListBox();
@@ -63,9 +62,6 @@
             projectsAdminButton = new Button();
             employeesAdminPanel = new Panel();
             employeeHistoryListView = new ListView();
-            Event = new ColumnHeader();
-            Date = new ColumnHeader();
-            Notes = new ColumnHeader();
             deleteHistoryRecordButton = new Button();
             editHistoryRecordButton = new Button();
             addHistoryRecordButton = new Button();
@@ -121,6 +117,9 @@
             teamsNameAdminLabel = new Label();
             teamsAddTeamAdminButton = new Button();
             teamsAdminListbox = new ListBox();
+            Event = new ColumnHeader();
+            Date = new ColumnHeader();
+            Notes = new ColumnHeader();
             loginPanel.SuspendLayout();
             userViewPanel.SuspendLayout();
             tasksUserPanel.SuspendLayout();
@@ -243,8 +242,8 @@
             userViewPanel.Controls.Add(logOutUserButton);
             userViewPanel.Controls.Add(teamsUserButton);
             userViewPanel.Controls.Add(tasksUserButton);
-            userViewPanel.Controls.Add(tasksUserPanel);
             userViewPanel.Controls.Add(teamsUserPanel);
+            userViewPanel.Controls.Add(tasksUserPanel);
             userViewPanel.Location = new Point(3, 2);
             userViewPanel.Margin = new Padding(3, 2, 3, 2);
             userViewPanel.Name = "userViewPanel";
@@ -298,7 +297,6 @@
             // 
             // tasksUserPanel
             // 
-            tasksUserPanel.Controls.Add(button4);
             tasksUserPanel.Controls.Add(tasksDoneUserLabel);
             tasksUserPanel.Controls.Add(tasksTodoUserLabel);
             tasksUserPanel.Controls.Add(tasksDoneUserListbox);
@@ -309,17 +307,6 @@
             tasksUserPanel.Size = new Size(1096, 517);
             tasksUserPanel.TabIndex = 3;
             tasksUserPanel.Visible = false;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(398, 44);
-            button4.Margin = new Padding(3, 2, 3, 2);
-            button4.Name = "button4";
-            button4.Size = new Size(123, 62);
-            button4.TabIndex = 4;
-            button4.Text = "temp button to show task window";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click_1;
             // 
             // tasksDoneUserLabel
             // 
@@ -402,6 +389,7 @@
             teamsNameUserListbox.Name = "teamsNameUserListbox";
             teamsNameUserListbox.Size = new Size(373, 454);
             teamsNameUserListbox.TabIndex = 1;
+            teamsNameUserListbox.SelectedIndexChanged += teamsNameUserListbox_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -421,10 +409,10 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
-            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Controls.Add(tasksAdminPanel);
             adminViewPanel.Controls.Add(teamsAdminPanel);
+            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
@@ -530,37 +518,17 @@
             // 
             // employeeHistoryListView
             // 
-            employeeHistoryListView.Columns.AddRange(new ColumnHeader[] { Event, Date, Notes });
-            employeeHistoryListView.FullRowSelect = true;
-            employeeHistoryListView.GridLines = true;
             employeeHistoryListView.Location = new Point(428, 243);
-            employeeHistoryListView.MultiSelect = false;
+            employeeHistoryListView.Margin = new Padding(3, 4, 3, 4);
             employeeHistoryListView.Name = "employeeHistoryListView";
-            employeeHistoryListView.ShowGroups = false;
-            employeeHistoryListView.Size = new Size(658, 174);
-            employeeHistoryListView.TabIndex = 22;
+            employeeHistoryListView.Size = new Size(658, 182);
+            employeeHistoryListView.TabIndex = 23;
             employeeHistoryListView.UseCompatibleStateImageBehavior = false;
-            employeeHistoryListView.View = View.Details;
-            employeeHistoryListView.SelectedIndexChanged += employeeHistoryListView_SelectedIndexChanged_1;
-            // 
-            // Event
-            // 
-            Event.Text = "Event";
-            Event.Width = 120;
-            // 
-            // Date
-            // 
-            Date.Text = "Date";
-            Date.Width = 100;
-            // 
-            // Notes
-            // 
-            Notes.Text = "Notes";
-            Notes.Width = 430;
             // 
             // deleteHistoryRecordButton
             // 
             deleteHistoryRecordButton.Location = new Point(886, 197);
+            deleteHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             deleteHistoryRecordButton.Name = "deleteHistoryRecordButton";
             deleteHistoryRecordButton.Size = new Size(200, 29);
             deleteHistoryRecordButton.TabIndex = 21;
@@ -571,6 +539,7 @@
             // editHistoryRecordButton
             // 
             editHistoryRecordButton.Location = new Point(656, 197);
+            editHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             editHistoryRecordButton.Name = "editHistoryRecordButton";
             editHistoryRecordButton.Size = new Size(200, 29);
             editHistoryRecordButton.TabIndex = 20;
@@ -581,6 +550,7 @@
             // addHistoryRecordButton
             // 
             addHistoryRecordButton.Location = new Point(428, 197);
+            addHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             addHistoryRecordButton.Name = "addHistoryRecordButton";
             addHistoryRecordButton.Size = new Size(200, 29);
             addHistoryRecordButton.TabIndex = 19;
@@ -601,6 +571,7 @@
             // 
             generateDetailedReportButton.Enabled = false;
             generateDetailedReportButton.Location = new Point(548, 493);
+            generateDetailedReportButton.Margin = new Padding(3, 4, 3, 4);
             generateDetailedReportButton.Name = "generateDetailedReportButton";
             generateDetailedReportButton.Size = new Size(538, 29);
             generateDetailedReportButton.TabIndex = 17;
@@ -612,6 +583,7 @@
             // 
             generateSummaryReportButton.Enabled = false;
             generateSummaryReportButton.Location = new Point(1, 493);
+            generateSummaryReportButton.Margin = new Padding(3, 4, 3, 4);
             generateSummaryReportButton.Name = "generateSummaryReportButton";
             generateSummaryReportButton.Size = new Size(538, 29);
             generateSummaryReportButton.TabIndex = 16;
@@ -1144,9 +1116,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1140, 650);
-            Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
+            Controls.Add(adminViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
@@ -1259,7 +1231,6 @@
         private ListBox tasksDoneUserListbox;
         private ListBox tasksTodoUserListbox;
         private Label tasksDoneUserLabel;
-        private Button button4;
         private Button helpButtonUser;
         private Button helpButtonAdmin;
         private Button generateDetailedReportButton;

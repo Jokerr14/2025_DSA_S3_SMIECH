@@ -10,16 +10,30 @@ using System.Windows.Forms;
 
 namespace DSaA_Project_TimeTracker
 {
+    using DSaA_Project_TimeTracker.Database.Entities;
+    using DSaA_Project_TimeTracker.Database.Repos;
+    using DSaA_Project_TimeTracker.DTOs.Task;
+
     public partial class TaskForm : Form
     {
-
         private bool isHelpVisible = false;
         private Label[] helpLabels;
-        public TaskForm()
+        private TaskToDo _task;
+
+        // Add this constructor
+        public TaskForm(TaskToDo task)
         {
-            InitializeComponent(); 
+            InitializeComponent();
             InitializeHelpLabels();
 
+            _task = task;
+
+            popupTaskNameLabel.Text = task.Title;
+            popupTaskDescriptionTexbox.Text = task.Description;
+            popupDoneCheckbox.Checked = task.Status == "Done";
+            popupRecordStartDatePicker.Value = task.DueDate ?? DateTime.Now;
+
+            this.Load += TaskForm_Load;
         }
         private void InitializeHelpLabels()
         {
@@ -53,8 +67,8 @@ namespace DSaA_Project_TimeTracker
 
             if (control == popupDoneCheckbox)
             {
-                offsetX = - 70;
-                offsetY = -control.Height + 12; 
+                offsetX = -70;
+                offsetY = -control.Height + 12;
             }
 
             if (control == popupTaskNameLabel)
@@ -95,7 +109,20 @@ namespace DSaA_Project_TimeTracker
             // Call the base class's ShowDialog method
             return base.ShowDialog();
         }
+        private async void TaskForm_Load(object sender, EventArgs e)
+        {
+            var projectRepo = new ProjectRepo();
+            var project = await projectRepo.GetById(_task.ProjectId);
+            if (project != null)
+            {
+                popupProjectNameLabel.Text = project.ProjectName;
+            }
+            else
+            {
+                popupProjectNameLabel.Text = "Unknown Project";
+            }
+        }
 
-        
+
     }
 }

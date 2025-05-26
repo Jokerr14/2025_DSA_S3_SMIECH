@@ -7,6 +7,25 @@ namespace DSaA_Project_TimeTracker.Database.Repos;
 
 public class TeamRepo
 {
+
+    ////temporarily here
+    public async Task<TeamMember> GetMemberById(int teamId, int userId)
+    {
+        using (var context = new TTDbContext())
+        {
+            var teamMember = await context.TeamMembers
+                .Include(tm => tm.Team)
+                .Include(tm => tm.User)
+                .FirstOrDefaultAsync(tm => tm.TeamId == teamId && tm.UserId == userId);
+
+            if (teamMember is null)
+                return new TeamMember();
+
+            return teamMember;
+        }
+    }
+    ////
+
     public async Task<IEnumerable<Team>> GetAll()
     {
         using (var context = new TTDbContext())

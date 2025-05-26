@@ -127,6 +127,7 @@
             // 
             editEmployeeStatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             editEmployeeStatusComboBox.FormattingEnabled = true;
+            editEmployeeStatusComboBox.Items.AddRange(new object[] { "Employed", "Retired", "Fired" });
             editEmployeeStatusComboBox.Location = new Point(133, 288);
             editEmployeeStatusComboBox.Name = "editEmployeeStatusComboBox";
             editEmployeeStatusComboBox.Size = new Size(606, 23);
@@ -136,6 +137,7 @@
             // 
             editEmployeeRoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             editEmployeeRoleComboBox.FormattingEnabled = true;
+            editEmployeeRoleComboBox.Items.AddRange(new object[] { "User", "Admin" });
             editEmployeeRoleComboBox.Location = new Point(133, 246);
             editEmployeeRoleComboBox.Name = "editEmployeeRoleComboBox";
             editEmployeeRoleComboBox.Size = new Size(606, 23);
@@ -403,8 +405,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(796, 421);
-            Controls.Add(addEmployeePanel);
             Controls.Add(editEmployeePanel);
+            Controls.Add(addEmployeePanel);
             Name = "AddEditEmployee";
             Text = "AddEditEmployee";
             editEmployeePanel.ResumeLayout(false);
