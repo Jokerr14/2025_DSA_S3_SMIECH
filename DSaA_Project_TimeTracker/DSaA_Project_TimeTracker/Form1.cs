@@ -562,7 +562,7 @@ namespace DSaA_Project_TimeTracker
             {
                 employeesUsernameAdminTexbox.Text = selectedUser.Username;
                 employeesEmailAdminTextbox.Text = selectedUser.Email;
-                //employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
+                employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
                 employeesStatusAdminTextbox.Text = selectedUser.EmploymentStatus;
 
                 var selectedUserRecords = selectedUser.UserEvents; //.Where(x => x.UserId == userId).ToList();

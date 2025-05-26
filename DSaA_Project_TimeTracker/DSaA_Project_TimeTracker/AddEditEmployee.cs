@@ -161,7 +161,7 @@ namespace DSaA_Project_TimeTracker
                 editEmployeePanel.Visible = true;
                 editEmployeeNameTextBox.Text = ((User)ItemToEdit).Username;
                 editEmployeeMailTextBox.Text = ((User)ItemToEdit).Email;
-                //editEmployeeRoleComboBox.Text = ((User)ItemToEdit).Role.RoleName;
+                editEmployeeRoleComboBox.Text = ((User)ItemToEdit).Role.RoleName;
                 editEmployeeStatusComboBox.Text = ((User)ItemToEdit).EmploymentStatus;
 
             }
@@ -210,7 +210,7 @@ namespace DSaA_Project_TimeTracker
                     Email = email,
                     EmploymentStatus = status,
                     Password = password,
-                    //RoleId = roleNum
+                    RoleId = roleNum
                 };
             var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
             await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
@@ -234,8 +234,10 @@ namespace DSaA_Project_TimeTracker
                 Username = addNewEmployeeNameTextBox.Text,
                 Email = addNewEmployeeMailTextBox.Text,
                 Password = addNewEmployeePasswordTextBox.Text,
-                EmploymentStatus = status
+                EmploymentStatus = status,
+                RoleId = roleNum,
             };
+            
             var repo = new UserRepo();
             await repo.Add(newEmployee);
             

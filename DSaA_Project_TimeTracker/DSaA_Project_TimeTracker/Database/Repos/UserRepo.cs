@@ -33,9 +33,9 @@ public class UserRepo
         {
             var user = await context.Users
             .Include(x => x.Role)
-                .Include(x => x.UserEvents)
-                .Include(x => x.TaskAssignments)
-                    .ThenInclude(x => x.TaskToDo)
+            .Include(x => x.UserEvents)
+            .Include(x => x.TaskAssignments)
+                .ThenInclude(x => x.TaskToDo)
             .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user is null)
@@ -77,6 +77,7 @@ public class UserRepo
                 user.Email = updateUserDto.Email;
                 user.EmploymentStatus = updateUserDto.EmploymentStatus;
                 user.PasswordHash = updateUserDto.Password;
+                user.RoleId = updateUserDto.RoleId;
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
             }

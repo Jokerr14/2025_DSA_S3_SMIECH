@@ -16,6 +16,10 @@ public class TeamRepo
                     .ThenInclude(x => x.Project)
                 .Include(x => x.TeamMembers)
                     .ThenInclude(x => x.User)
+                        .ThenInclude(x => x.Role)
+                .Include(x => x.TeamMembers)
+                    .ThenInclude(x => x.User)
+                        .ThenInclude(x => x.UserEvents)
                 .ToListAsync();
 
             if (teams is null)
@@ -34,6 +38,10 @@ public class TeamRepo
                     .ThenInclude(x => x.Project)
                 .Include(x => x.TeamMembers)
                     .ThenInclude(x => x.User)
+                        .ThenInclude(x => x.Role)
+                .Include(x => x.TeamMembers)
+                    .ThenInclude(x => x.User)
+                        .ThenInclude(x => x.UserEvents)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (team is null)
