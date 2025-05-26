@@ -14,10 +14,50 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
+        private async void tasksTodoUserListbox_DoubleClick_Handler(object sender, EventArgs e)
+        {
+            if (tasksTodoUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
+
+        private async void tasksDoneUserListbox_DoubleClick_Handler(object sender, EventArgs e)
+        {
+            if (tasksDoneUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
         public Form1()
         {
             InitializeComponent();
             InitializeHelpLabels();
+
+            tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
+            tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
@@ -651,14 +691,44 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
-        private void button4_Click_1(object sender, EventArgs e)
+        private async void tasksTodoUserListbox_DoubleClick(object sender, EventArgs e)
         {
-            // Create an instance of the TaskForm
-            TaskForm taskForm = new TaskForm();
+            if (tasksTodoUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
 
-            // Set the form to open as a dialog without closing the current form
-            taskForm.ShowDialog();
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
         }
+
+        private async void tasksDoneUserListbox_DoubleClick(object sender, EventArgs e)
+        {
+            if (tasksDoneUserListbox.SelectedItem is DSaA_Project_TimeTracker.Database.Entities.TaskToDo selectedTask)
+            {
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails != null)
+                {
+                    var taskForm = new TaskForm(taskDetails);
+                    taskForm.ShowDialog();
+                }
+                else
+                {
+                    MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
+        
 
         private void helpButtonUser_Click(object sender, EventArgs e)
         {
