@@ -151,6 +151,7 @@
             // addNewTaskStatusComboBox
             // 
             addNewTaskStatusComboBox.FormattingEnabled = true;
+            addNewTaskStatusComboBox.Items.AddRange(new object[] { "ToDo", "Done" });
             addNewTaskStatusComboBox.Location = new Point(124, 440);
             addNewTaskStatusComboBox.Name = "addNewTaskStatusComboBox";
             addNewTaskStatusComboBox.Size = new Size(235, 23);
@@ -209,6 +210,7 @@
             // editTaskStatusComboBox
             // 
             editTaskStatusComboBox.FormattingEnabled = true;
+            editTaskStatusComboBox.Items.AddRange(new object[] { "ToDo", "Done" });
             editTaskStatusComboBox.Location = new Point(124, 440);
             editTaskStatusComboBox.Name = "editTaskStatusComboBox";
             editTaskStatusComboBox.Size = new Size(235, 23);
@@ -241,7 +243,6 @@
             editTaskDescTextBox.Margin = new Padding(3, 2, 3, 2);
             editTaskDescTextBox.Multiline = true;
             editTaskDescTextBox.Name = "editTaskDescTextBox";
-            editTaskDescTextBox.ReadOnly = true;
             editTaskDescTextBox.ScrollBars = ScrollBars.Vertical;
             editTaskDescTextBox.Size = new Size(606, 267);
             editTaskDescTextBox.TabIndex = 27;

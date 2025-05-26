@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs;
+﻿using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.User;
 using DSaA_Project_TimeTracker.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -13,16 +11,16 @@ public class UserRepo
     {
         using (var context = new TTDbContext())
         {
-             var users = await context.Users
-                .Include(x => x.Role)
-                .Include(x => x.UserEvents)
-                .Include(x => x.TaskAssignments)
-                    .ThenInclude(x => x.TaskToDo)
-                .ToListAsync();
+            var users = await context.Users
+               .Include(x => x.Role)
+               .Include(x => x.UserEvents)
+               .Include(x => x.TaskAssignments)
+                   .ThenInclude(x => x.TaskToDo)
+               .ToListAsync();
 
             if (users is null)
                 return new List<User>();
-          
+
             return users;
         }
     }
@@ -33,38 +31,46 @@ public class UserRepo
         {
             var user = await context.Users
             .Include(x => x.Role)
-                .Include(x => x.UserEvents)
-                .Include(x => x.TaskAssignments)
-                    .ThenInclude(x => x.TaskToDo)
+            .Include(x => x.UserEvents)
+            .Include(x => x.TaskAssignments)
+                .ThenInclude(x => x.TaskToDo)
             .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user is null)
                 return new User();
-            
+
             return user;
         }
     }
 
     public async Task Add(AddUserDto addUserDto)
     {
+        var assignRepo = new AssignmentsRepo();
         using (var context = new TTDbContext())
         {
             var user = new User()
             {
+
                 Username = addUserDto.Username,
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
-                RoleId = 1,
+                RoleId = 2,
+
             };
 
             user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
 
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
+
+            if (addUserDto.TeamId.HasValue)
+            {
+                await assignRepo.AssignMemberToTeam(addUserDto.TeamId.Value, user.Id);
+            }
         }
     }
 
-    public async Task UpdateById(int userId, UpdateUserDto updateUserDto)
+    public async Task UpdateById(int userId, AddUserDto updateUserDto)
     {
         using (var context = new TTDbContext())
         {
@@ -75,6 +81,8 @@ public class UserRepo
                 user.Username = updateUserDto.Username;
                 user.Email = updateUserDto.Email;
                 user.EmploymentStatus = updateUserDto.EmploymentStatus;
+                user.PasswordHash = updateUserDto.Password;
+                user.RoleId = updateUserDto.RoleId;
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
             }
@@ -107,7 +115,7 @@ public class UserRepo
             if (user == null)
                 return null;
 
-            if (user.PasswordHash != loginUserDto.Password)
+            if (!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash))
                 return null;
 
             return user;

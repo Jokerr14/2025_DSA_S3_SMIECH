@@ -22,6 +22,13 @@ namespace DSaA_Project_TimeTracker
             get => _panelToShow;
             set => _panelToShow = value;
         }
+
+        public object ItemToEdit { get; set; }
+        public AddEditTask(object itemToEdit) : this()
+        {
+            ItemToEdit = itemToEdit;
+        }
+
         private Project _project;
         public AddEditTask(Project project)
         {
@@ -156,6 +163,11 @@ namespace DSaA_Project_TimeTracker
                 editTaskPanel.BringToFront();
                 addTaskPanel.Visible = false;
                 editTaskPanel.Visible = true;
+                editTaskNameTextBox.Text = ((TaskToDo)ItemToEdit).Title;
+                editTaskDescTextBox.Text = ((TaskToDo)ItemToEdit).Description;
+                editTaskStatusComboBox.Text = ((TaskToDo)ItemToEdit).Status;
+                editTaskDatePicker.Value = ((TaskToDo)ItemToEdit).DueDate ?? DateTime.Now;
+
             }
         }
 
@@ -203,13 +215,33 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveEditTaskButton_Click(object sender, EventArgs e)
+        private async void saveEditTaskButton_Click(object sender, EventArgs e)
         {
+            int projectId = 0;
+            if (_project is Project project)
+            {
+                projectId = project.Id;
+            }
+            var taskName = editTaskNameTextBox.Text;
+            var taskDesc = editTaskDescTextBox.Text;
+            var taskStatus = editTaskStatusComboBox.Text.ToString();
+            var taskDate = editTaskDatePicker.Value;
+            var editedTask = new ModifyTaskToDoDto
+            {
+                Title = taskName,
+                Description = taskDesc,
+                Status = taskStatus,
+                DueDate = taskDate,
+            };
+            var repo = new TaskRepo();
+            await repo.UpdateById(((TaskToDo)ItemToEdit).Id, editedTask);
+            this.Close();
 
         }
 
         private void addNewTaskStatusComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+
         }
 
         private void editTaskStatusComboBox_SelectedIndexChanged(object sender, EventArgs e)

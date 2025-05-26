@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             editEmployeePanel = new Panel();
+            label12 = new Label();
+            editEmployeeConfirmPasswordTextBox = new TextBox();
+            label11 = new Label();
+            editEmployeePasswordTextBox = new TextBox();
             editEmployeeStatusComboBox = new ComboBox();
             editEmployeeRoleComboBox = new ComboBox();
             editEmployeeMailTextBox = new TextBox();
@@ -42,6 +46,10 @@
             label8 = new Label();
             label9 = new Label();
             addEmployeePanel = new Panel();
+            label13 = new Label();
+            addNewEmployeeConfirmPasswordTextBox = new TextBox();
+            label10 = new Label();
+            addNewEmployeePasswordTextBox = new TextBox();
             addNewEmployeeStatusComboBox = new ComboBox();
             addNewEmployeeRoleComboBox = new ComboBox();
             addNewEmployeeMailTextBox = new TextBox();
@@ -60,6 +68,10 @@
             // 
             // editEmployeePanel
             // 
+            editEmployeePanel.Controls.Add(label12);
+            editEmployeePanel.Controls.Add(editEmployeeConfirmPasswordTextBox);
+            editEmployeePanel.Controls.Add(label11);
+            editEmployeePanel.Controls.Add(editEmployeePasswordTextBox);
             editEmployeePanel.Controls.Add(editEmployeeStatusComboBox);
             editEmployeePanel.Controls.Add(editEmployeeRoleComboBox);
             editEmployeePanel.Controls.Add(editEmployeeMailTextBox);
@@ -77,25 +89,63 @@
             editEmployeePanel.Size = new Size(768, 391);
             editEmployeePanel.TabIndex = 0;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(9, 209);
+            label12.Name = "label12";
+            label12.Size = new Size(104, 15);
+            label12.TabIndex = 63;
+            label12.Text = "Confirm Password";
+            // 
+            // editEmployeeConfirmPasswordTextBox
+            // 
+            editEmployeeConfirmPasswordTextBox.Location = new Point(133, 204);
+            editEmployeeConfirmPasswordTextBox.Name = "editEmployeeConfirmPasswordTextBox";
+            editEmployeeConfirmPasswordTextBox.PasswordChar = '*';
+            editEmployeeConfirmPasswordTextBox.Size = new Size(606, 23);
+            editEmployeeConfirmPasswordTextBox.TabIndex = 62;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(15, 159);
+            label11.Name = "label11";
+            label11.Size = new Size(98, 15);
+            label11.TabIndex = 61;
+            label11.Text = "Update Password";
+            // 
+            // editEmployeePasswordTextBox
+            // 
+            editEmployeePasswordTextBox.Location = new Point(133, 156);
+            editEmployeePasswordTextBox.Name = "editEmployeePasswordTextBox";
+            editEmployeePasswordTextBox.PasswordChar = '*';
+            editEmployeePasswordTextBox.Size = new Size(606, 23);
+            editEmployeePasswordTextBox.TabIndex = 60;
+            // 
             // editEmployeeStatusComboBox
             // 
+            editEmployeeStatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             editEmployeeStatusComboBox.FormattingEnabled = true;
-            editEmployeeStatusComboBox.Location = new Point(133, 267);
+            editEmployeeStatusComboBox.Items.AddRange(new object[] { "Employed", "Retired", "Fired" });
+            editEmployeeStatusComboBox.Location = new Point(133, 288);
             editEmployeeStatusComboBox.Name = "editEmployeeStatusComboBox";
             editEmployeeStatusComboBox.Size = new Size(606, 23);
             editEmployeeStatusComboBox.TabIndex = 59;
             // 
             // editEmployeeRoleComboBox
             // 
+            editEmployeeRoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             editEmployeeRoleComboBox.FormattingEnabled = true;
-            editEmployeeRoleComboBox.Location = new Point(133, 206);
+            editEmployeeRoleComboBox.Items.AddRange(new object[] { "User", "Admin" });
+            editEmployeeRoleComboBox.Location = new Point(133, 246);
             editEmployeeRoleComboBox.Name = "editEmployeeRoleComboBox";
             editEmployeeRoleComboBox.Size = new Size(606, 23);
             editEmployeeRoleComboBox.TabIndex = 58;
             // 
             // editEmployeeMailTextBox
             // 
-            editEmployeeMailTextBox.Location = new Point(133, 145);
+            editEmployeeMailTextBox.Location = new Point(133, 112);
             editEmployeeMailTextBox.Name = "editEmployeeMailTextBox";
             editEmployeeMailTextBox.Size = new Size(606, 23);
             editEmployeeMailTextBox.TabIndex = 57;
@@ -142,7 +192,7 @@
             // 
             // editEmployeeNameTextBox
             // 
-            editEmployeeNameTextBox.Location = new Point(133, 83);
+            editEmployeeNameTextBox.Location = new Point(133, 67);
             editEmployeeNameTextBox.Name = "editEmployeeNameTextBox";
             editEmployeeNameTextBox.Size = new Size(606, 23);
             editEmployeeNameTextBox.TabIndex = 52;
@@ -150,7 +200,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(53, 86);
+            label6.Location = new Point(53, 70);
             label6.Name = "label6";
             label6.Size = new Size(60, 15);
             label6.TabIndex = 48;
@@ -159,7 +209,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(3, 274);
+            label7.Location = new Point(3, 291);
             label7.Name = "label7";
             label7.Size = new Size(110, 15);
             label7.TabIndex = 51;
@@ -168,7 +218,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(72, 148);
+            label8.Location = new Point(72, 115);
             label8.Name = "label8";
             label8.Size = new Size(41, 15);
             label8.TabIndex = 49;
@@ -177,7 +227,7 @@
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(83, 209);
+            label9.Location = new Point(83, 249);
             label9.Name = "label9";
             label9.Size = new Size(30, 15);
             label9.TabIndex = 50;
@@ -185,6 +235,10 @@
             // 
             // addEmployeePanel
             // 
+            addEmployeePanel.Controls.Add(label13);
+            addEmployeePanel.Controls.Add(addNewEmployeeConfirmPasswordTextBox);
+            addEmployeePanel.Controls.Add(label10);
+            addEmployeePanel.Controls.Add(addNewEmployeePasswordTextBox);
             addEmployeePanel.Controls.Add(addNewEmployeeStatusComboBox);
             addEmployeePanel.Controls.Add(addNewEmployeeRoleComboBox);
             addEmployeePanel.Controls.Add(addNewEmployeeMailTextBox);
@@ -202,27 +256,63 @@
             addEmployeePanel.Size = new Size(768, 391);
             addEmployeePanel.TabIndex = 1;
             // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new Point(16, 202);
+            label13.Name = "label13";
+            label13.Size = new Size(104, 15);
+            label13.TabIndex = 51;
+            label13.Text = "Confirm Password";
+            // 
+            // addNewEmployeeConfirmPasswordTextBox
+            // 
+            addNewEmployeeConfirmPasswordTextBox.Location = new Point(133, 199);
+            addNewEmployeeConfirmPasswordTextBox.Name = "addNewEmployeeConfirmPasswordTextBox";
+            addNewEmployeeConfirmPasswordTextBox.PasswordChar = '*';
+            addNewEmployeeConfirmPasswordTextBox.Size = new Size(606, 23);
+            addNewEmployeeConfirmPasswordTextBox.TabIndex = 50;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(63, 159);
+            label10.Name = "label10";
+            label10.Size = new Size(57, 15);
+            label10.TabIndex = 49;
+            label10.Text = "Password";
+            // 
+            // addNewEmployeePasswordTextBox
+            // 
+            addNewEmployeePasswordTextBox.Location = new Point(133, 156);
+            addNewEmployeePasswordTextBox.Name = "addNewEmployeePasswordTextBox";
+            addNewEmployeePasswordTextBox.PasswordChar = '*';
+            addNewEmployeePasswordTextBox.Size = new Size(606, 23);
+            addNewEmployeePasswordTextBox.TabIndex = 48;
+            // 
             // addNewEmployeeStatusComboBox
             // 
+            addNewEmployeeStatusComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             addNewEmployeeStatusComboBox.FormattingEnabled = true;
             addNewEmployeeStatusComboBox.Items.AddRange(new object[] { "Employed", "Retired", "Fired" });
-            addNewEmployeeStatusComboBox.Location = new Point(133, 256);
+            addNewEmployeeStatusComboBox.Location = new Point(133, 283);
             addNewEmployeeStatusComboBox.Name = "addNewEmployeeStatusComboBox";
             addNewEmployeeStatusComboBox.Size = new Size(606, 23);
             addNewEmployeeStatusComboBox.TabIndex = 47;
             // 
             // addNewEmployeeRoleComboBox
             // 
+            addNewEmployeeRoleComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
             addNewEmployeeRoleComboBox.FormattingEnabled = true;
             addNewEmployeeRoleComboBox.Items.AddRange(new object[] { "User", "Admin" });
-            addNewEmployeeRoleComboBox.Location = new Point(133, 195);
+            addNewEmployeeRoleComboBox.Location = new Point(133, 241);
             addNewEmployeeRoleComboBox.Name = "addNewEmployeeRoleComboBox";
             addNewEmployeeRoleComboBox.Size = new Size(606, 23);
             addNewEmployeeRoleComboBox.TabIndex = 46;
             // 
             // addNewEmployeeMailTextBox
             // 
-            addNewEmployeeMailTextBox.Location = new Point(133, 134);
+            addNewEmployeeMailTextBox.Location = new Point(133, 112);
             addNewEmployeeMailTextBox.Name = "addNewEmployeeMailTextBox";
             addNewEmployeeMailTextBox.Size = new Size(606, 23);
             addNewEmployeeMailTextBox.TabIndex = 43;
@@ -249,7 +339,7 @@
             // 
             // discardNewEmployeeButton
             // 
-            discardNewEmployeeButton.Location = new Point(298, 317);
+            discardNewEmployeeButton.Location = new Point(298, 328);
             discardNewEmployeeButton.Name = "discardNewEmployeeButton";
             discardNewEmployeeButton.Size = new Size(207, 38);
             discardNewEmployeeButton.TabIndex = 39;
@@ -259,7 +349,7 @@
             // 
             // saveNewEmployeeButton
             // 
-            saveNewEmployeeButton.Location = new Point(532, 317);
+            saveNewEmployeeButton.Location = new Point(532, 328);
             saveNewEmployeeButton.Name = "saveNewEmployeeButton";
             saveNewEmployeeButton.Size = new Size(207, 38);
             saveNewEmployeeButton.TabIndex = 38;
@@ -269,7 +359,7 @@
             // 
             // addNewEmployeeNameTextBox
             // 
-            addNewEmployeeNameTextBox.Location = new Point(133, 72);
+            addNewEmployeeNameTextBox.Location = new Point(133, 67);
             addNewEmployeeNameTextBox.Name = "addNewEmployeeNameTextBox";
             addNewEmployeeNameTextBox.Size = new Size(606, 23);
             addNewEmployeeNameTextBox.TabIndex = 36;
@@ -277,7 +367,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(53, 75);
+            label1.Location = new Point(60, 70);
             label1.Name = "label1";
             label1.Size = new Size(60, 15);
             label1.TabIndex = 32;
@@ -286,7 +376,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(3, 259);
+            label4.Location = new Point(10, 291);
             label4.Name = "label4";
             label4.Size = new Size(110, 15);
             label4.TabIndex = 35;
@@ -295,7 +385,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(72, 137);
+            label2.Location = new Point(79, 120);
             label2.Name = "label2";
             label2.Size = new Size(41, 15);
             label2.TabIndex = 33;
@@ -304,7 +394,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(83, 198);
+            label3.Location = new Point(90, 249);
             label3.Name = "label3";
             label3.Size = new Size(30, 15);
             label3.TabIndex = 34;
@@ -315,8 +405,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(796, 421);
-            Controls.Add(addEmployeePanel);
             Controls.Add(editEmployeePanel);
+            Controls.Add(addEmployeePanel);
             Name = "AddEditEmployee";
             Text = "AddEditEmployee";
             editEmployeePanel.ResumeLayout(false);
@@ -354,5 +444,13 @@
         private Label label7;
         private Label label8;
         private Label label9;
+        private TextBox addNewEmployeePasswordTextBox;
+        private Label label10;
+        private Label label11;
+        private TextBox editEmployeePasswordTextBox;
+        private Label label12;
+        private TextBox editEmployeeConfirmPasswordTextBox;
+        private Label label13;
+        private TextBox addNewEmployeeConfirmPasswordTextBox;
     }
 }

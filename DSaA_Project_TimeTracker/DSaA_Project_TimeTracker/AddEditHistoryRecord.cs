@@ -7,6 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.DTOs.UserHistory;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Database.Entities;
+
+
 
 namespace DSaA_Project_TimeTracker
 {
@@ -14,6 +20,18 @@ namespace DSaA_Project_TimeTracker
     {
         private string _panelToShow;
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+        private User _user;
+        public object ItemToEdit { get; set; }
+        public AddEditHistoryRecord(User user, object itemToEdit)
+        {
+            ItemToEdit = itemToEdit;
+            InitializeComponent();
+            InitializeHelpLabels();
+
+            addHistoryRecordPanel.Visible = false;
+            editHistoryRecordPanel.Visible = false;
+            _user = user;
+        }
         public string PanelToShow
         {
             get => _panelToShow;
@@ -22,13 +40,16 @@ namespace DSaA_Project_TimeTracker
 
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
-        public AddEditHistoryRecord()
+       
+        public AddEditHistoryRecord(User user)
         {
             InitializeComponent();
             InitializeHelpLabels();
+            
 
             addHistoryRecordPanel.Visible = false;
             editHistoryRecordPanel.Visible = false;
+            _user = user;
         }
 
         private Label CreateHelpLabel(Control control, string text, Control parentPanel)
@@ -145,6 +166,9 @@ namespace DSaA_Project_TimeTracker
                 editHistoryRecordPanel.BringToFront();
                 addHistoryRecordPanel.Visible = false;
                 editHistoryRecordPanel.Visible = true;
+                editEventTypeTextBox.Text = ((UserHistory)ItemToEdit).EventType;
+                editEventDateDatePicker.Value = ((UserHistory)ItemToEdit).EventDate ?? DateTime.Now;
+                editNotesTextBox.Text = ((UserHistory)ItemToEdit).Notes;
             }
         }
 
@@ -168,14 +192,39 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveEditHistoryRecordButton_Click(object sender, EventArgs e)
+        private async void saveEditHistoryRecordButton_Click(object sender, EventArgs e)
         {
-
+            var modifyHistoryRecord = new UserEventDto();
+            {
+                modifyHistoryRecord.EventType = editEventTypeTextBox.Text;
+                modifyHistoryRecord.EventDate = editEventDateDatePicker.Value;
+                modifyHistoryRecord.Notes = editNotesTextBox.Text;
+            };
+            if (string.IsNullOrWhiteSpace(modifyHistoryRecord.EventType) || string.IsNullOrWhiteSpace(modifyHistoryRecord.Notes))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            await new UserHistoryRepo().UpdateById(((UserHistory)ItemToEdit).Id, modifyHistoryRecord);
+            this.Close();
         }
 
-        private void saveNewHistoryRecordButton_Click(object sender, EventArgs e)
+        private async void saveNewHistoryRecordButton_Click(object sender, EventArgs e)
         {
-
+            var newHistoryRecord = new UserEventDto();
+            {
+                newHistoryRecord.EventType = addEventTypeTextBox.Text;
+                newHistoryRecord.EventDate = addEventDateDatePicker.Value;
+                newHistoryRecord.Notes = addNotesTextBox.Text;
+            }
+            ;
+            if (string.IsNullOrWhiteSpace(newHistoryRecord.EventType) || string.IsNullOrWhiteSpace(newHistoryRecord.Notes))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            await new UserHistoryRepo().Add(_user.Id, newHistoryRecord);
+            this.Close();
         }
     }
 }

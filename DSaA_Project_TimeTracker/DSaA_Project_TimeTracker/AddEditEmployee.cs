@@ -7,14 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Utils;
 
 namespace DSaA_Project_TimeTracker
 {
     public partial class AddEditEmployee : Form
     {
-        
+
         private string _panelToShow;
         private Dictionary<Control, Label[]> subPanelHelpLabels;
+
         public string PanelToShow
         {
             get => _panelToShow;
@@ -24,6 +29,11 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
+        public object ItemToEdit { get; set; }
+        public AddEditEmployee(object itemToEdit) : this()
+        {
+            ItemToEdit = itemToEdit;
+        }
         public AddEditEmployee()
         {
             InitializeComponent();
@@ -45,6 +55,8 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(editEmployeeMailTextBox, "Change E-mail.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeRoleComboBox, "Change role.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeStatusComboBox, "Change status.", editEmployeePanel),
+                        CreateHelpLabel(editEmployeePasswordTextBox, "(Optional) Update the user's password.", editEmployeePanel),
+                        CreateHelpLabel(editEmployeeConfirmPasswordTextBox, "(Only if above is filled) confirm the password by re-typing it.", editEmployeePanel),
                         CreateHelpLabel(discardEditEmployeeButton, "Discard all changes.", editEmployeePanel),
                         CreateHelpLabel(saveEditEmployeeButton, "Save all changes.", editEmployeePanel),
                         CreateHelpLabel(editEmployeeHelpButton, "Show help.", editEmployeePanel),
@@ -57,8 +69,10 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(addNewEmployeeMailTextBox, "Add E-mail.", addEmployeePanel),
                         CreateHelpLabel(addNewEmployeeRoleComboBox, "Add role.", addEmployeePanel),
                         CreateHelpLabel(addNewEmployeeStatusComboBox, "Set status of employment.", addEmployeePanel),
-                        CreateHelpLabel(discardNewEmployeeButton, "Discard task.", addEmployeePanel),
-                        CreateHelpLabel(saveNewEmployeeButton, "Save task.", addEmployeePanel),
+                        CreateHelpLabel(addNewEmployeePasswordTextBox, "Add a password for the user.", addEmployeePanel),
+                        CreateHelpLabel(addNewEmployeeConfirmPasswordTextBox, "Confirm the password by re-typing it.", addEmployeePanel),
+                        CreateHelpLabel(discardNewEmployeeButton, "Discard changes.", addEmployeePanel),
+                        CreateHelpLabel(saveNewEmployeeButton, "Save changes.", addEmployeePanel),
                         CreateHelpLabel(addEmployeeHelpButton, "Show help.", addEmployeePanel),
 
                     }
@@ -149,6 +163,11 @@ namespace DSaA_Project_TimeTracker
                 editEmployeePanel.BringToFront();
                 addEmployeePanel.Visible = false;
                 editEmployeePanel.Visible = true;
+                editEmployeeNameTextBox.Text = ((User)ItemToEdit).Username;
+                editEmployeeMailTextBox.Text = ((User)ItemToEdit).Email;
+                editEmployeeRoleComboBox.Text = ((User)ItemToEdit).Role.RoleName;
+                editEmployeeStatusComboBox.Text = ((User)ItemToEdit).EmploymentStatus;
+
             }
         }
 
@@ -172,35 +191,89 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void saveEditEmployeeButton_Click(object sender, EventArgs e)
+        private async void saveEditEmployeeButton_Click(object sender, EventArgs e)
         {
 
+            if (editEmployeePasswordTextBox.Text != editEmployeeConfirmPasswordTextBox.Text)
+            {
+                MessageBox.Show("Passwords do not match.");
+                return;
+            }
+            else if (editEmployeeNameTextBox.Text == string.Empty || editEmployeeMailTextBox.Text == string.Empty || editEmployeeRoleComboBox.Text.ToString() == string.Empty || editEmployeeStatusComboBox.Text.ToString() == string.Empty)
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            else
+            {
+
+                var password = ((User)ItemToEdit).PasswordHash;
+                if (editEmployeePasswordTextBox.Text != string.Empty) { password = PasswordHasher.HashPasword(editEmployeePasswordTextBox.Text); }
+                var role = editEmployeeRoleComboBox.Text.ToString();
+                int roleNum;
+                if (role == "Admin")
+                {
+                    roleNum = 1;
+                }
+                else { roleNum = 2; }
+
+                var editedEmployee = new AddUserDto
+                {
+                    Username = editEmployeeNameTextBox.Text,
+                    Email = editEmployeeMailTextBox.Text,
+                    EmploymentStatus = editEmployeeStatusComboBox.Text.ToString(),
+                    Password = password,
+                    RoleId = roleNum
+                };
+                var repo = new UserRepo();
+                await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
+                this.Close();
+            }
         }
 
         private async void saveNewEmployeeButton_Click(object sender, EventArgs e)
         {
-            var username = addNewEmployeeNameTextBox.Text;
-            var email = addNewEmployeeMailTextBox.Text;
-            var role = addNewEmployeeRoleComboBox.Text.ToString();
-            int roleNum;
-            if (role == "Admin")
+            if (addNewEmployeePasswordTextBox.Text == string.Empty || addNewEmployeeConfirmPasswordTextBox.Text == string.Empty)
             {
-                roleNum = 1;
+                MessageBox.Show("Please fill in both password fields.");
+                return;
             }
-            else { roleNum = 2; };
-
-            var status = addNewEmployeeStatusComboBox.Text.ToString();
-            var newEmployee = new DTOs.User.AddUserDto
+            else if (addNewEmployeePasswordTextBox.Text != addNewEmployeeConfirmPasswordTextBox.Text)
             {
-                Username = username,
-                Email = email,
-                Password = "defaultPassword", // Placeholder, should be replaced with actual password handling
-                EmploymentStatus = status
-            };
-            var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
-            await repo.Add(newEmployee);
+                MessageBox.Show("Passwords do not match.");
+                return;
+            }
+            else if (addNewEmployeeNameTextBox.Text == string.Empty || addNewEmployeeMailTextBox.Text == string.Empty || addNewEmployeeRoleComboBox.Text.ToString() == string.Empty || addNewEmployeeStatusComboBox.Text.ToString() == string.Empty)
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            else
+            {
+                var initialTeamId = ((Team)ItemToEdit).Id;
+                var role = addNewEmployeeRoleComboBox.Text.ToString();
+                int roleNum;
+                if (role == "Admin") { roleNum = 1; }
+                else { roleNum = 2; }
+                ;
 
-            this.Close();
+                var newEmployee = new AddUserDto
+                {
+                    Username = addNewEmployeeNameTextBox.Text,
+                    Email = addNewEmployeeMailTextBox.Text,
+                    Password = addNewEmployeePasswordTextBox.Text,
+                    EmploymentStatus = addNewEmployeeStatusComboBox.Text.ToString(),
+                    RoleId = roleNum,
+                    TeamId = initialTeamId,
+                };
+
+                var repo = new UserRepo();
+                await repo.Add(newEmployee);
+
+                this.Close();
+            }
+
         }
+
     }
 }

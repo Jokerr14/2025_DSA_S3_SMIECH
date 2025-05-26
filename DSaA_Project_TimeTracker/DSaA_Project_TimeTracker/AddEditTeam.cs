@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DSaA_Project_TimeTracker.DTOs.Team;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Database.Entities;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -20,7 +22,11 @@ namespace DSaA_Project_TimeTracker
             get => _panelToShow;
             set => _panelToShow = value;
         }
-
+        public object ItemToEdit { get; set; }
+        public AddEditTeam(object itemToEdit) : this()
+        {
+            ItemToEdit = itemToEdit;
+        }
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
@@ -145,6 +151,9 @@ namespace DSaA_Project_TimeTracker
                 editTeamPanel.BringToFront();
                 addTeamPanel.Visible = false;
                 editTeamPanel.Visible = true;
+                editTeamNameTextBox.Text = ((Team)ItemToEdit).TeamName;
+                editTeamDescTextBox.Text = ((Team)ItemToEdit).Description;
+
             }
         }
 
@@ -170,21 +179,29 @@ namespace DSaA_Project_TimeTracker
 
         private async void saveNewTeamButton_Click(object sender, EventArgs e)
         {
-            var teamName = addNewTeamNameTextBox.Text;
-            var teamDescription = addNewTeamDescTextBox.Text;
+            
             var newTeam = new ModifyTeamDto
             {
-                TeamName = teamName,
-                Description = teamDescription
+                TeamName = addNewTeamNameTextBox.Text,
+                Description = addNewTeamDescTextBox.Text
             };
-            var repo = new DSaA_Project_TimeTracker.Database.Repos.TeamRepo();
+            var repo = new TeamRepo();
             await repo.Add(newTeam);
             this.Close();
         }
 
-        private void saveEditTeamButton_Click(object sender, EventArgs e)
+        private async void saveEditTeamButton_Click(object sender, EventArgs e)
         {
-
+            var teamName = editTeamNameTextBox.Text;
+            var teamDescription = editTeamDescTextBox.Text;
+            var modifiedTeam = new ModifyTeamDto
+            {
+                TeamName = teamName,
+                Description = teamDescription
+            };
+            var repo = new TeamRepo();
+            await repo.UpdateById(((Team)ItemToEdit).Id, modifiedTeam);
+            this.Close();
         }
     }
 }

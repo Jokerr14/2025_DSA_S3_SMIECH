@@ -26,6 +26,7 @@ public static class PasswordHasher
     {
         var salt = new byte[keySize];
         var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, salt, iterations, hashAlgorithm, keySize);
-        return CryptographicOperations.FixedTimeEquals(hashToCompare, Convert.FromHexString(hash));
+        var obtainedHash = Convert.FromHexString(hash);
+        return CryptographicOperations.FixedTimeEquals(hashToCompare, obtainedHash);
     }
 }

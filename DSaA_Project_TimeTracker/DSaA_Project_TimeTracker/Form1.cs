@@ -7,6 +7,7 @@ using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.Team;
 using DSaA_Project_TimeTracker.DTOs.User;
 
+
 namespace DSaA_Project_TimeTracker
 {
     public partial class Form1 : Form
@@ -64,8 +65,8 @@ namespace DSaA_Project_TimeTracker
         private List<Project> _projectsCache = new();
         private int currentProjectId;
         private List<Team> _teamsCache = new();
-        private List<TaskToDo> _tasksCache = new();
-        private List<User> _usersCache = new();
+
+
 
         private readonly UserRepo _userRepo = new UserRepo();
 
@@ -309,22 +310,6 @@ namespace DSaA_Project_TimeTracker
             adminViewPanel.Visible = true;
             userViewPanel.Visible = false;
             loginPanel.Visible = false;
-
-            //var teamRepo = new TeamRepo();    //MOVED TO APPROPRIATE FUNCTION
-            var userRepo = new UserRepo();
-            // var roleRepo = new RoleRepo();   //not working
-            //var projectRepo = new ProjectRepo();      //MOVED TO APPROPRIATE FUNCTION
-            // var tpRepo = new TeamProjectRepo();  //not working
-            var uhRepo = new UserHistoryRepo();
-            //var taskRepo = new TaskRepo();        //MOVED TO APPROPRIATE FUNCTION
-
-            var a = await userRepo.GetAll();
-            //var b = await teamRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
-            //var c = await roleRepo.GetAll();  //not working
-            //var d = await projectRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
-            //var ea = await tpRepo.GetAll();   //not working
-            //var his = await uhRepo.GetAll();  //not working
-            //var ta = await taskRepo.GetAll();        //MOVED TO APPROPRIATE FUNCTION
         }
 
 
@@ -358,16 +343,13 @@ namespace DSaA_Project_TimeTracker
         }
 
         ///////////////////////////////////////PROJECTS//////////////////////////////////////
-        //Enter projects view as admin
-        private async void projectsAdminButton_Click(object sender, EventArgs e)
+        private async void loadProjects()
         {
-            ResetHelpState();
             projectsAdminPanel.Visible = true;
-            tasksAdminPanel.Visible = false;
-            teamsAdminPanel.Visible = false;
-            employeesAdminPanel.Visible = false;
             employeesAdminButton.Enabled = false;
             tasksAdminButton.Enabled = false;
+            projectsEditProjectAdminButton.Enabled = false;
+            projectsDeleteProjectAdminButton.Enabled = false;
             projectsNameAdminTextbox.Text = "";
             projectsDescriptionAdminTextbox.Text = "";
             projectsStartDateAdminDatePicker.Value = DateTime.Now;
@@ -387,6 +369,15 @@ namespace DSaA_Project_TimeTracker
                 }
             }
         }
+        private async void projectsAdminButton_Click(object sender, EventArgs e)
+        {
+            ResetHelpState();
+
+            tasksAdminPanel.Visible = false;
+            teamsAdminPanel.Visible = false;
+            employeesAdminPanel.Visible = false;
+            loadProjects();
+        }
 
         //Select project from the list
         private void projectsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
@@ -398,6 +389,8 @@ namespace DSaA_Project_TimeTracker
                 projectsStartDateAdminDatePicker.Value = selectedProject.StartDate ?? DateTime.Now;
                 projectsEndDateAdminDatePicker.Value = selectedProject.EndDate ?? DateTime.Now;
                 tasksAdminButton.Enabled = true;
+                projectsEditProjectAdminButton.Enabled = true;
+                projectsDeleteProjectAdminButton.Enabled = true;
             }
         }
 
@@ -408,6 +401,7 @@ namespace DSaA_Project_TimeTracker
             {
                 PanelToShow = "AddProject"
             };
+            addEditProject.FormClosed += (s, args) => loadProjects();
             addEditProject.ShowDialog();
         }
 
@@ -416,8 +410,10 @@ namespace DSaA_Project_TimeTracker
         {
             AddEditProject addEditProject = new AddEditProject
             {
-                PanelToShow = "EditProject"
+                PanelToShow = "EditProject",
+                ItemToEdit = projectsAdminListbox.SelectedItem
             };
+            addEditProject.FormClosed += (s, args) => loadProjects();
             addEditProject.ShowDialog();
         }
 
@@ -432,17 +428,18 @@ namespace DSaA_Project_TimeTracker
             {
                 PanelToShow = "DeleteProject"
             };
+            confirmDelete.FormClosed += (s, args) => loadProjects();
             confirmDelete.ShowDialog();
         }
 
         ///////////////////////////////////////TASKS//////////////////////////////////////
-        private async void tasksAdminButton_Click(object sender, EventArgs e)
+
+        private async void loadTasks()
         {
             ResetHelpState();
-            projectsAdminPanel.Visible = false;
             tasksAdminPanel.Visible = true;
-            teamsAdminPanel.Visible = false;
-            employeesAdminPanel.Visible = false;
+            tasksEditTaskAdminButton.Enabled = false;
+            tasksDeleteTaskAdminButton.Enabled = false;
             tasksNameAdminTextbox.Text = "";
             tasksDescriptionAdminTextbox.Text = "";
             tasksStatusAdminTextbox.Text = "";
@@ -467,6 +464,13 @@ namespace DSaA_Project_TimeTracker
             tasksProjectNameAdminLabel.Text = selectedProject.ProjectName;
 
         }
+        private async void tasksAdminButton_Click(object sender, EventArgs e)
+        {
+            projectsAdminPanel.Visible = false;
+            teamsAdminPanel.Visible = false;
+            employeesAdminPanel.Visible = false;
+            loadTasks();
+        }
 
         private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -476,6 +480,8 @@ namespace DSaA_Project_TimeTracker
                 tasksDescriptionAdminTextbox.Text = selectedTask.Description;
                 tasksStatusAdminTextbox.Text = selectedTask.Status;
                 tasksDueDateAdminDatePicker.Value = selectedTask.DueDate ?? DateTime.Now;
+                tasksEditTaskAdminButton.Enabled = true;
+                tasksDeleteTaskAdminButton.Enabled = true;
             }
         }
 
@@ -491,36 +497,43 @@ namespace DSaA_Project_TimeTracker
             {
                 PanelToShow = "AddTask"
             };
+            addEditTask.FormClosed += (s, args) => loadTasks();
             addEditTask.ShowDialog();
         }
 
         private void tasksEditTaskAdminButton_Click(object sender, EventArgs e)
         {
-            AddEditTask addEditTask = new AddEditTask
+            AddEditTask addEditTask = new AddEditTask()
             {
-                PanelToShow = "EditTask"
+                PanelToShow = "EditTask",
+                ItemToEdit = tasksAdminListbox.SelectedItem
             };
+            addEditTask.FormClosed += (s, args) => loadTasks();
             addEditTask.ShowDialog();
         }
 
         private void tasksDeleteTaskAdminButton_Click(object sender, EventArgs e)
         {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
+            var selectedTask = tasksAdminListbox.SelectedItem as TaskToDo;
+            if (selectedTask == null)
+                return;
+            DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedTask)
             {
                 PanelToShow = "DeleteTask"
             };
+            confirmDelete.FormClosed += (s, args) => loadTasks();
             confirmDelete.ShowDialog();
         }
 
         ///////////////////////////////////////TEAMS//////////////////////////////////////
-        private async void teamsAdminButton_Click(object sender, EventArgs e)
+
+        private async void loadTeams()
         {
             ResetHelpState();
-            projectsAdminPanel.Visible = false;
-            tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = true;
-            employeesAdminPanel.Visible = false;
             employeesAdminButton.Enabled = false;
+            teamsEditTeamAdminButton.Enabled = false;
+            teamsDeleteTeamAdminButton.Enabled = false;
             tasksAdminButton.Enabled = false;
             teamsNameAdminTexbox.Text = "";
             teamsDescriptionAdminTextbox.Text = "";
@@ -530,7 +543,6 @@ namespace DSaA_Project_TimeTracker
             var teams = await teamRepo.GetAll();
             if (teams != null)
             {
-
                 _teamsCache = teams.ToList();
                 teamsAdminListbox.DisplayMember = "TeamName";
                 teamsAdminListbox.ValueMember = "Id";
@@ -541,6 +553,13 @@ namespace DSaA_Project_TimeTracker
 
             }
         }
+        private async void teamsAdminButton_Click(object sender, EventArgs e)
+        {
+            projectsAdminPanel.Visible = false;
+            tasksAdminPanel.Visible = false;
+            employeesAdminPanel.Visible = false;
+            loadTeams();
+        }
 
         private void teamsAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -548,41 +567,215 @@ namespace DSaA_Project_TimeTracker
             {
                 teamsNameAdminTexbox.Text = selectedTeam.TeamName;
                 teamsDescriptionAdminTextbox.Text = selectedTeam.Description;
+                teamsEditTeamAdminButton.Enabled = true;
+                teamsDeleteTeamAdminButton.Enabled = true;
                 employeesAdminButton.Enabled = true;
             }
         }
 
+        private void teamsAddTeamAdminButton_Click(object sender, EventArgs e)
+        {
+            AddEditTeam addEditTeam = new AddEditTeam
+            {
+                PanelToShow = "AddTeam"
+            };
+            addEditTeam.FormClosed += (s, args) => loadTeams();
+            addEditTeam.ShowDialog();
+        }
+
+        private void teamsEditTeamAdminButton_Click(object sender, EventArgs e)
+        {
+            AddEditTeam addEditTeam = new AddEditTeam
+            {
+                PanelToShow = "EditTeam",
+                ItemToEdit = teamsAdminListbox.SelectedItem
+            };
+            addEditTeam.FormClosed += (s, args) => loadTeams();
+            addEditTeam.ShowDialog();
+        }
+
+        private void teamsDeleteTeamAdminButton_Click(object sender, EventArgs e)
+        {
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            if (selectedTeam == null)
+                return;
+            DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedTeam)
+            {
+                PanelToShow = "DeleteTeam"
+            };
+            confirmDelete.FormClosed += (s, args) => loadTeams();
+            confirmDelete.ShowDialog();
+        }
+
         ///////////////////////////////////////EMPLOYEES//////////////////////////////////////
+        private async void loadEmployees()
+        {
+            employeesAdminPanel.Visible = true;
+            employeesEditEmployeeAdminButton.Enabled = false;
+            employeesDeleteEmployeeAdminButton.Enabled = false;
+            editHistoryRecordButton.Enabled = false;
+            deleteHistoryRecordButton.Enabled = false;
+            employeesEmailAdminTextbox.Text = "";
+            employeesUsernameAdminTexbox.Text = "";
+            employeesRoleAdminTextbox.Text = "";
+            employeesStatusAdminTextbox.Text = "";
+            employeeHistoryListView.Items.Clear();
+            employeesAdminListbox.Items.Clear();
+
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            var team = await new TeamRepo().GetById(selectedTeam.Id);
+            if (team != null)
+            {
+                employeesAdminListbox.DisplayMember = "Username";
+                employeesAdminListbox.ValueMember = "Id";
+                foreach (var member in team.TeamMembers)
+                {
+
+                    employeesAdminListbox.Items.Add(member.User);
+
+                }
+            }
+            teamNameEmployeesAdminPanel.Text = selectedTeam.TeamName;
+        }
+
         private async void employeesAdminButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
             projectsAdminPanel.Visible = false;
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
-            employeesAdminPanel.Visible = true;
-            employeesEmailAdminTextbox.Text = "";
-            employeesUsernameAdminTexbox.Text = "";
-            employeesRoleAdminTextbox.Text = "";
-            employeesAdminListbox.Items.Clear();
+            loadEmployees();
+        }
+        private void employeesAdminListbox_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            {
 
-            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
-            var team = await new TeamRepo().GetById(selectedTeam.Id);
-             if (team != null)
-             {
-                 employeesAdminListbox.DisplayMember = "Username";
-                 employeesAdminListbox.ValueMember = "Id";
-                 foreach (var member in team.TeamMembers)
-                 {
-                     
-                         employeesAdminListbox.Items.Add(member.User.Username);
-                     
-                 }
-             }
-            teamNameEmployeesAdminPanel.Text = selectedTeam.TeamName;
+                if (employeesAdminListbox.SelectedItem is User selectedUser)
+                {
+                    employeesUsernameAdminTexbox.Text = selectedUser.Username;
+                    employeesEmailAdminTextbox.Text = selectedUser.Email;
+                    employeesRoleAdminTextbox.Text = selectedUser.Role.RoleName;
+                    employeesStatusAdminTextbox.Text = selectedUser.EmploymentStatus;
+                    employeeHistoryListView.Items.Clear();
+                    var selectedUserRecords = selectedUser.UserEvents; //.Where(x => x.UserId == userId).ToList();
+
+                    if (selectedUserRecords != null)
+                    {
 
 
+                        foreach (var record in selectedUserRecords)
+                        {
+                            var listViewItem = new ListViewItem(record.EventType);
+                            listViewItem.SubItems.Add(record.EventDate.ToString());
+                            listViewItem.SubItems.Add(record.Notes);
+                            listViewItem.Tag = record;
+                            employeeHistoryListView.Items.Add(listViewItem);
+                        }
+                    }
+
+                    employeesEditEmployeeAdminButton.Enabled = true;
+                    employeesDeleteEmployeeAdminButton.Enabled = true;
+                    employeesAdminButton.Enabled = true;
+                }
+            }
+        }
+        private void employeeHistoryListView_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            editHistoryRecordButton.Enabled = true;
+            deleteHistoryRecordButton.Enabled = true;
         }
 
+        private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
+        {
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            if (selectedTeam == null)
+            {
+                MessageBox.Show("Please select a team first.");
+                return;
+            }
+            AddEditEmployee addEditEmployee = new AddEditEmployee(selectedTeam)
+            {
+                PanelToShow = "AddEmployee"
+            };
+            addEditEmployee.FormClosed += (s, args) => loadEmployees();
+            addEditEmployee.ShowDialog();
+        }
+
+        private void employeesEditEmployeeAdminButton_Click(object sender, EventArgs e)
+        {
+            AddEditEmployee addEditEmployee = new AddEditEmployee
+            {
+                PanelToShow = "EditEmployee",
+                ItemToEdit = employeesAdminListbox.SelectedItem
+            };
+            addEditEmployee.FormClosed += (s, args) => loadEmployees();
+            addEditEmployee.ShowDialog();
+        }
+
+        private void employeesDeleteEmployeeAdminButton_Click(object sender, EventArgs e)
+        {
+            var selectedUser = employeesAdminListbox.SelectedItem as User;
+            if (selectedUser == null)
+                return;
+            DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedUser)
+            {
+                PanelToShow = "DeleteEmployee"
+            };
+            confirmDelete.FormClosed += (s, args) => loadEmployees();
+            confirmDelete.ShowDialog();
+        }
+
+        private void addHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User)
+            {
+                PanelToShow = "AddHistoryRecord"
+            };
+            addEditHistoryRecord.FormClosed += (s, args) => loadEmployees();
+            addEditHistoryRecord.ShowDialog();
+        }
+
+        private void AddEditHistoryRecord_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void editHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            if (employeeHistoryListView.SelectedItems.Count > 0)
+            {
+                var selectedListViewItem = employeeHistoryListView.SelectedItems[0];
+                var selectedUserHistory = selectedListViewItem.Tag as UserHistory;
+                if (selectedUserHistory != null)
+                {
+                    AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User, selectedUserHistory)
+                    {
+                        PanelToShow = "EditHistoryRecord"
+                    };
+                    addEditHistoryRecord.FormClosed += (s, args) => loadEmployees();
+                    addEditHistoryRecord.ShowDialog();
+                }
+            }
+        }
+
+        private void deleteHistoryRecordButton_Click(object sender, EventArgs e)
+        {
+            if (employeeHistoryListView.SelectedItems.Count > 0)
+            {
+                var selectedListViewItem = employeeHistoryListView.SelectedItems[0];
+                var selectedUserHistory = selectedListViewItem.Tag as UserHistory;
+                if (selectedUserHistory != null)
+                {
+                    DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedUserHistory)
+                    {
+                        PanelToShow = "DeleteHistoryRecord"
+                    };
+                    confirmDelete.FormClosed += (s, args) => loadEmployees();
+                    confirmDelete.ShowDialog();
+                }
+            }
+        }
+        ///////////////////////////////////////////////////////USER BUTTONS///////////////////////////////////////
         private async void tasksUserButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
@@ -620,76 +813,45 @@ namespace DSaA_Project_TimeTracker
             }
         }
 
-        private void teamsUserButton_Click(object sender, EventArgs e)
+        private async void teamsUserButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
             tasksUserPanel.Visible = false;
             teamsUserPanel.Visible = true;
-            var repo = new UserRepo();
-            var user = repo.GetById(0);
-        }
-
-        ////////////////////////////TO DO///////////////////////////////////////////
-        //Add backend logic for creating, editing and deleting projects, tasks, teams, and employees
-
-
-
-
-        private void teamsAddTeamAdminButton_Click(object sender, EventArgs e)
-        {
-            AddEditTeam addEditTeam = new AddEditTeam
+            var _userRepo = new UserRepo();
+            var teams = new TeamRepo();
+            var userTeams = await teams.GetAll();
+            var loggedUser = await _userRepo.GetById(userId);
+            var loggedUserTeams = userTeams.Where(x => x.TeamMembers.Any(m => m.UserId == loggedUser.Id)).ToList();
+            if (loggedUserTeams != null && loggedUserTeams.Count > 0)
             {
-                PanelToShow = "AddTeam"
-            };
-            addEditTeam.ShowDialog();
+                teamsNameUserListbox.DisplayMember = "TeamName";
+                teamsNameUserListbox.ValueMember = "Id";
+                teamsMembersUserListbox.Items.Clear();
+                teamsNameUserListbox.Items.Clear();
+                foreach (var team in loggedUserTeams)
+                {
+                    teamsNameUserListbox.Items.Add(team);
+                }
+            }
         }
 
-        private void teamsEditTeamAdminButton_Click(object sender, EventArgs e)
+        private async void teamsNameUserListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            AddEditTeam addEditTeam = new AddEditTeam
+            var userSelectedTeam = teamsNameUserListbox.SelectedItem as Team;
+            var team = await new TeamRepo().GetById(userSelectedTeam.Id);
+            if (team != null)
             {
-                PanelToShow = "EditTeam"
-            };
-            addEditTeam.ShowDialog();
+                teamsMembersUserListbox.DisplayMember = "Username";
+                teamsMembersUserListbox.ValueMember = "Id";
+                teamsMembersUserListbox.Items.Clear();
+                foreach (var member in team.TeamMembers)
+                {
+                    teamsMembersUserListbox.Items.Add(member.User);
+                }
+            }
         }
-
-        private void teamsDeleteTeamAdminButton_Click(object sender, EventArgs e)
-        {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
-            {
-                PanelToShow = "DeleteTeam"
-            };
-            confirmDelete.ShowDialog();
-        }
-
-
-
-        private void employeesAddEmployeeAdminButton_Click(object sender, EventArgs e)
-        {
-            AddEditEmployee addEditEmployee = new AddEditEmployee
-            {
-                PanelToShow = "AddEmployee"
-            };
-            addEditEmployee.ShowDialog();
-        }
-
-        private void employeesEditEmployeeAdminButton_Click(object sender, EventArgs e)
-        {
-            AddEditEmployee addEditEmployee = new AddEditEmployee
-            {
-                PanelToShow = "EditEmployee"
-            };
-            addEditEmployee.ShowDialog();
-        }
-
-        private void employeesDeleteEmployeeAdminButton_Click(object sender, EventArgs e)
-        {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
-            {
-                PanelToShow = "DeleteEmployee"
-            };
-            confirmDelete.ShowDialog();
-        }
+        //////////////////////////////////////////////////////////////////////////////////////
 
         private async void tasksTodoUserListbox_DoubleClick(object sender, EventArgs e)
         {
@@ -728,7 +890,7 @@ namespace DSaA_Project_TimeTracker
                 }
             }
         }
-        
+
 
         private void helpButtonUser_Click(object sender, EventArgs e)
         {
@@ -750,30 +912,30 @@ namespace DSaA_Project_TimeTracker
                 Password = loginPasswordTextbox.Text
             };
 
-             var user = await _userRepo.Login(loginDto);
-             
+            var user = await _userRepo.Login(loginDto);
+
             if (user != null)
-             {
+            {
                 userId = user.Id;
                 if (user.Role.RoleName == "Admin")
-                 {
-                     //show admin panel
-                     adminViewPanel.Visible = true;
-                     userViewPanel.Visible = false;
-                     loginPanel.Visible = false;
-                 }
-                 else
-                 {
-                     //show user panel
-                     adminViewPanel.Visible = false;
-                     userViewPanel.Visible = true;
-                     loginPanel.Visible = false;
-                 }
-             }
-             else
-             {
-                 MessageBox.Show("Invalid email or password.");
-             }
+                {
+                    //show admin panel
+                    adminViewPanel.Visible = true;
+                    userViewPanel.Visible = false;
+                    loginPanel.Visible = false;
+                }
+                else
+                {
+                    //show user panel
+                    adminViewPanel.Visible = false;
+                    userViewPanel.Visible = true;
+                    loginPanel.Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Invalid email or password.");
+            }
 
         }
 
@@ -786,43 +948,6 @@ namespace DSaA_Project_TimeTracker
         {
 
         }
-
-        private void addHistoryRecordButton_Click(object sender, EventArgs e)
-        {
-            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord
-            {
-                PanelToShow = "AddHistoryRecord"
-            };
-            addEditHistoryRecord.ShowDialog();
-        }
-
-        private void editHistoryRecordButton_Click(object sender, EventArgs e)
-        {
-            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord
-            {
-                PanelToShow = "EditHistoryRecord"
-            };
-            addEditHistoryRecord.ShowDialog();
-        }
-
-        private void deleteHistoryRecordButton_Click(object sender, EventArgs e)
-        {
-            DeleteConfirmation confirmDelete = new DeleteConfirmation
-            {
-                PanelToShow = "DeleteHistoryRecord"
-            };
-            confirmDelete.ShowDialog();
-        }
-
-
-
-
-
-
-
-
-
-
 
 
 
