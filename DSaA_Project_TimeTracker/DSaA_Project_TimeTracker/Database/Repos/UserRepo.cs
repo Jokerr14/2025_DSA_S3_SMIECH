@@ -55,7 +55,7 @@ public class UserRepo
                 Username = addUserDto.Username,
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
-                RoleId = 1,
+                RoleId = 2,
             };
 
             user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
@@ -65,7 +65,7 @@ public class UserRepo
         }
     }
 
-    public async Task UpdateById(int userId, UpdateUserDto updateUserDto)
+    public async Task UpdateById(int userId, AddUserDto updateUserDto)
     {
         using (var context = new TTDbContext())
         {
@@ -76,6 +76,7 @@ public class UserRepo
                 user.Username = updateUserDto.Username;
                 user.Email = updateUserDto.Email;
                 user.EmploymentStatus = updateUserDto.EmploymentStatus;
+                user.PasswordHash = updateUserDto.Password;
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
             }
@@ -108,7 +109,7 @@ public class UserRepo
             if (user == null)
                 return null;
 
-            if (user.PasswordHash != loginUserDto.Password)
+            if(!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash))
                 return null;
 
             return user;

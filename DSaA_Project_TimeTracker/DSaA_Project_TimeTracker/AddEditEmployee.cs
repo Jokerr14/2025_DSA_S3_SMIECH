@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.User;
 using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Utils;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -191,6 +192,7 @@ namespace DSaA_Project_TimeTracker
             var username = editEmployeeNameTextBox.Text;
             var email = editEmployeeMailTextBox.Text;
             var role = editEmployeeRoleComboBox.Text.ToString();
+            var password = "";
             int roleNum;
             if (role == "Admin")
             {
@@ -199,15 +201,17 @@ namespace DSaA_Project_TimeTracker
             else { roleNum = 2; }
             ;
             var status = editEmployeeStatusComboBox.Text.ToString();
-            var editedEmployee = new DTOs.User.UpdateUserDto
-            {
-                
-                Username = username,
-                Email = email,
-                
-                EmploymentStatus = status,
-                //RoleId = roleNum
-            };
+            if(editEmployeePasswordTextBox.Text != string.Empty) { password = PasswordHasher.HashPasword(editEmployeePasswordTextBox.Text); }
+            else { password = ((User)ItemToEdit).PasswordHash; }
+            var editedEmployee = new DTOs.User.AddUserDto
+                {
+
+                    Username = username,
+                    Email = email,
+                    EmploymentStatus = status,
+                    Password = password,
+                    //RoleId = roleNum
+                };
             var repo = new DSaA_Project_TimeTracker.Database.Repos.UserRepo();
             await repo.UpdateById(((User)ItemToEdit).Id, editedEmployee);
             this.Close();
@@ -215,8 +219,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void saveNewEmployeeButton_Click(object sender, EventArgs e)
         {
-            var username = addNewEmployeeNameTextBox.Text;
-            var email = addNewEmployeeMailTextBox.Text;
+            
             var role = addNewEmployeeRoleComboBox.Text.ToString();
             int roleNum;
             if (role == "Admin")
@@ -228,9 +231,9 @@ namespace DSaA_Project_TimeTracker
             var status = addNewEmployeeStatusComboBox.Text.ToString();
             var newEmployee = new AddUserDto
             {
-                Username = username,
-                Email = email,
-                Password = "defaultPassword", // Placeholder, should be replaced with actual password handling
+                Username = addNewEmployeeNameTextBox.Text,
+                Email = addNewEmployeeMailTextBox.Text,
+                Password = addNewEmployeePasswordTextBox.Text,
                 EmploymentStatus = status
             };
             var repo = new UserRepo();

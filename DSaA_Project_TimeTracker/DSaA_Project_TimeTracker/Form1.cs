@@ -7,6 +7,7 @@ using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.Team;
 using DSaA_Project_TimeTracker.DTOs.User;
 
+
 namespace DSaA_Project_TimeTracker
 {
     public partial class Form1 : Form
@@ -733,7 +734,7 @@ namespace DSaA_Project_TimeTracker
             var loginDto = new LoginUserDto
             {
                 Username = loginLoginTextbox.Text,
-                Password = loginPasswordTextbox.Text
+                Password =  loginPasswordTextbox.Text
             };
 
             var user = await _userRepo.Login(loginDto);
