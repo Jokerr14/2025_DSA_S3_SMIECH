@@ -417,10 +417,10 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
+            adminViewPanel.Controls.Add(teamsAdminPanel);
             adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Controls.Add(tasksAdminPanel);
-            adminViewPanel.Controls.Add(teamsAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
@@ -538,6 +538,7 @@
             // 
             // UnassignEmployeeFromTeamButton
             // 
+            UnassignEmployeeFromTeamButton.Enabled = false;
             UnassignEmployeeFromTeamButton.Location = new Point(562, 499);
             UnassignEmployeeFromTeamButton.Margin = new Padding(3, 4, 3, 4);
             UnassignEmployeeFromTeamButton.Name = "UnassignEmployeeFromTeamButton";
@@ -549,6 +550,7 @@
             // 
             // AssignEmployeeToTeamButton
             // 
+            AssignEmployeeToTeamButton.Enabled = false;
             AssignEmployeeToTeamButton.Location = new Point(14, 499);
             AssignEmployeeToTeamButton.Margin = new Padding(3, 4, 3, 4);
             AssignEmployeeToTeamButton.Name = "AssignEmployeeToTeamButton";
@@ -1095,6 +1097,7 @@
             // 
             // UnassignTeamFromProjectButton
             // 
+            UnassignTeamFromProjectButton.Enabled = false;
             UnassignTeamFromProjectButton.Location = new Point(562, 478);
             UnassignTeamFromProjectButton.Margin = new Padding(3, 4, 3, 4);
             UnassignTeamFromProjectButton.Name = "UnassignTeamFromProjectButton";
@@ -1106,6 +1109,7 @@
             // 
             // AssignTeamToProjectButton
             // 
+            AssignTeamToProjectButton.Enabled = false;
             AssignTeamToProjectButton.Location = new Point(17, 478);
             AssignTeamToProjectButton.Margin = new Padding(3, 4, 3, 4);
             AssignTeamToProjectButton.Name = "AssignTeamToProjectButton";

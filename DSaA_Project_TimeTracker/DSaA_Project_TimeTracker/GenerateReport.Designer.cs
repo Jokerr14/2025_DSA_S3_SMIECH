@@ -39,7 +39,7 @@
             // 
             // generateSummaryReportButton
             // 
-            generateSummaryReportButton.Location = new Point(21, 637);
+            generateSummaryReportButton.Location = new Point(12, 552);
             generateSummaryReportButton.Name = "generateSummaryReportButton";
             generateSummaryReportButton.Size = new Size(213, 36);
             generateSummaryReportButton.TabIndex = 0;
@@ -49,7 +49,7 @@
             // 
             // generateDetailedReportButton
             // 
-            generateDetailedReportButton.Location = new Point(268, 637);
+            generateDetailedReportButton.Location = new Point(258, 552);
             generateDetailedReportButton.Name = "generateDetailedReportButton";
             generateDetailedReportButton.Size = new Size(213, 36);
             generateDetailedReportButton.TabIndex = 1;
@@ -59,7 +59,7 @@
             // 
             // helpButton
             // 
-            helpButton.Location = new Point(643, 37);
+            helpButton.Location = new Point(665, 21);
             helpButton.Name = "helpButton";
             helpButton.Size = new Size(51, 36);
             helpButton.TabIndex = 2;
@@ -70,7 +70,7 @@
             // checkedListBox
             // 
             checkedListBox.FormattingEnabled = true;
-            checkedListBox.Location = new Point(202, 146);
+            checkedListBox.Location = new Point(184, 144);
             checkedListBox.Name = "checkedListBox";
             checkedListBox.Size = new Size(350, 364);
             checkedListBox.TabIndex = 3;
@@ -79,7 +79,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(202, 119);
+            label1.Location = new Point(184, 126);
             label1.Name = "label1";
             label1.Size = new Size(214, 15);
             label1.TabIndex = 4;
@@ -87,7 +87,7 @@
             // 
             // discardButton
             // 
-            discardButton.Location = new Point(516, 637);
+            discardButton.Location = new Point(503, 552);
             discardButton.Name = "discardButton";
             discardButton.Size = new Size(213, 36);
             discardButton.TabIndex = 5;
@@ -99,7 +99,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 16F);
-            label2.Location = new Point(291, 37);
+            label2.Location = new Point(279, 20);
             label2.Name = "label2";
             label2.Size = new Size(173, 30);
             label2.TabIndex = 6;
@@ -109,7 +109,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(758, 741);
+            ClientSize = new Size(758, 620);
             Controls.Add(label2);
             Controls.Add(discardButton);
             Controls.Add(label1);

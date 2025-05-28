@@ -576,6 +576,8 @@ namespace DSaA_Project_TimeTracker
                 teamsEditTeamAdminButton.Enabled = true;
                 teamsDeleteTeamAdminButton.Enabled = true;
                 employeesAdminButton.Enabled = true;
+                AssignTeamToProjectButton.Enabled = true;
+                UnassignTeamFromProjectButton.Enabled = true;
             }
         }
 
@@ -946,32 +948,54 @@ namespace DSaA_Project_TimeTracker
 
         private void AssignEmployeeToTeamButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
+            {
+                //PanelToShow = "AssignEmployeeToTeam"
+            };
+            assignUnassignEmployeeToTeam.ShowDialog();
         }
 
         private void RemoveEmployeeFromTeamButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
+            {
+                //PanelToShow = "RemoveEmployeeFromTeam"
+            };
+            assignUnassignEmployeeToTeam.ShowDialog();
         }
 
         private void AssignTaskToEmployeesButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
+            {
+                //PanelToShow = "AssignTaskToEmployee"
+            };
         }
 
         private void UnassignTaskFromoEmployeesButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
+            {
+                //PanelToShow = "UnassignTaskFromEmployee"
+            };
         }
 
         private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject()
+            {
+                PanelToShow = "AssignTeamToProject"
+            };
+            assignUnassignTeamToProject.ShowDialog();
         }
 
         private void UnassignTeamFromProjectButton_Click(object sender, EventArgs e)
         {
-
+            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject()
+            {
+                PanelToShow = "UnassignTeamFromProject"
+            };
+            assignUnassignTeamToProject.ShowDialog();
         }
 
         private void generateReportButton_Click(object sender, EventArgs e)
