@@ -22,6 +22,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             checkedListBox.Items.Insert(0, "Select All Employees");
         }
 

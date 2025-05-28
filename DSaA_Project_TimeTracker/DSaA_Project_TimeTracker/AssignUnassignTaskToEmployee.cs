@@ -15,6 +15,9 @@ namespace DSaA_Project_TimeTracker
         public AssignUnassignTaskToEmployee()
         {
             InitializeComponent();
+
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
     }
 }

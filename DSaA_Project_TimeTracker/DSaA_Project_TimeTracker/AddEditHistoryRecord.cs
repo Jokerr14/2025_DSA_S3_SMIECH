@@ -28,6 +28,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             addHistoryRecordPanel.Visible = false;
             editHistoryRecordPanel.Visible = false;
             _user = user;

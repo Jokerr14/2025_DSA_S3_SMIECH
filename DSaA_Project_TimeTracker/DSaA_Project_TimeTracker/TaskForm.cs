@@ -26,6 +26,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             _task = task;
 
             popupTaskNameLabel.Text = task.Title;

@@ -52,6 +52,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
             tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
         }
@@ -151,7 +154,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesAddEmployeeAdminButton, "Click to add a new employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesEditEmployeeAdminButton, "Click to edit the selected employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
-                        CreateHelpLabel(generateReportButton, "Click to generate a summary report.", employeesAdminPanel),
+                        CreateHelpLabel(generateReportButton, "Click to generate a report.", employeesAdminPanel),
 
                         CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign the selected employee to a team.", employeesAdminPanel),
                         CreateHelpLabel(UnassignEmployeeFromTeamButton, "Click to remove the selected employee from a team.", employeesAdminPanel)
