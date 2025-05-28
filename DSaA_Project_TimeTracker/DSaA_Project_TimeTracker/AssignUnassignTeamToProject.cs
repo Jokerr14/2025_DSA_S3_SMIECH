@@ -37,8 +37,8 @@
                 {
                     assignTeamToProjectPanel, new Label[]
                     {
-                        CreateHelpLabel(assignCheckedListBox, "Select teams to assign to project.", assignTeamToProjectPanel),
-                        CreateHelpLabel(assignButton, "Click to assign selected teams to project.", assignTeamToProjectPanel),
+                        CreateHelpLabel(assignCheckedListBox, "Select projects to assign team to.", assignTeamToProjectPanel),
+                        CreateHelpLabel(assignButton, "Click to assign team to selected project/s.", assignTeamToProjectPanel),
                         CreateHelpLabel(cancelAssignButton, "Click to cancel assignment.", assignTeamToProjectPanel),
                         CreateHelpLabel(helpAssignButton, "Show help.", assignTeamToProjectPanel)
                     }
@@ -46,8 +46,8 @@
                 {
                     unassignTeamFromProjectPanel, new Label[]
                     {
-                        CreateHelpLabel(unassignCheckedListBox, "Select teams to remove from project.", unassignTeamFromProjectPanel),
-                        CreateHelpLabel(removeButton, "Click to remove selected teams from project.", unassignTeamFromProjectPanel),
+                        CreateHelpLabel(unassignCheckedListBox, "Select projects to remove team from.", unassignTeamFromProjectPanel),
+                        CreateHelpLabel(removeButton, "Click to remove team from selected project/s.", unassignTeamFromProjectPanel),
                         CreateHelpLabel(cancelUnassignButton, "Click to cancel removal.", unassignTeamFromProjectPanel),
                         CreateHelpLabel(helpUnassignButton, "Show help.", unassignTeamFromProjectPanel)
                     }
@@ -124,7 +124,7 @@
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
+   
             if (_panelToShow == "AssignTeamToProject")
             {
                 assignTeamToProjectPanel.BringToFront();

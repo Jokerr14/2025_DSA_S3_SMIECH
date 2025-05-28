@@ -72,7 +72,6 @@ namespace DSaA_Project_TimeTracker
 
         private void InitializeHelpLabels()
         {
-            // Initialize the dictionary to group help labels by sub-panel or context
             subPanelHelpLabels = new Dictionary<Control, Label[]>
             {
                 {
@@ -116,8 +115,8 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(tasksEditTaskAdminButton, "Click to edit the selected task.", tasksAdminPanel),
                         CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel),
 
-                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to assign the selected task to employees.", tasksAdminPanel),
-                        CreateHelpLabel(UnassignTaskFromoEmployeesButton, "Click to remove the selected task from employees.", tasksAdminPanel)
+                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to assign the selected task to employee/s.", tasksAdminPanel),
+                        CreateHelpLabel(UnassignTaskFromoEmployeesButton, "Click to remove the selected task from employee/s.", tasksAdminPanel)
                     }
                 },
                 {
@@ -131,8 +130,8 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(teamsEditTeamAdminButton, "Click to edit the selected team.", teamsAdminPanel),
                         CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel),
 
-                        CreateHelpLabel(AssignTeamToProjectButton, "Click to assign the selected team to projects.", teamsAdminPanel),
-                        CreateHelpLabel(UnassignTeamFromProjectButton, "Click to remove the selected team from project.", teamsAdminPanel)
+                        CreateHelpLabel(AssignTeamToProjectButton, "Click to assign the selected team to project/s.", teamsAdminPanel),
+                        CreateHelpLabel(UnassignTeamFromProjectButton, "Click to remove the selected team from project/s.", teamsAdminPanel)
                     }
                 },
                 {
@@ -156,8 +155,8 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
                         CreateHelpLabel(generateReportButton, "Click to generate a report.", employeesAdminPanel),
 
-                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign the selected employee to a team.", employeesAdminPanel),
-                        CreateHelpLabel(UnassignEmployeeFromTeamButton, "Click to remove the selected employee from a team.", employeesAdminPanel)
+                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign the selected employee to a team/s.", employeesAdminPanel),
+                        CreateHelpLabel(UnassignEmployeeFromTeamButton, "Click to remove the selected employee from a team/s.", employeesAdminPanel)
                     }
                 },
                 {
@@ -191,7 +190,7 @@ namespace DSaA_Project_TimeTracker
                 foreach (var label in subPanelLabels)
                 {
                     label.Visible = false;
-                    label.BringToFront(); // Ensure the label is on top of other controls
+                    label.BringToFront();
                 }
             }
         }
@@ -199,8 +198,8 @@ namespace DSaA_Project_TimeTracker
         private Label CreateHelpLabel(Control control, string text, Control parentPanel)
         {
             // Adjust position for specific controls
-            int offsetX = 0; // Align horizontally with the control
-            int offsetY = control.Height; // Place the label just below the control with a small gap
+            int offsetX = 0;
+            int offsetY = control.Height;
 
 
             // Create a label and position it near the control
@@ -218,7 +217,7 @@ namespace DSaA_Project_TimeTracker
 
             // Add the label to the specified panel
             parentPanel.Controls.Add(label);
-            label.BringToFront(); // Ensure the label is on top of other controls
+            label.BringToFront();
             return label;
         }
 
@@ -488,6 +487,8 @@ namespace DSaA_Project_TimeTracker
                 tasksDueDateAdminDatePicker.Value = selectedTask.DueDate ?? DateTime.Now;
                 tasksEditTaskAdminButton.Enabled = true;
                 tasksDeleteTaskAdminButton.Enabled = true;
+                AssignTaskToEmployeeButton.Enabled = true;
+                UnassignTaskFromoEmployeesButton.Enabled = true;
             }
         }
 
@@ -950,7 +951,7 @@ namespace DSaA_Project_TimeTracker
         {
             AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
             {
-                //PanelToShow = "AssignEmployeeToTeam"
+                PanelToShow = "AssignEmployeeToTeam"
             };
             assignUnassignEmployeeToTeam.ShowDialog();
         }
@@ -959,7 +960,7 @@ namespace DSaA_Project_TimeTracker
         {
             AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
             {
-                //PanelToShow = "RemoveEmployeeFromTeam"
+                PanelToShow = "UnassignEmployeeFromTeam"
             };
             assignUnassignEmployeeToTeam.ShowDialog();
         }
@@ -968,16 +969,18 @@ namespace DSaA_Project_TimeTracker
         {
             AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
             {
-                //PanelToShow = "AssignTaskToEmployee"
+                PanelToShow = "AssignEmployeeToTask"
             };
+            assignUnassignTaskToEmployees.ShowDialog();
         }
 
         private void UnassignTaskFromoEmployeesButton_Click(object sender, EventArgs e)
         {
             AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
             {
-                //PanelToShow = "UnassignTaskFromEmployee"
+                PanelToShow = "UnassignEmployeeFromTask"
             };
+            assignUnassignTaskToEmployees.ShowDialog();
         }
 
         private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)

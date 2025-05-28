@@ -213,8 +213,8 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(564, 644);
-            Controls.Add(unassignTeamFromProjectPanel);
             Controls.Add(assignTeamToProjectPanel);
+            Controls.Add(unassignTeamFromProjectPanel);
             Name = "AssignUnassignTeamToProject";
             Text = "AssignUnassignTeamToProject";
             unassignTeamFromProjectPanel.ResumeLayout(false);
