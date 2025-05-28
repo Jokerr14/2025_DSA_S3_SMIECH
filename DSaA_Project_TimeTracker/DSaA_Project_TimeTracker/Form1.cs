@@ -1,10 +1,5 @@
-using DSaA_Project_TimeTracker.Database;
-using DSaA_Project_TimeTracker.DTOs;
-using DSaA_Project_TimeTracker.Database.Repos;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs.Team;
+using DSaA_Project_TimeTracker.Database.Repos;
 using DSaA_Project_TimeTracker.DTOs.User;
 
 
@@ -116,7 +111,10 @@ namespace DSaA_Project_TimeTracker
 
                         CreateHelpLabel(tasksAddTaskAdminButton, "Click to add a new task.", tasksAdminPanel),
                         CreateHelpLabel(tasksEditTaskAdminButton, "Click to edit the selected task.", tasksAdminPanel),
-                        CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel)
+                        CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel),
+
+                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to assign the selected task to employees.", tasksAdminPanel),
+                        CreateHelpLabel(UnassignTaskFromoEmployeesButton, "Click to remove the selected task from employees.", tasksAdminPanel)
                     }
                 },
                 {
@@ -128,7 +126,10 @@ namespace DSaA_Project_TimeTracker
 
                         CreateHelpLabel(teamsAddTeamAdminButton, "Click to add a new team.", teamsAdminPanel),
                         CreateHelpLabel(teamsEditTeamAdminButton, "Click to edit the selected team.", teamsAdminPanel),
-                        CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel)
+                        CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel),
+
+                        CreateHelpLabel(AssignTeamToProjectButton, "Click to assign the selected team to projects.", teamsAdminPanel),
+                        CreateHelpLabel(UnassignTeamFromProjectButton, "Click to remove the selected team from project.", teamsAdminPanel)
                     }
                 },
                 {
@@ -150,8 +151,10 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesAddEmployeeAdminButton, "Click to add a new employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesEditEmployeeAdminButton, "Click to edit the selected employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
-                        CreateHelpLabel(generateSummaryReportButton, "Click to generate a summary report.", employeesAdminPanel),
-                        CreateHelpLabel(generateDetailedReportButton, "Click to generate a detailed report.", employeesAdminPanel)
+                        CreateHelpLabel(generateReportButton, "Click to generate a summary report.", employeesAdminPanel),
+
+                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign the selected employee to a team.", employeesAdminPanel),
+                        CreateHelpLabel(UnassignEmployeeFromTeamButton, "Click to remove the selected employee from a team.", employeesAdminPanel)
                     }
                 },
                 {
@@ -938,14 +941,40 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-        private void generateSummaryReportButton_Click(object sender, EventArgs e)
+        private void AssignEmployeeToTeamButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void generateDetailedReportButton_Click(object sender, EventArgs e)
+        private void RemoveEmployeeFromTeamButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void AssignTaskToEmployeesButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UnassignTaskFromoEmployeesButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void UnassignTeamFromProjectButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void generateReportButton_Click(object sender, EventArgs e)
+        {
+            var generateReport = new GenerateReport();
+            generateReport.ShowDialog();
         }
 
 
