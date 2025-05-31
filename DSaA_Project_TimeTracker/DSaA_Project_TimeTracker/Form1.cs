@@ -6,6 +6,8 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.Team;
 using DSaA_Project_TimeTracker.DTOs.User;
+using Microsoft.VisualBasic.ApplicationServices;
+using System.Threading.Tasks;
 
 
 namespace DSaA_Project_TimeTracker
@@ -167,7 +169,7 @@ namespace DSaA_Project_TimeTracker
                     teamsUserPanel, new Label[]
                     {
                         CreateHelpLabel(teamsNameUserListbox, "List of teams you belong to.", teamsUserPanel),
-                        CreateHelpLabel(teamsMembersUserListbox, "List of members of the currently selected team.", teamsUserPanel)
+                        CreateHelpLabel(teamsMembersUserListview, "List of members of the currently selected team.", teamsUserPanel)
                     }
                 },
                 {
@@ -318,6 +320,7 @@ namespace DSaA_Project_TimeTracker
         private void logOutAdminButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
+            
             adminViewPanel.Visible = false;
             userViewPanel.Visible = false;
             projectsAdminPanel.Visible = false;
@@ -650,7 +653,7 @@ namespace DSaA_Project_TimeTracker
         {
             {
 
-                if (employeesAdminListbox.SelectedItem is User selectedUser)
+                if (employeesAdminListbox.SelectedItem is Database.Entities.User selectedUser)
                 {
                     employeesUsernameAdminTexbox.Text = selectedUser.Username;
                     employeesEmailAdminTextbox.Text = selectedUser.Email;
@@ -713,7 +716,7 @@ namespace DSaA_Project_TimeTracker
 
         private void employeesDeleteEmployeeAdminButton_Click(object sender, EventArgs e)
         {
-            var selectedUser = employeesAdminListbox.SelectedItem as User;
+            var selectedUser = employeesAdminListbox.SelectedItem as Database.Entities.User;
             if (selectedUser == null)
                 return;
             DeleteConfirmation confirmDelete = new DeleteConfirmation(selectedUser)
@@ -726,7 +729,7 @@ namespace DSaA_Project_TimeTracker
 
         private void addHistoryRecordButton_Click(object sender, EventArgs e)
         {
-            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User)
+            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as Database.Entities.User)
             {
                 PanelToShow = "AddHistoryRecord"
             };
@@ -747,7 +750,7 @@ namespace DSaA_Project_TimeTracker
                 var selectedUserHistory = selectedListViewItem.Tag as UserHistory;
                 if (selectedUserHistory != null)
                 {
-                    AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User, selectedUserHistory)
+                    AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as Database.Entities.User, selectedUserHistory)
                     {
                         PanelToShow = "EditHistoryRecord"
                     };
@@ -817,6 +820,8 @@ namespace DSaA_Project_TimeTracker
             ResetHelpState();
             tasksUserPanel.Visible = false;
             teamsUserPanel.Visible = true;
+            teamsMembersUserListview.Items.Clear();
+            teamsNameUserListbox.Items.Clear();
             var _userRepo = new UserRepo();
             var teams = new TeamRepo();
             var userTeams = await teams.GetAll();
@@ -826,7 +831,7 @@ namespace DSaA_Project_TimeTracker
             {
                 teamsNameUserListbox.DisplayMember = "TeamName";
                 teamsNameUserListbox.ValueMember = "Id";
-                teamsMembersUserListbox.Items.Clear();
+                teamsMembersUserListview.Items.Clear();
                 teamsNameUserListbox.Items.Clear();
                 foreach (var team in loggedUserTeams)
                 {
@@ -835,18 +840,46 @@ namespace DSaA_Project_TimeTracker
             }
         }
 
-        private async void teamsNameUserListbox_SelectedIndexChanged(object sender, EventArgs e)
+        private async void teamsNameUserListview_SelectedIndexChanged(object sender, EventArgs e)
         {
+            var _taskRepo = new TaskRepo();
+            var _taskAssignRepo = new TaskAssignmentRepo();
+
+            var tasks = await _taskRepo.GetAll();
+            var taskAssignments = await _taskAssignRepo.GetAll();
             var userSelectedTeam = teamsNameUserListbox.SelectedItem as Team;
-            var team = await new TeamRepo().GetById(userSelectedTeam.Id);
-            if (team != null)
+            if (userSelectedTeam != null)
             {
-                teamsMembersUserListbox.DisplayMember = "Username";
-                teamsMembersUserListbox.ValueMember = "Id";
-                teamsMembersUserListbox.Items.Clear();
-                foreach (var member in team.TeamMembers)
+                var team = await new TeamRepo().GetById(userSelectedTeam.Id);
+                if (team != null)
                 {
-                    teamsMembersUserListbox.Items.Add(member.User);
+                    teamsMembersUserListview.Items.Clear();
+                    foreach (var member in team.TeamMembers)
+                    {
+                        if (member.UserId == userId)
+                            continue;
+                        var item = new ListViewItem(member.User.Username);
+                        item.SubItems.Add(member.User.Email);
+
+                        var teamUserTasks = taskAssignments.Where(x => x.UserId == member.UserId).ToList();
+                        var taskList = "";
+                        if (teamUserTasks != null && tasks != null)
+                        {
+
+                            var userTaskIds = teamUserTasks.Select(x => x.TaskId).ToHashSet();
+                            var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+                            var taskNames = new List<string>();
+                            foreach (var task in userTasks)
+                            {
+                                if (task.Status == "ToDo")
+                                    taskNames.Add(task.Title);
+                            }
+                            taskList = string.Join(", ", taskNames);
+                        }
+                        item.SubItems.Add(taskList);
+
+                        teamsMembersUserListview.Items.Add(item);
+                    }
                 }
             }
         }

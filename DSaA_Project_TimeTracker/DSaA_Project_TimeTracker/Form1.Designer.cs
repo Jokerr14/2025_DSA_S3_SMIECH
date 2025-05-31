@@ -44,8 +44,11 @@
             teamsUserButton = new Button();
             tasksUserButton = new Button();
             teamsUserPanel = new Panel();
+            teamsMembersUserListview = new ListView();
+            userName = new ColumnHeader();
+            userEmail = new ColumnHeader();
+            userTasks = new ColumnHeader();
             teamsMembersUserLabel = new Label();
-            teamsMembersUserListbox = new ListBox();
             teamsNameUserListbox = new ListBox();
             label5 = new Label();
             tasksUserPanel = new Panel();
@@ -300,8 +303,8 @@
             // 
             // teamsUserPanel
             // 
+            teamsUserPanel.Controls.Add(teamsMembersUserListview);
             teamsUserPanel.Controls.Add(teamsMembersUserLabel);
-            teamsUserPanel.Controls.Add(teamsMembersUserListbox);
             teamsUserPanel.Controls.Add(teamsNameUserListbox);
             teamsUserPanel.Controls.Add(label5);
             teamsUserPanel.Location = new Point(3, 58);
@@ -310,6 +313,31 @@
             teamsUserPanel.Size = new Size(1096, 519);
             teamsUserPanel.TabIndex = 4;
             teamsUserPanel.Visible = false;
+            // 
+            // teamsMembersUserListview
+            // 
+            teamsMembersUserListview.Columns.AddRange(new ColumnHeader[] { userName, userEmail, userTasks });
+            teamsMembersUserListview.Location = new Point(381, 31);
+            teamsMembersUserListview.Name = "teamsMembersUserListview";
+            teamsMembersUserListview.Size = new Size(705, 454);
+            teamsMembersUserListview.TabIndex = 4;
+            teamsMembersUserListview.UseCompatibleStateImageBehavior = false;
+            teamsMembersUserListview.View = View.Details;
+            // 
+            // userName
+            // 
+            userName.Text = "User";
+            userName.Width = 120;
+            // 
+            // userEmail
+            // 
+            userEmail.Text = "Email";
+            userEmail.Width = 200;
+            // 
+            // userTasks
+            // 
+            userTasks.Text = "Tasks";
+            userTasks.Width = 300;
             // 
             // teamsMembersUserLabel
             // 
@@ -321,16 +349,6 @@
             teamsMembersUserLabel.Text = "The selected team contains the following members:";
             teamsMembersUserLabel.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // teamsMembersUserListbox
-            // 
-            teamsMembersUserListbox.FormattingEnabled = true;
-            teamsMembersUserListbox.ItemHeight = 15;
-            teamsMembersUserListbox.Location = new Point(381, 31);
-            teamsMembersUserListbox.Margin = new Padding(3, 2, 3, 2);
-            teamsMembersUserListbox.Name = "teamsMembersUserListbox";
-            teamsMembersUserListbox.Size = new Size(710, 454);
-            teamsMembersUserListbox.TabIndex = 2;
-            // 
             // teamsNameUserListbox
             // 
             teamsNameUserListbox.FormattingEnabled = true;
@@ -340,7 +358,7 @@
             teamsNameUserListbox.Name = "teamsNameUserListbox";
             teamsNameUserListbox.Size = new Size(373, 454);
             teamsNameUserListbox.TabIndex = 1;
-            teamsNameUserListbox.SelectedIndexChanged += teamsNameUserListbox_SelectedIndexChanged;
+            teamsNameUserListbox.SelectedIndexChanged += teamsNameUserListview_SelectedIndexChanged;
             // 
             // label5
             // 
@@ -1009,7 +1027,7 @@
             tasksNameAdminLabel.AutoSize = true;
             tasksNameAdminLabel.Location = new Point(319, 10);
             tasksNameAdminLabel.Name = "tasksNameAdminLabel";
-            tasksNameAdminLabel.Size = new Size(64, 15);
+            tasksNameAdminLabel.Size = new Size(65, 15);
             tasksNameAdminLabel.TabIndex = 4;
             tasksNameAdminLabel.Text = "Task Name";
             // 
@@ -1108,7 +1126,7 @@
             teamsNameAdminLabel.AutoSize = true;
             teamsNameAdminLabel.Location = new Point(312, 10);
             teamsNameAdminLabel.Name = "teamsNameAdminLabel";
-            teamsNameAdminLabel.Size = new Size(70, 15);
+            teamsNameAdminLabel.Size = new Size(71, 15);
             teamsNameAdminLabel.TabIndex = 4;
             teamsNameAdminLabel.Text = "Team Name";
             // 
@@ -1139,9 +1157,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1140, 650);
-            Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
+            Controls.Add(adminViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
@@ -1249,7 +1267,6 @@
         private ListBox teamsNameUserListbox;
         private Label label5;
         private Label teamsMembersUserLabel;
-        private ListBox teamsMembersUserListbox;
         private Label tasksTodoUserLabel;
         private ListBox tasksDoneUserListbox;
         private ListBox tasksTodoUserListbox;
@@ -1269,5 +1286,9 @@
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
+        private ListView teamsMembersUserListview;
+        private ColumnHeader userName;
+        private ColumnHeader userEmail;
+        private ColumnHeader userTasks;
     }
 }
