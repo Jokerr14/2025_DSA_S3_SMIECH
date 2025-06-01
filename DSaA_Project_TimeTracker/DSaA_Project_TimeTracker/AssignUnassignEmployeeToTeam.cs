@@ -7,12 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Utils;
 
 namespace DSaA_Project_TimeTracker
 {
     public partial class AssignUnassignEmployeeToTeam : Form
     {
         private string _panelToShow;
+        private List<Team> _teamsCache = new();
         private Dictionary<Control, Label[]> subPanelHelpLabels;
 
         public string PanelToShow
@@ -20,22 +25,24 @@ namespace DSaA_Project_TimeTracker
             get => _panelToShow;
             set => _panelToShow = value;
         }
-
+        public object passedEmployee { get; set; }
+        public AssignUnassignEmployeeToTeam(object _passedEmployee) : this()
+        {
+            passedEmployee = _passedEmployee;
+        }
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
         public AssignUnassignEmployeeToTeam()
         {
             InitializeComponent();
+            assignCheckedListBox.ItemCheck += assignCheckedListBox_ItemCheck;
             InitializeHelpLabels();
 
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
-            unassignEmployeeFromTeamsPanel.Visible = false;
             assignEmployeeToTeamsPanel.Visible = false;
-
-            unassignCheckedListBox.Items.Insert(0, "Select All Teams");
             assignCheckedListBox.Items.Insert(0, "Select All Teams");
         }
 
@@ -47,19 +54,10 @@ namespace DSaA_Project_TimeTracker
                 {
                     assignEmployeeToTeamsPanel, new Label[]
                     {
-                        CreateHelpLabel(assignCheckedListBox, "Select teams to assign employee to.", assignEmployeeToTeamsPanel),
-                        CreateHelpLabel(assignButton, "Click to assign employee to selected team/s.", assignEmployeeToTeamsPanel),
+                        CreateHelpLabel(assignCheckedListBox, "Select which teams the employee should belong to.", assignEmployeeToTeamsPanel),
+                        CreateHelpLabel(assignButton, "Click to save changes.", assignEmployeeToTeamsPanel),
                         CreateHelpLabel(cancelAssignButton, "Click to cancel assignment.", assignEmployeeToTeamsPanel),
                         CreateHelpLabel(helpAssignButton, "Show help.", assignEmployeeToTeamsPanel)
-                    }
-                },
-                {
-                    unassignEmployeeFromTeamsPanel, new Label[]
-                    {
-                        CreateHelpLabel(unassignCheckedListBox, "Select teams to remove employee from.", unassignEmployeeFromTeamsPanel),
-                        CreateHelpLabel(removeButton, "Click to remove employee from selected team/s.", unassignEmployeeFromTeamsPanel),
-                        CreateHelpLabel(cancelUnassignButton, "Click to cancel removal.", unassignEmployeeFromTeamsPanel),
-                        CreateHelpLabel(helpUnassignButton, "Show help.", unassignEmployeeFromTeamsPanel)
                     }
                 },
             };
@@ -116,38 +114,66 @@ namespace DSaA_Project_TimeTracker
                 }
             }
 
-            // Determine the currently active panel
-            Control activePanel = null;
-            if (assignEmployeeToTeamsPanel.Visible) activePanel = assignEmployeeToTeamsPanel;
-            else if (unassignEmployeeFromTeamsPanel.Visible) activePanel = unassignEmployeeFromTeamsPanel;
-
-            // Show labels for the active panel
-            if (activePanel != null && subPanelHelpLabels.ContainsKey(activePanel))
-            {
-                foreach (var label in subPanelHelpLabels[activePanel])
+                foreach (var label in subPanelHelpLabels[assignEmployeeToTeamsPanel])
                 {
                     label.Visible = isHelpVisible;
                 }
+            
+        }
+
+        private bool _suppressItemCheck = false;
+
+        private void assignCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_suppressItemCheck) return;
+            if (e.Index == 0)
+            {
+                _suppressItemCheck = true;
+                bool checkAll = e.NewValue == CheckState.Checked;
+                for (int i = 1; i < assignCheckedListBox.Items.Count; i++)
+                {
+                    assignCheckedListBox.SetItemChecked(i, checkAll);
+                }
+                _suppressItemCheck = false;
+            }
+            else if (e.NewValue == CheckState.Unchecked && assignCheckedListBox.GetItemChecked(0))
+            {
+                _suppressItemCheck = true;
+                assignCheckedListBox.SetItemChecked(0, false);
+                _suppressItemCheck = false;
             }
         }
 
-        protected override void OnLoad(EventArgs e)
+
+        protected async override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
             if (_panelToShow == "AssignEmployeeToTeam")
             {
                 assignEmployeeToTeamsPanel.BringToFront();
-                assignEmployeeToTeamsPanel.Visible = false;
                 assignEmployeeToTeamsPanel.Visible = true;
+                assignTaskLabel.Text = ((User)passedEmployee).Username;
+                var teamRepo = new TeamRepo();
+                var teams = await teamRepo.GetAll();
+                if (teams != null)
+                {
+                    _teamsCache = teams.ToList();
+                    assignCheckedListBox.DisplayMember = "TeamName";
+                    assignCheckedListBox.ValueMember = "Id";
+                    for (int i = 0; i < _teamsCache.Count; i++)
+                    {
+                        var team = _teamsCache[i];
+                        assignCheckedListBox.Items.Add(team);
+                        if (team.TeamMembers != null && team.TeamMembers.Any(tm => tm.UserId == ((User)passedEmployee).Id))
+                        {
+                            assignCheckedListBox.SetItemChecked(i + 1, true);
+                        }
+                    }
 
+                }
             }
-            else if (_panelToShow == "UnassignEmployeeFromTeam")
-            {
-                unassignEmployeeFromTeamsPanel.BringToFront();
-                unassignEmployeeFromTeamsPanel.Visible = false;
-                unassignEmployeeFromTeamsPanel.Visible = true;
-            }
+
         }
 
         private void helpAssignButton_Click(object sender, EventArgs e)
@@ -170,14 +196,45 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void assignButton_Click(object sender, EventArgs e)
+        private async void assignButton_Click(object sender, EventArgs e)
         {
 
-        }
+            bool anyTeamSelected = false;
+            for (int i = 1; i < assignCheckedListBox.Items.Count; i++)
+            {
+                if (assignCheckedListBox.GetItemChecked(i))
+                {
+                    anyTeamSelected = true;
+                    break;
+                }
+            }
 
-        private void removeButton_Click(object sender, EventArgs e)
-        {
+            if (!anyTeamSelected)
+            {
+                MessageBox.Show("An employee must belong to at least one team. Please select at least one team.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            var user = (User)passedEmployee;
+            var assignmentsRepo = new AssignmentsRepo();
 
+            for (int i = 0; i < _teamsCache.Count; i++)
+            {
+                var team = _teamsCache[i];
+                bool isChecked = assignCheckedListBox.GetItemChecked(i + 1);
+                bool wasMember = team.TeamMembers != null && team.TeamMembers.Any(tm => tm.UserId == user.Id);
+
+                if (isChecked && !wasMember)
+                {
+                    await assignmentsRepo.AssignMemberToTeam(team.Id, user.Id);
+                }
+                else if (!isChecked && wasMember)
+                {
+                    await assignmentsRepo.DeleteMemberFromTeam(team.Id, user.Id);
+                }
+            }
+
+            MessageBox.Show("Team assignments updated.");
+            this.Close();
         }
     }
 }

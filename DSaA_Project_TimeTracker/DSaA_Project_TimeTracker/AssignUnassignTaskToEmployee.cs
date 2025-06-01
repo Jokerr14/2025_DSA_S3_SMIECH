@@ -7,6 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.Task;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Utils;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -20,23 +24,24 @@ namespace DSaA_Project_TimeTracker
             get => _panelToShow;
             set => _panelToShow = value;
         }
-
+        public object passedTask { get; set; }
+        public AssignUnassignTaskToEmployee(object _passedTask) : this()
+        {
+            passedTask = _passedTask;
+        }
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
         public AssignUnassignTaskToEmployee()
         {
             InitializeComponent();
-
+            assignCheckedListBox.ItemCheck += assignCheckedListBox_ItemCheck;
             InitializeHelpLabels();
 
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
-            removeTaskFromEmployeePanel.Visible = false;
             assignTaskToEmployeePanel.Visible = false;
-
-            unassignCheckedListBox.Items.Insert(0, "Select All Employees");
             assignCheckedListBox.Items.Insert(0, "Select All Employees");
         }
 
@@ -52,15 +57,6 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(assignButton, "Click to assign task to selected employee/s.", assignTaskToEmployeePanel),
                         CreateHelpLabel(cancelAssignButton, "Click to cancel assignment.", assignTaskToEmployeePanel),
                         CreateHelpLabel(helpAssignButton, "Show help.", assignTaskToEmployeePanel)
-                    }
-                },
-                {
-                    removeTaskFromEmployeePanel, new Label[]
-                    {
-                        CreateHelpLabel(unassignCheckedListBox, "Select employee/s to remove task from.", removeTaskFromEmployeePanel),
-                        CreateHelpLabel(removeButton, "Click to remove task from selected employee/s.", removeTaskFromEmployeePanel),
-                        CreateHelpLabel(cancelUnassignButton, "Click to cancel removal.", removeTaskFromEmployeePanel),
-                        CreateHelpLabel(helpUnassignButton, "Show help.", removeTaskFromEmployeePanel)
                     }
                 },
             };
@@ -117,22 +113,35 @@ namespace DSaA_Project_TimeTracker
                 }
             }
 
-            // Determine the currently active panel
-            Control activePanel = null;
-            if (removeTaskFromEmployeePanel.Visible) activePanel = removeTaskFromEmployeePanel;
-            else if (assignTaskToEmployeePanel.Visible) activePanel = assignTaskToEmployeePanel;
-
-            // Show labels for the active panel
-            if (activePanel != null && subPanelHelpLabels.ContainsKey(activePanel))
-            {
-                foreach (var label in subPanelHelpLabels[activePanel])
+                foreach (var label in subPanelHelpLabels[assignTaskToEmployeePanel])
                 {
                     label.Visible = isHelpVisible;
                 }
+            
+        }
+        private bool _suppressItemCheck = false;
+        private void assignCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_suppressItemCheck) return;
+            if (e.Index == 0)
+            {
+                _suppressItemCheck = true;
+                bool checkAll = e.NewValue == CheckState.Checked;
+                for (int i = 1; i < assignCheckedListBox.Items.Count; i++)
+                {
+                    assignCheckedListBox.SetItemChecked(i, checkAll);
+                }
+                _suppressItemCheck = false;
+            }
+            else if (e.NewValue == CheckState.Unchecked && assignCheckedListBox.GetItemChecked(0))
+            {
+                _suppressItemCheck = true;
+                assignCheckedListBox.SetItemChecked(0, false);
+                _suppressItemCheck = false;
             }
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected async override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
@@ -141,13 +150,51 @@ namespace DSaA_Project_TimeTracker
                 assignTaskToEmployeePanel.BringToFront();
                 assignTaskToEmployeePanel.Visible = false;
                 assignTaskToEmployeePanel.Visible = true;
+                var task = (TaskToDo)passedTask;
+                assignTaskLabel.Text = task.Title;
+                var projectRepo = new ProjectRepo();
+                var project = await projectRepo.GetById(task.ProjectId);
 
-            }
-            else if (_panelToShow == "UnassignEmployeeFromTask")
-            {
-                removeTaskFromEmployeePanel.BringToFront();
-                removeTaskFromEmployeePanel.Visible = false;
-                removeTaskFromEmployeePanel.Visible = true;
+                if (project != null && project.TeamProjects != null)
+                {
+                    var usersSet = new HashSet<User>(new UserIdComparer());
+
+                    foreach (var teamProject in project.TeamProjects)
+                    {
+                        var team = await new TeamRepo().GetById(teamProject.TeamId);
+                        if (team?.TeamMembers != null)
+                        {
+                            foreach (var member in team.TeamMembers)
+                            {
+                                if (member.User != null)
+                                    usersSet.Add(member.User);
+                            }
+                        }
+                    }
+
+                    var taskAssignmentRepo = new TaskAssignmentRepo();
+                    var assignments = await taskAssignmentRepo.GetAll();
+                    var assignedUserIds = assignments
+                        .Where(a => a.TaskId == task.Id)
+                        .Select(a => a.UserId)
+                        .ToHashSet();
+
+                    assignCheckedListBox.Items.Clear();
+                    assignCheckedListBox.Items.Insert(0, "Select All Employees");
+                    assignCheckedListBox.DisplayMember = "Username";
+                    assignCheckedListBox.ValueMember = "Id";
+                    int idx = 1;
+                    foreach (var user in usersSet)
+                    {
+                        assignCheckedListBox.Items.Add(user);
+                        if (assignedUserIds.Contains(user.Id))
+                        {
+                            assignCheckedListBox.SetItemChecked(idx, true);
+                        }
+                        idx++;
+                    }
+                }
+
             }
         }
 
@@ -171,14 +218,52 @@ namespace DSaA_Project_TimeTracker
             this.Close();
         }
 
-        private void assignButton_Click(object sender, EventArgs e)
+        private async void assignButton_Click(object sender, EventArgs e)
         {
+            var task = (TaskToDo)passedTask;
+            var taskAssignmentRepo = new TaskAssignmentRepo();
 
+            var assignments = await taskAssignmentRepo.GetAll();
+            var assignedUserIds = assignments
+                .Where(a => a.TaskId == task.Id)
+                .Select(a => a.UserId)
+                .ToHashSet();
+
+            for (int i = 1; i < assignCheckedListBox.Items.Count; i++)
+            {
+                if (assignCheckedListBox.Items[i] is User user)
+                {
+                    bool isChecked = assignCheckedListBox.GetItemChecked(i);
+                    bool wasAssigned = assignedUserIds.Contains(user.Id);
+
+                    if (isChecked && !wasAssigned)
+                    {
+                        await taskAssignmentRepo.Add(task.Id, user.Id);
+                    }
+                    else if (!isChecked && wasAssigned)
+                    {
+                        await taskAssignmentRepo.Delete(task.Id, user.Id);
+                    }
+                }
+            }
+
+            MessageBox.Show("Task assignments updated.");
+            this.Close();
         }
+    }
+}
 
-        private void removeButton_Click(object sender, EventArgs e)
-        {
+class UserIdComparer : IEqualityComparer<User>
+{
+    public bool Equals(User x, User y)
+    {
+        if (ReferenceEquals(x, y)) return true;
+        if (x is null || y is null) return false;
+        return x.Id == y.Id;
+    }
 
-        }
+    public int GetHashCode(User obj)
+    {
+        return obj.Id.GetHashCode();
     }
 }

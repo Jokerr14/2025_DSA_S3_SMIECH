@@ -115,8 +115,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(tasksEditTaskAdminButton, "Click to edit the selected task.", tasksAdminPanel),
                         CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel),
 
-                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to assign the selected task to employee/s.", tasksAdminPanel),
-                        CreateHelpLabel(UnassignTaskFromoEmployeesButton, "Click to remove the selected task from employee/s.", tasksAdminPanel)
+                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to select which employees should work on the selected task.", tasksAdminPanel),
                     }
                 },
                 {
@@ -130,8 +129,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(teamsEditTeamAdminButton, "Click to edit the selected team.", teamsAdminPanel),
                         CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel),
 
-                        CreateHelpLabel(AssignTeamToProjectButton, "Click to assign the selected team to project/s.", teamsAdminPanel),
-                        CreateHelpLabel(UnassignTeamFromProjectButton, "Click to remove the selected team from project/s.", teamsAdminPanel)
+                        CreateHelpLabel(AssignTeamToProjectButton, "Click to change which project(s) this team is assigned to.", teamsAdminPanel),
                     }
                 },
                 {
@@ -155,8 +153,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
                         CreateHelpLabel(generateReportButton, "Click to generate a report.", employeesAdminPanel),
 
-                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign the selected employee to a team/s.", employeesAdminPanel),
-                        CreateHelpLabel(UnassignEmployeeFromTeamButton, "Click to remove the selected employee from a team/s.", employeesAdminPanel)
+                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign/unassign this employee to/from certain teams", employeesAdminPanel),
                     }
                 },
                 {
@@ -445,6 +442,7 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = true;
             tasksEditTaskAdminButton.Enabled = false;
             tasksDeleteTaskAdminButton.Enabled = false;
+            AssignTaskToEmployeeButton.Enabled = false;
             tasksNameAdminTextbox.Text = "";
             tasksDescriptionAdminTextbox.Text = "";
             tasksStatusAdminTextbox.Text = "";
@@ -488,7 +486,6 @@ namespace DSaA_Project_TimeTracker
                 tasksEditTaskAdminButton.Enabled = true;
                 tasksDeleteTaskAdminButton.Enabled = true;
                 AssignTaskToEmployeeButton.Enabled = true;
-                UnassignTaskFromoEmployeesButton.Enabled = true;
             }
         }
 
@@ -530,6 +527,16 @@ namespace DSaA_Project_TimeTracker
             };
             confirmDelete.FormClosed += (s, args) => loadTasks();
             confirmDelete.ShowDialog();
+        }
+
+        private void AssignTaskToEmployeesButton_Click(object sender, EventArgs e)
+        {
+            var selectedTask = tasksAdminListbox.SelectedItem as TaskToDo;
+            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee(selectedTask)
+            {
+                PanelToShow = "AssignEmployeeToTask"
+            };
+            assignUnassignTaskToEmployees.ShowDialog();
         }
 
         ///////////////////////////////////////TEAMS//////////////////////////////////////
@@ -578,7 +585,6 @@ namespace DSaA_Project_TimeTracker
                 teamsDeleteTeamAdminButton.Enabled = true;
                 employeesAdminButton.Enabled = true;
                 AssignTeamToProjectButton.Enabled = true;
-                UnassignTeamFromProjectButton.Enabled = true;
             }
         }
 
@@ -616,6 +622,16 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
+        private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)
+        {
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject(selectedTeam)
+            {
+                PanelToShow = "AssignTeamToProject"
+            };
+            assignUnassignTeamToProject.ShowDialog();
+        }
+
         ///////////////////////////////////////EMPLOYEES//////////////////////////////////////
         private async void loadEmployees()
         {
@@ -624,6 +640,7 @@ namespace DSaA_Project_TimeTracker
             employeesDeleteEmployeeAdminButton.Enabled = false;
             editHistoryRecordButton.Enabled = false;
             deleteHistoryRecordButton.Enabled = false;
+            AssignEmployeeToTeamButton.Enabled = false;
             employeesEmailAdminTextbox.Text = "";
             employeesUsernameAdminTexbox.Text = "";
             employeesRoleAdminTextbox.Text = "";
@@ -654,6 +671,7 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             loadEmployees();
+            
         }
         private void employeesAdminListbox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -685,6 +703,7 @@ namespace DSaA_Project_TimeTracker
                     employeesEditEmployeeAdminButton.Enabled = true;
                     employeesDeleteEmployeeAdminButton.Enabled = true;
                     employeesAdminButton.Enabled = true;
+                    AssignEmployeeToTeamButton.Enabled = true;
                 }
             }
         }
@@ -782,6 +801,17 @@ namespace DSaA_Project_TimeTracker
                     confirmDelete.ShowDialog();
                 }
             }
+        }
+
+        private void AssignEmployeeToTeamButton_Click(object sender, EventArgs e)
+        {
+            var selectedEmployee = employeesAdminListbox.SelectedItem as User;
+            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam(selectedEmployee)
+            {
+                PanelToShow = "AssignEmployeeToTeam"
+            };
+            assignUnassignEmployeeToTeam.FormClosed += (s, args) => loadEmployees();
+            assignUnassignEmployeeToTeam.ShowDialog();
         }
         ///////////////////////////////////////////////////////USER BUTTONS///////////////////////////////////////
         private async void tasksUserButton_Click(object sender, EventArgs e)
@@ -947,59 +977,10 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-        private void AssignEmployeeToTeamButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
-            {
-                PanelToShow = "AssignEmployeeToTeam"
-            };
-            assignUnassignEmployeeToTeam.ShowDialog();
-        }
 
-        private void RemoveEmployeeFromTeamButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam()
-            {
-                PanelToShow = "UnassignEmployeeFromTeam"
-            };
-            assignUnassignEmployeeToTeam.ShowDialog();
-        }
 
-        private void AssignTaskToEmployeesButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
-            {
-                PanelToShow = "AssignEmployeeToTask"
-            };
-            assignUnassignTaskToEmployees.ShowDialog();
-        }
 
-        private void UnassignTaskFromoEmployeesButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee()
-            {
-                PanelToShow = "UnassignEmployeeFromTask"
-            };
-            assignUnassignTaskToEmployees.ShowDialog();
-        }
 
-        private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject()
-            {
-                PanelToShow = "AssignTeamToProject"
-            };
-            assignUnassignTeamToProject.ShowDialog();
-        }
-
-        private void UnassignTeamFromProjectButton_Click(object sender, EventArgs e)
-        {
-            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject()
-            {
-                PanelToShow = "UnassignTeamFromProject"
-            };
-            assignUnassignTeamToProject.ShowDialog();
-        }
 
         private void generateReportButton_Click(object sender, EventArgs e)
         {

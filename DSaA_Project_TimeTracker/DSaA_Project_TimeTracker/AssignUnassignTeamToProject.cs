@@ -1,8 +1,13 @@
-﻿namespace DSaA_Project_TimeTracker
+﻿using DSaA_Project_TimeTracker.Database.Entities;
+using DSaA_Project_TimeTracker.DTOs.User;
+using DSaA_Project_TimeTracker.Database.Repos;
+using DSaA_Project_TimeTracker.Utils;
+namespace DSaA_Project_TimeTracker
 {
     public partial class AssignUnassignTeamToProject : Form
     {
         private string _panelToShow;
+        private List<Project> _projectsCache = new();
         private Dictionary<Control, Label[]> subPanelHelpLabels;
 
         public string PanelToShow
@@ -10,22 +15,24 @@
             get => _panelToShow;
             set => _panelToShow = value;
         }
-
+        public object passedTeam { get; set; }
+        public AssignUnassignTeamToProject(object _passedTeam) : this()
+        {
+            passedTeam = _passedTeam;
+        }
         private bool isHelpVisible = false;
         private bool isHelpEnabled = false;
 
         public AssignUnassignTeamToProject()
         {
             InitializeComponent();
+            assignCheckedListBox.ItemCheck += assignCheckedListBox_ItemCheck;
             InitializeHelpLabels();
 
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
-            unassignTeamFromProjectPanel.Visible = false;
             assignTeamToProjectPanel.Visible = false;
-
-            unassignCheckedListBox.Items.Insert(0, "Select All Projects");
             assignCheckedListBox.Items.Insert(0, "Select All Projects");
         }
 
@@ -41,15 +48,6 @@
                         CreateHelpLabel(assignButton, "Click to assign team to selected project/s.", assignTeamToProjectPanel),
                         CreateHelpLabel(cancelAssignButton, "Click to cancel assignment.", assignTeamToProjectPanel),
                         CreateHelpLabel(helpAssignButton, "Show help.", assignTeamToProjectPanel)
-                    }
-                },
-                {
-                    unassignTeamFromProjectPanel, new Label[]
-                    {
-                        CreateHelpLabel(unassignCheckedListBox, "Select projects to remove team from.", unassignTeamFromProjectPanel),
-                        CreateHelpLabel(removeButton, "Click to remove team from selected project/s.", unassignTeamFromProjectPanel),
-                        CreateHelpLabel(cancelUnassignButton, "Click to cancel removal.", unassignTeamFromProjectPanel),
-                        CreateHelpLabel(helpUnassignButton, "Show help.", unassignTeamFromProjectPanel)
                     }
                 },
             };
@@ -105,23 +103,37 @@
                     label.Visible = false;
                 }
             }
-
-            // Determine the currently active panel
-            Control activePanel = null;
-            if (unassignTeamFromProjectPanel.Visible) activePanel = unassignTeamFromProjectPanel;
-            else if (assignTeamToProjectPanel.Visible) activePanel = assignTeamToProjectPanel;
-
             // Show labels for the active panel
-            if (activePanel != null && subPanelHelpLabels.ContainsKey(activePanel))
-            {
-                foreach (var label in subPanelHelpLabels[activePanel])
+
+                foreach (var label in subPanelHelpLabels[assignTeamToProjectPanel])
                 {
                     label.Visible = isHelpVisible;
                 }
+            
+        }
+        private bool _suppressItemCheck = false;
+        private void assignCheckedListBox_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            if (_suppressItemCheck) return;
+            if (e.Index == 0)
+            {
+                _suppressItemCheck = true;
+                bool checkAll = e.NewValue == CheckState.Checked;
+                for (int i = 1; i < assignCheckedListBox.Items.Count; i++)
+                {
+                    assignCheckedListBox.SetItemChecked(i, checkAll);
+                }
+                _suppressItemCheck = false;
+            }
+            else if (e.NewValue == CheckState.Unchecked && assignCheckedListBox.GetItemChecked(0))
+            {
+                _suppressItemCheck = true;
+                assignCheckedListBox.SetItemChecked(0, false);
+                _suppressItemCheck = false;
             }
         }
 
-        protected override void OnLoad(EventArgs e)
+        protected async override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
    
@@ -130,18 +142,26 @@
                 assignTeamToProjectPanel.BringToFront();
                 assignTeamToProjectPanel.Visible = false;
                 assignTeamToProjectPanel.Visible = true;
+                assignTeamLabel.Text = ((Team)passedTeam).TeamName;
 
+                var projectRepo = new ProjectRepo();
+                var projects = await projectRepo.GetAll();
+                if (projects != null)
+                {
+                    _projectsCache = projects.ToList();
+                    assignCheckedListBox.DisplayMember = "ProjectName";
+                    assignCheckedListBox.ValueMember = "Id";
+                    for (int i = 0; i < _projectsCache.Count; i++)
+                    {
+                        var project = _projectsCache[i];
+                        assignCheckedListBox.Items.Add(project);
+                        if (project.TeamProjects != null && project.TeamProjects.Any(tp => tp.TeamId == ((Team)passedTeam).Id))
+                        {
+                            assignCheckedListBox.SetItemChecked(i + 1, true);
+                        }
+                    }
+                }
             }
-            else if (_panelToShow == "UnassignTeamFromProject")
-            {
-                unassignTeamFromProjectPanel.BringToFront();
-                assignTeamToProjectPanel.Visible = false;
-                unassignTeamFromProjectPanel.Visible = true;
-            }
-        }
-
-        private void removeButton_Click(object sender, EventArgs e)
-        {
 
         }
 
@@ -150,10 +170,31 @@
             this.Close();
         }
 
-        private void assignButton_Click(object sender, EventArgs e)
+        private async void assignButton_Click(object sender, EventArgs e)
         {
+            var team = (Team)passedTeam;
+            var assignmentsRepo = new AssignmentsRepo();
 
+            for (int i = 0; i < _projectsCache.Count; i++)
+            {
+                var project = _projectsCache[i];
+                bool isChecked = assignCheckedListBox.GetItemChecked(i + 1);
+                bool wasMember = project.TeamProjects != null && project.TeamProjects.Any(tp => tp.TeamId == team.Id);
+
+                if (isChecked && !wasMember)
+                {
+                    await assignmentsRepo.AssignProjectToTeam(team.Id, project.Id);
+                }
+                else if (!isChecked && wasMember)
+                {
+                    await assignmentsRepo.DeleteProjectFromTeam(team.Id, project.Id);
+                }
+            }
+
+            MessageBox.Show("Team assignments updated.");
+            this.Close();
         }
+        
 
         private void cancelAssignButton_Click(object sender, EventArgs e)
         {
