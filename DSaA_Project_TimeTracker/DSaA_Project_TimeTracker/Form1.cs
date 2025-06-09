@@ -50,13 +50,45 @@ namespace DSaA_Project_TimeTracker
         public Form1()
         {
             InitializeComponent();
-            InitializeHelpLabels();
 
-            this.MaximizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            projectTeamsAdminListBox = new ListBox
+            {
+                Name = "projectTeamsAdminListBox",
+                Width = projectsDescriptionAdminTextbox.Width,
+                Height = (int)(projectsDescriptionAdminTextbox.Height), 
+                Location = new System.Drawing.Point(
+                projectsDescriptionAdminTextbox.Left,
+                projectsDescriptionAdminTextbox.Top + projectsDescriptionAdminTextbox.Height +20
+                )
+            };
+            projectsAdminPanel.Controls.Add(projectTeamsAdminListBox);
+
+
+            taskAssignmentsAdminListView = new System.Windows.Forms.ListView
+            {
+                Name = "taskAssignmentsAdminListView",
+                View = View.Details,
+                FullRowSelect = true,
+                Width = tasksDescriptionAdminTextbox.Width,
+                Height = tasksDescriptionAdminTextbox.Height, 
+                Location = new System.Drawing.Point(
+                    tasksDescriptionAdminTextbox.Left,
+                    tasksDescriptionAdminTextbox.Top + tasksDescriptionAdminTextbox.Height + 20 
+                )
+            };
+            taskAssignmentsAdminListView.Columns.Add("Assigned User", (int)(taskAssignmentsAdminListView.Width * 0.6));
+            taskAssignmentsAdminListView.Columns.Add("Time Spent (hours)", (int)(taskAssignmentsAdminListView.Width * 0.35));
+            tasksAdminPanel.Controls.Add(taskAssignmentsAdminListView);
+
+            
 
             tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
             tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
+
+            
+            InitializeHelpLabels();
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         private Dictionary<Control, Label[]> subPanelHelpLabels;
@@ -69,6 +101,8 @@ namespace DSaA_Project_TimeTracker
         private readonly UserRepo _userRepo = new UserRepo();
 
         private int userId = 0; // SUS idk what else to do
+        private System.Windows.Forms.ListView taskAssignmentsAdminListView;
+        private ListBox projectTeamsAdminListBox;
 
         private void InitializeHelpLabels()
         {
@@ -93,7 +127,7 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(projectsDescriptionAdminTextbox, "Description of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsStartDateAdminDatePicker, "Start date of selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsEndDateAdminDatePicker, "Expected finish date of selected project.", projectsAdminPanel),
-
+                        CreateHelpLabel(projectTeamsAdminListBox, "View which teams are assigned to selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsAddProjectAdminButton, "Click to add a new project.", projectsAdminPanel),
                         CreateHelpLabel(projectsEditProjectAdminButton, "Click to edit the selected project.", projectsAdminPanel),
                         CreateHelpLabel(projectsDeleteProjectAdminButton, "Click to delete the selected project.", projectsAdminPanel)
@@ -107,6 +141,7 @@ namespace DSaA_Project_TimeTracker
 
                         CreateHelpLabel(tasksNameAdminTextbox, "Name of selected task.", tasksAdminPanel),
                         CreateHelpLabel(tasksDescriptionAdminTextbox, "Description of selected task.", tasksAdminPanel),
+                        CreateHelpLabel(taskAssignmentsAdminListView, "View which users are assigned to selected task, and how much time they've spent working on it.", tasksAdminPanel),
 
                         CreateHelpLabel(tasksStatusAdminTextbox, "Status of selected task.", tasksAdminPanel),
                         CreateHelpLabel(tasksDueDateAdminDatePicker, "Date to which the task ought to be completed.", tasksAdminPanel),
@@ -354,9 +389,11 @@ namespace DSaA_Project_TimeTracker
             projectsDeleteProjectAdminButton.Enabled = false;
             projectsNameAdminTextbox.Text = "";
             projectsDescriptionAdminTextbox.Text = "";
+            projectsDescriptionAdminTextbox.Height = projectsDescriptionAdminTextbox.Height;
             projectsStartDateAdminDatePicker.Value = DateTime.Now;
             projectsEndDateAdminDatePicker.Value = DateTime.Now;
             projectsAdminListbox.Items.Clear();
+            projectTeamsAdminListBox.Items.Clear();
 
             var projectRepo = new ProjectRepo();
             var projects = await projectRepo.GetAll();
@@ -393,6 +430,17 @@ namespace DSaA_Project_TimeTracker
                 tasksAdminButton.Enabled = true;
                 projectsEditProjectAdminButton.Enabled = true;
                 projectsDeleteProjectAdminButton.Enabled = true;
+
+                // Populate the teams list
+                projectTeamsAdminListBox.Items.Clear();
+                if (selectedProject.TeamProjects != null)
+                {
+                    foreach (var teamProject in selectedProject.TeamProjects)
+                    {
+                        if (teamProject.Team != null)
+                            projectTeamsAdminListBox.Items.Add(teamProject.Team.TeamName);
+                    }
+                }
             }
         }
 
@@ -448,6 +496,7 @@ namespace DSaA_Project_TimeTracker
             tasksStatusAdminTextbox.Text = "";
             tasksDueDateAdminDatePicker.Value = DateTime.Now;
             tasksAdminListbox.Items.Clear();
+            taskAssignmentsAdminListView.Items.Clear();
 
             var selectedProject = projectsAdminListbox.SelectedItem as Project;
             var project = await new ProjectRepo().GetById(selectedProject.Id);
@@ -475,16 +524,34 @@ namespace DSaA_Project_TimeTracker
             loadTasks();
         }
 
-        private void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
+        private async void tasksAdminListbox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tasksAdminListbox.SelectedItem is TaskToDo selectedTask)
             {
                 tasksNameAdminTextbox.Text = selectedTask.Title;
-                tasksDescriptionAdminTextbox.Text = selectedTask.Description;
                 tasksStatusAdminTextbox.Text = selectedTask.Status;
                 tasksDueDateAdminDatePicker.Value = selectedTask.DueDate ?? DateTime.Now;
                 tasksEditTaskAdminButton.Enabled = true;
                 tasksDeleteTaskAdminButton.Enabled = true;
+
+                // Show only the description (shortened box)
+                tasksDescriptionAdminTextbox.Text = selectedTask.Description?.Trim();
+
+                // Populate the ListView with assignments
+                taskAssignmentsAdminListView.Items.Clear();
+                var taskRepo = new TaskRepo();
+                var taskDetails = await taskRepo.GetById(selectedTask.Id);
+
+                if (taskDetails?.TaskAssignments != null && taskDetails.TaskAssignments.Any())
+                {
+                    foreach (var assignment in taskDetails.TaskAssignments)
+                    {
+                        string username = assignment.User?.Username ?? "Unknown";
+                        string timeSpent = assignment.TimeSpentHours.ToString("0.##");
+                        var item = new ListViewItem(new[] { username, timeSpent });
+                        taskAssignmentsAdminListView.Items.Add(item);
+                    }
+                }
                 AssignTaskToEmployeeButton.Enabled = true;
             }
         }

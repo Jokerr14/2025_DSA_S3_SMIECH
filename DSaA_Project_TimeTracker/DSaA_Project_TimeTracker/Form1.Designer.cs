@@ -110,6 +110,7 @@
             employeesAddEmployeeAdminButton = new Button();
             employeesAdminListbox = new ListBox();
             projectsAdminPanel = new Panel();
+            label2 = new Label();
             projectsEndDateAdminDatePicker = new DateTimePicker();
             projectsStartDateAdminDatePicker = new DateTimePicker();
             projectsEndDateAdminLabel = new Label();
@@ -414,10 +415,10 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
-            adminViewPanel.Controls.Add(teamsAdminPanel);
-            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Controls.Add(tasksAdminPanel);
+            adminViewPanel.Controls.Add(teamsAdminPanel);
+            adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
@@ -567,7 +568,7 @@
             tasksDescriptionAdminTextbox.Name = "tasksDescriptionAdminTextbox";
             tasksDescriptionAdminTextbox.ReadOnly = true;
             tasksDescriptionAdminTextbox.ScrollBars = ScrollBars.Vertical;
-            tasksDescriptionAdminTextbox.Size = new Size(684, 267);
+            tasksDescriptionAdminTextbox.Size = new Size(684, 115);
             tasksDescriptionAdminTextbox.TabIndex = 15;
             // 
             // tasksStatusAdminTextbox
@@ -1023,6 +1024,7 @@
             // 
             // projectsAdminPanel
             // 
+            projectsAdminPanel.Controls.Add(label2);
             projectsAdminPanel.Controls.Add(projectsEndDateAdminDatePicker);
             projectsAdminPanel.Controls.Add(projectsStartDateAdminDatePicker);
             projectsAdminPanel.Controls.Add(projectsEndDateAdminLabel);
@@ -1041,6 +1043,15 @@
             projectsAdminPanel.Size = new Size(1116, 601);
             projectsAdminPanel.TabIndex = 16;
             projectsAdminPanel.Visible = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(292, 190);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 15);
+            label2.TabIndex = 16;
+            label2.Text = "Assigned Teams";
             // 
             // projectsEndDateAdminDatePicker
             // 
@@ -1085,7 +1096,7 @@
             projectsDescriptionAdminTextbox.Multiline = true;
             projectsDescriptionAdminTextbox.Name = "projectsDescriptionAdminTextbox";
             projectsDescriptionAdminTextbox.ReadOnly = true;
-            projectsDescriptionAdminTextbox.Size = new Size(684, 246);
+            projectsDescriptionAdminTextbox.Size = new Size(684, 111);
             projectsDescriptionAdminTextbox.TabIndex = 11;
             // 
             // projectsDeleteProjectAdminButton
@@ -1297,5 +1308,6 @@
         private Button AssignTaskToEmployeeButton;
         private Button AssignTeamToProjectButton;
         private Button generateReportButton;
+        private Label label2;
     }
 }
