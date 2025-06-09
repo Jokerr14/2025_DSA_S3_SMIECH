@@ -31,6 +31,10 @@ namespace DSaA_Project_TimeTracker
         public DeleteConfirmation()
         {
             InitializeComponent();
+
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             deleteTaskPanel.Visible = false;
             deleteEmployeePanel.Visible = false;
             deleteTeamPanel.Visible = false;

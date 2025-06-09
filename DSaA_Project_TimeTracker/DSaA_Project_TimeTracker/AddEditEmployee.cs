@@ -39,6 +39,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             addEmployeePanel.Visible = false;
             editEmployeePanel.Visible = false;
         }
@@ -208,7 +211,7 @@ namespace DSaA_Project_TimeTracker
             {
 
                 var password = ((User)ItemToEdit).PasswordHash;
-                if (editEmployeePasswordTextBox.Text != string.Empty) { password = PasswordHasher.HashPasword(editEmployeePasswordTextBox.Text); }
+                if (editEmployeePasswordTextBox.Text != string.Empty) { password = editEmployeePasswordTextBox.Text; }
                 var role = editEmployeeRoleComboBox.Text.ToString();
                 int roleNum;
                 if (role == "Admin")

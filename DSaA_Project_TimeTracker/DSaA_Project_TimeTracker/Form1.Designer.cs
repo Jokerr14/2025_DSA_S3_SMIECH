@@ -63,44 +63,8 @@
             teamsAdminButton = new Button();
             tasksAdminButton = new Button();
             projectsAdminButton = new Button();
-            employeesAdminPanel = new Panel();
-            employeeHistoryListView = new ListView();
-            columnHeader1 = new ColumnHeader();
-            columnHeader2 = new ColumnHeader();
-            columnHeader3 = new ColumnHeader();
-            deleteHistoryRecordButton = new Button();
-            editHistoryRecordButton = new Button();
-            addHistoryRecordButton = new Button();
-            label1 = new Label();
-            generateDetailedReportButton = new Button();
-            generateSummaryReportButton = new Button();
-            employeesStatusAdminTextbox = new TextBox();
-            employeesRoleAdminTextbox = new TextBox();
-            teamNameEmployeesAdminPanel = new Label();
-            employeesEmailAdminTextbox = new TextBox();
-            employeesUsernameAdminTexbox = new TextBox();
-            employeesStatusAdminLabel = new Label();
-            employeesRoleAdminLabel = new Label();
-            employeesEmailAdminLabel = new Label();
-            employeesUsernameAdminLabel = new Label();
-            employeesDeleteEmployeeAdminButton = new Button();
-            employeesEditEmployeeAdminButton = new Button();
-            employeesAddEmployeeAdminButton = new Button();
-            employeesAdminListbox = new ListBox();
-            projectsAdminPanel = new Panel();
-            projectsEndDateAdminDatePicker = new DateTimePicker();
-            projectsStartDateAdminDatePicker = new DateTimePicker();
-            projectsEndDateAdminLabel = new Label();
-            projectsStartDateAdminLabel = new Label();
-            projectsDescriptionAdminTextbox = new TextBox();
-            projectsDeleteProjectAdminButton = new Button();
-            projectsEditProjectAdminButton = new Button();
-            projectsNameAdminTextbox = new TextBox();
-            projectsDescriptionAdminLabel = new Label();
-            projectsNameAdminLabel = new Label();
-            projectsAddProjectAdminButton = new Button();
-            projectsAdminListbox = new ListBox();
             tasksAdminPanel = new Panel();
+            AssignTaskToEmployeeButton = new Button();
             tasksDeleteTaskAdminButton = new Button();
             tasksEditTaskAdminButton = new Button();
             tasksNameAdminTextbox = new TextBox();
@@ -115,6 +79,7 @@
             tasksAddTaskAdminButton = new Button();
             tasksAdminListbox = new ListBox();
             teamsAdminPanel = new Panel();
+            AssignTeamToProjectButton = new Button();
             teamsDescriptionAdminTextbox = new TextBox();
             teamsDeleteTeamAdminButton = new Button();
             teamsEditTeamAdminButton = new Button();
@@ -123,6 +88,44 @@
             teamsNameAdminLabel = new Label();
             teamsAddTeamAdminButton = new Button();
             teamsAdminListbox = new ListBox();
+            employeesAdminPanel = new Panel();
+            generateReportButton = new Button();
+            AssignEmployeeToTeamButton = new Button();
+            employeeHistoryListView = new ListView();
+            columnHeader1 = new ColumnHeader();
+            columnHeader2 = new ColumnHeader();
+            columnHeader3 = new ColumnHeader();
+            deleteHistoryRecordButton = new Button();
+            editHistoryRecordButton = new Button();
+            addHistoryRecordButton = new Button();
+            label1 = new Label();
+            employeesStatusAdminTextbox = new TextBox();
+            employeesRoleAdminTextbox = new TextBox();
+            teamNameEmployeesAdminPanel = new Label();
+            employeesEmailAdminTextbox = new TextBox();
+            employeesUsernameAdminTexbox = new TextBox();
+            employeesStatusAdminLabel = new Label();
+            employeesRoleAdminLabel = new Label();
+            employeesEmailAdminLabel = new Label();
+            employeesUsernameAdminLabel = new Label();
+            employeesDeleteEmployeeAdminButton = new Button();
+            employeesEditEmployeeAdminButton = new Button();
+            employeesAddEmployeeAdminButton = new Button();
+            employeesAdminListbox = new ListBox();
+            projectsAdminPanel = new Panel();
+            label2 = new Label();
+            projectsEndDateAdminDatePicker = new DateTimePicker();
+            projectsStartDateAdminDatePicker = new DateTimePicker();
+            projectsEndDateAdminLabel = new Label();
+            projectsStartDateAdminLabel = new Label();
+            projectsDescriptionAdminTextbox = new TextBox();
+            projectsDeleteProjectAdminButton = new Button();
+            projectsEditProjectAdminButton = new Button();
+            projectsNameAdminTextbox = new TextBox();
+            projectsDescriptionAdminLabel = new Label();
+            projectsNameAdminLabel = new Label();
+            projectsAddProjectAdminButton = new Button();
+            projectsAdminListbox = new ListBox();
             Event = new ColumnHeader();
             Date = new ColumnHeader();
             Notes = new ColumnHeader();
@@ -131,10 +134,10 @@
             teamsUserPanel.SuspendLayout();
             tasksUserPanel.SuspendLayout();
             adminViewPanel.SuspendLayout();
-            employeesAdminPanel.SuspendLayout();
-            projectsAdminPanel.SuspendLayout();
             tasksAdminPanel.SuspendLayout();
             teamsAdminPanel.SuspendLayout();
+            employeesAdminPanel.SuspendLayout();
+            projectsAdminPanel.SuspendLayout();
             SuspendLayout();
             // 
             // loginPanel
@@ -151,7 +154,7 @@
             loginPanel.Location = new Point(3, 2);
             loginPanel.Margin = new Padding(3, 2, 3, 2);
             loginPanel.Name = "loginPanel";
-            loginPanel.Size = new Size(1112, 575);
+            loginPanel.Size = new Size(1131, 686);
             loginPanel.TabIndex = 0;
             // 
             // loginAuthorLabel
@@ -253,13 +256,13 @@
             userViewPanel.Location = new Point(3, 2);
             userViewPanel.Margin = new Padding(3, 2, 3, 2);
             userViewPanel.Name = "userViewPanel";
-            userViewPanel.Size = new Size(1112, 579);
+            userViewPanel.Size = new Size(1131, 679);
             userViewPanel.TabIndex = 7;
             userViewPanel.Visible = false;
             // 
             // helpButtonUser
             // 
-            helpButtonUser.Location = new Point(1048, -1);
+            helpButtonUser.Location = new Point(1065, 2);
             helpButtonUser.Name = "helpButtonUser";
             helpButtonUser.Size = new Size(50, 29);
             helpButtonUser.TabIndex = 5;
@@ -269,7 +272,7 @@
             // 
             // logOutUserButton
             // 
-            logOutUserButton.Location = new Point(736, 0);
+            logOutUserButton.Location = new Point(753, 3);
             logOutUserButton.Margin = new Padding(3, 2, 3, 2);
             logOutUserButton.Name = "logOutUserButton";
             logOutUserButton.Size = new Size(307, 29);
@@ -280,7 +283,7 @@
             // 
             // teamsUserButton
             // 
-            teamsUserButton.Location = new Point(369, 0);
+            teamsUserButton.Location = new Point(386, 3);
             teamsUserButton.Margin = new Padding(3, 2, 3, 2);
             teamsUserButton.Name = "teamsUserButton";
             teamsUserButton.Size = new Size(362, 29);
@@ -292,7 +295,7 @@
             // tasksUserButton
             // 
             tasksUserButton.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tasksUserButton.Location = new Point(0, 0);
+            tasksUserButton.Location = new Point(17, 3);
             tasksUserButton.Margin = new Padding(3, 2, 3, 2);
             tasksUserButton.Name = "tasksUserButton";
             tasksUserButton.Size = new Size(362, 29);
@@ -307,10 +310,10 @@
             teamsUserPanel.Controls.Add(teamsMembersUserLabel);
             teamsUserPanel.Controls.Add(teamsNameUserListbox);
             teamsUserPanel.Controls.Add(label5);
-            teamsUserPanel.Location = new Point(3, 58);
+            teamsUserPanel.Location = new Point(3, 68);
             teamsUserPanel.Margin = new Padding(3, 2, 3, 2);
             teamsUserPanel.Name = "teamsUserPanel";
-            teamsUserPanel.Size = new Size(1096, 519);
+            teamsUserPanel.Size = new Size(1131, 597);
             teamsUserPanel.TabIndex = 4;
             teamsUserPanel.Visible = false;
             // 
@@ -342,7 +345,7 @@
             // teamsMembersUserLabel
             // 
             teamsMembersUserLabel.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            teamsMembersUserLabel.Location = new Point(381, 2);
+            teamsMembersUserLabel.Location = new Point(398, 2);
             teamsMembersUserLabel.Name = "teamsMembersUserLabel";
             teamsMembersUserLabel.Size = new Size(709, 28);
             teamsMembersUserLabel.TabIndex = 3;
@@ -353,7 +356,7 @@
             // 
             teamsNameUserListbox.FormattingEnabled = true;
             teamsNameUserListbox.ItemHeight = 15;
-            teamsNameUserListbox.Location = new Point(3, 31);
+            teamsNameUserListbox.Location = new Point(20, 31);
             teamsNameUserListbox.Margin = new Padding(3, 2, 3, 2);
             teamsNameUserListbox.Name = "teamsNameUserListbox";
             teamsNameUserListbox.Size = new Size(373, 454);
@@ -363,7 +366,7 @@
             // label5
             // 
             label5.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label5.Location = new Point(4, 2);
+            label5.Location = new Point(21, 2);
             label5.Name = "label5";
             label5.Size = new Size(372, 30);
             label5.TabIndex = 0;
@@ -430,14 +433,14 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
-            adminViewPanel.Controls.Add(employeesAdminPanel);
-            adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Controls.Add(tasksAdminPanel);
             adminViewPanel.Controls.Add(teamsAdminPanel);
+            adminViewPanel.Controls.Add(employeesAdminPanel);
+            adminViewPanel.Controls.Add(projectsAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
-            adminViewPanel.Size = new Size(1137, 645);
+            adminViewPanel.Size = new Size(1137, 690);
             adminViewPanel.TabIndex = 1;
             adminViewPanel.Visible = false;
             // 
@@ -508,15 +511,296 @@
             projectsAdminButton.UseVisualStyleBackColor = true;
             projectsAdminButton.Click += projectsAdminButton_Click;
             // 
+            // tasksAdminPanel
+            // 
+            tasksAdminPanel.Controls.Add(AssignTaskToEmployeeButton);
+            tasksAdminPanel.Controls.Add(tasksDeleteTaskAdminButton);
+            tasksAdminPanel.Controls.Add(tasksEditTaskAdminButton);
+            tasksAdminPanel.Controls.Add(tasksNameAdminTextbox);
+            tasksAdminPanel.Controls.Add(tasksDescriptionAdminTextbox);
+            tasksAdminPanel.Controls.Add(tasksStatusAdminTextbox);
+            tasksAdminPanel.Controls.Add(tasksProjectNameAdminLabel);
+            tasksAdminPanel.Controls.Add(tasksDueDateAdminDatePicker);
+            tasksAdminPanel.Controls.Add(tasksDueDateLabel);
+            tasksAdminPanel.Controls.Add(tasksStatusAdminLabel);
+            tasksAdminPanel.Controls.Add(tasksDescriptionAdminLabel);
+            tasksAdminPanel.Controls.Add(tasksNameAdminLabel);
+            tasksAdminPanel.Controls.Add(tasksAddTaskAdminButton);
+            tasksAdminPanel.Controls.Add(tasksAdminListbox);
+            tasksAdminPanel.Location = new Point(9, 89);
+            tasksAdminPanel.Margin = new Padding(3, 2, 3, 2);
+            tasksAdminPanel.Name = "tasksAdminPanel";
+            tasksAdminPanel.Size = new Size(1119, 588);
+            tasksAdminPanel.TabIndex = 13;
+            tasksAdminPanel.Visible = false;
+            // 
+            // AssignTaskToEmployeeButton
+            // 
+            AssignTaskToEmployeeButton.Enabled = false;
+            AssignTaskToEmployeeButton.Location = new Point(363, 494);
+            AssignTaskToEmployeeButton.Margin = new Padding(3, 4, 3, 4);
+            AssignTaskToEmployeeButton.Name = "AssignTaskToEmployeeButton";
+            AssignTaskToEmployeeButton.Size = new Size(362, 29);
+            AssignTaskToEmployeeButton.TabIndex = 19;
+            AssignTaskToEmployeeButton.Text = "Select Which Employees Are Assigned To This Task";
+            AssignTaskToEmployeeButton.UseVisualStyleBackColor = true;
+            AssignTaskToEmployeeButton.Click += AssignTaskToEmployeesButton_Click;
+            // 
+            // tasksDeleteTaskAdminButton
+            // 
+            tasksDeleteTaskAdminButton.Location = new Point(728, 437);
+            tasksDeleteTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
+            tasksDeleteTaskAdminButton.Name = "tasksDeleteTaskAdminButton";
+            tasksDeleteTaskAdminButton.Size = new Size(362, 29);
+            tasksDeleteTaskAdminButton.TabIndex = 18;
+            tasksDeleteTaskAdminButton.Text = "Delete Task";
+            tasksDeleteTaskAdminButton.UseVisualStyleBackColor = true;
+            tasksDeleteTaskAdminButton.Click += tasksDeleteTaskAdminButton_Click;
+            // 
+            // tasksEditTaskAdminButton
+            // 
+            tasksEditTaskAdminButton.Location = new Point(363, 437);
+            tasksEditTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
+            tasksEditTaskAdminButton.Name = "tasksEditTaskAdminButton";
+            tasksEditTaskAdminButton.Size = new Size(362, 29);
+            tasksEditTaskAdminButton.TabIndex = 17;
+            tasksEditTaskAdminButton.Text = "Edit Task";
+            tasksEditTaskAdminButton.UseVisualStyleBackColor = true;
+            tasksEditTaskAdminButton.Click += tasksEditTaskAdminButton_Click;
+            // 
+            // tasksNameAdminTextbox
+            // 
+            tasksNameAdminTextbox.Location = new Point(397, 8);
+            tasksNameAdminTextbox.Margin = new Padding(3, 2, 3, 2);
+            tasksNameAdminTextbox.Name = "tasksNameAdminTextbox";
+            tasksNameAdminTextbox.ReadOnly = true;
+            tasksNameAdminTextbox.ScrollBars = ScrollBars.Horizontal;
+            tasksNameAdminTextbox.Size = new Size(684, 23);
+            tasksNameAdminTextbox.TabIndex = 16;
+            // 
+            // tasksDescriptionAdminTextbox
+            // 
+            tasksDescriptionAdminTextbox.Location = new Point(397, 53);
+            tasksDescriptionAdminTextbox.Margin = new Padding(3, 2, 3, 2);
+            tasksDescriptionAdminTextbox.Multiline = true;
+            tasksDescriptionAdminTextbox.Name = "tasksDescriptionAdminTextbox";
+            tasksDescriptionAdminTextbox.ReadOnly = true;
+            tasksDescriptionAdminTextbox.ScrollBars = ScrollBars.Vertical;
+            tasksDescriptionAdminTextbox.Size = new Size(684, 114);
+            tasksDescriptionAdminTextbox.TabIndex = 15;
+            // 
+            // tasksStatusAdminTextbox
+            // 
+            tasksStatusAdminTextbox.Location = new Point(397, 343);
+            tasksStatusAdminTextbox.Margin = new Padding(3, 2, 3, 2);
+            tasksStatusAdminTextbox.Name = "tasksStatusAdminTextbox";
+            tasksStatusAdminTextbox.ReadOnly = true;
+            tasksStatusAdminTextbox.ScrollBars = ScrollBars.Horizontal;
+            tasksStatusAdminTextbox.Size = new Size(684, 23);
+            tasksStatusAdminTextbox.TabIndex = 14;
+            // 
+            // tasksProjectNameAdminLabel
+            // 
+            tasksProjectNameAdminLabel.AutoEllipsis = true;
+            tasksProjectNameAdminLabel.AutoSize = true;
+            tasksProjectNameAdminLabel.Font = new Font("Segoe UI", 13F);
+            tasksProjectNameAdminLabel.Location = new Point(2, 3);
+            tasksProjectNameAdminLabel.MaximumSize = new Size(281, 50);
+            tasksProjectNameAdminLabel.Name = "tasksProjectNameAdminLabel";
+            tasksProjectNameAdminLabel.Size = new Size(268, 25);
+            tasksProjectNameAdminLabel.TabIndex = 13;
+            tasksProjectNameAdminLabel.Text = "selected project name goes here";
+            tasksProjectNameAdminLabel.TextAlign = ContentAlignment.MiddleCenter;
+            // 
+            // tasksDueDateAdminDatePicker
+            // 
+            tasksDueDateAdminDatePicker.Enabled = false;
+            tasksDueDateAdminDatePicker.Location = new Point(397, 392);
+            tasksDueDateAdminDatePicker.Margin = new Padding(3, 2, 3, 2);
+            tasksDueDateAdminDatePicker.Name = "tasksDueDateAdminDatePicker";
+            tasksDueDateAdminDatePicker.Size = new Size(219, 23);
+            tasksDueDateAdminDatePicker.TabIndex = 12;
+            tasksDueDateAdminDatePicker.Value = new DateTime(2025, 8, 1, 0, 0, 0, 0);
+            // 
+            // tasksDueDateLabel
+            // 
+            tasksDueDateLabel.AutoSize = true;
+            tasksDueDateLabel.Location = new Point(327, 397);
+            tasksDueDateLabel.Name = "tasksDueDateLabel";
+            tasksDueDateLabel.Size = new Size(53, 15);
+            tasksDueDateLabel.TabIndex = 7;
+            tasksDueDateLabel.Text = "Deadline";
+            // 
+            // tasksStatusAdminLabel
+            // 
+            tasksStatusAdminLabel.AutoSize = true;
+            tasksStatusAdminLabel.Location = new Point(301, 346);
+            tasksStatusAdminLabel.Name = "tasksStatusAdminLabel";
+            tasksStatusAdminLabel.Size = new Size(82, 15);
+            tasksStatusAdminLabel.TabIndex = 6;
+            tasksStatusAdminLabel.Text = "Current Status";
+            // 
+            // tasksDescriptionAdminLabel
+            // 
+            tasksDescriptionAdminLabel.AutoSize = true;
+            tasksDescriptionAdminLabel.Location = new Point(316, 58);
+            tasksDescriptionAdminLabel.Name = "tasksDescriptionAdminLabel";
+            tasksDescriptionAdminLabel.Size = new Size(67, 15);
+            tasksDescriptionAdminLabel.TabIndex = 5;
+            tasksDescriptionAdminLabel.Text = "Description";
+            // 
+            // tasksNameAdminLabel
+            // 
+            tasksNameAdminLabel.AutoSize = true;
+            tasksNameAdminLabel.Location = new Point(319, 10);
+            tasksNameAdminLabel.Name = "tasksNameAdminLabel";
+            tasksNameAdminLabel.Size = new Size(64, 15);
+            tasksNameAdminLabel.TabIndex = 4;
+            tasksNameAdminLabel.Text = "Task Name";
+            // 
+            // tasksAddTaskAdminButton
+            // 
+            tasksAddTaskAdminButton.Location = new Point(-3, 437);
+            tasksAddTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
+            tasksAddTaskAdminButton.Name = "tasksAddTaskAdminButton";
+            tasksAddTaskAdminButton.Size = new Size(362, 29);
+            tasksAddTaskAdminButton.TabIndex = 1;
+            tasksAddTaskAdminButton.Text = "Add New Task";
+            tasksAddTaskAdminButton.UseVisualStyleBackColor = true;
+            tasksAddTaskAdminButton.Click += tasksAddTaskAdminButton_Click;
+            // 
+            // tasksAdminListbox
+            // 
+            tasksAdminListbox.FormattingEnabled = true;
+            tasksAdminListbox.ItemHeight = 15;
+            tasksAdminListbox.Location = new Point(3, 60);
+            tasksAdminListbox.Margin = new Padding(3, 2, 3, 2);
+            tasksAdminListbox.Name = "tasksAdminListbox";
+            tasksAdminListbox.Size = new Size(281, 349);
+            tasksAdminListbox.TabIndex = 0;
+            tasksAdminListbox.SelectedIndexChanged += tasksAdminListbox_SelectedIndexChanged;
+            // 
+            // teamsAdminPanel
+            // 
+            teamsAdminPanel.Controls.Add(AssignTeamToProjectButton);
+            teamsAdminPanel.Controls.Add(teamsDescriptionAdminTextbox);
+            teamsAdminPanel.Controls.Add(teamsDeleteTeamAdminButton);
+            teamsAdminPanel.Controls.Add(teamsEditTeamAdminButton);
+            teamsAdminPanel.Controls.Add(teamsNameAdminTexbox);
+            teamsAdminPanel.Controls.Add(teamsDescriptionAdminLabel);
+            teamsAdminPanel.Controls.Add(teamsNameAdminLabel);
+            teamsAdminPanel.Controls.Add(teamsAddTeamAdminButton);
+            teamsAdminPanel.Controls.Add(teamsAdminListbox);
+            teamsAdminPanel.Location = new Point(9, 89);
+            teamsAdminPanel.Margin = new Padding(3, 2, 3, 2);
+            teamsAdminPanel.Name = "teamsAdminPanel";
+            teamsAdminPanel.Size = new Size(1119, 590);
+            teamsAdminPanel.TabIndex = 14;
+            teamsAdminPanel.Visible = false;
+            // 
+            // AssignTeamToProjectButton
+            // 
+            AssignTeamToProjectButton.Enabled = false;
+            AssignTeamToProjectButton.Location = new Point(363, 479);
+            AssignTeamToProjectButton.Margin = new Padding(3, 4, 3, 4);
+            AssignTeamToProjectButton.Name = "AssignTeamToProjectButton";
+            AssignTeamToProjectButton.Size = new Size(362, 29);
+            AssignTeamToProjectButton.TabIndex = 20;
+            AssignTeamToProjectButton.Text = "Modify This Team's Project Assignments";
+            AssignTeamToProjectButton.UseVisualStyleBackColor = true;
+            AssignTeamToProjectButton.Click += AssignTeamToProjectsButton_Click;
+            // 
+            // teamsDescriptionAdminTextbox
+            // 
+            teamsDescriptionAdminTextbox.Location = new Point(397, 53);
+            teamsDescriptionAdminTextbox.Margin = new Padding(3, 2, 3, 2);
+            teamsDescriptionAdminTextbox.Multiline = true;
+            teamsDescriptionAdminTextbox.Name = "teamsDescriptionAdminTextbox";
+            teamsDescriptionAdminTextbox.ReadOnly = true;
+            teamsDescriptionAdminTextbox.Size = new Size(684, 352);
+            teamsDescriptionAdminTextbox.TabIndex = 11;
+            // 
+            // teamsDeleteTeamAdminButton
+            // 
+            teamsDeleteTeamAdminButton.Location = new Point(724, 428);
+            teamsDeleteTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
+            teamsDeleteTeamAdminButton.Name = "teamsDeleteTeamAdminButton";
+            teamsDeleteTeamAdminButton.Size = new Size(362, 29);
+            teamsDeleteTeamAdminButton.TabIndex = 10;
+            teamsDeleteTeamAdminButton.Text = "Delete Team";
+            teamsDeleteTeamAdminButton.UseVisualStyleBackColor = true;
+            teamsDeleteTeamAdminButton.Click += teamsDeleteTeamAdminButton_Click;
+            // 
+            // teamsEditTeamAdminButton
+            // 
+            teamsEditTeamAdminButton.Location = new Point(363, 428);
+            teamsEditTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
+            teamsEditTeamAdminButton.Name = "teamsEditTeamAdminButton";
+            teamsEditTeamAdminButton.Size = new Size(362, 29);
+            teamsEditTeamAdminButton.TabIndex = 9;
+            teamsEditTeamAdminButton.Text = "Edit Team";
+            teamsEditTeamAdminButton.UseVisualStyleBackColor = true;
+            teamsEditTeamAdminButton.Click += teamsEditTeamAdminButton_Click;
+            // 
+            // teamsNameAdminTexbox
+            // 
+            teamsNameAdminTexbox.Location = new Point(397, 8);
+            teamsNameAdminTexbox.Margin = new Padding(3, 2, 3, 2);
+            teamsNameAdminTexbox.Name = "teamsNameAdminTexbox";
+            teamsNameAdminTexbox.ReadOnly = true;
+            teamsNameAdminTexbox.ScrollBars = ScrollBars.Horizontal;
+            teamsNameAdminTexbox.Size = new Size(684, 23);
+            teamsNameAdminTexbox.TabIndex = 8;
+            // 
+            // teamsDescriptionAdminLabel
+            // 
+            teamsDescriptionAdminLabel.AutoSize = true;
+            teamsDescriptionAdminLabel.Location = new Point(314, 57);
+            teamsDescriptionAdminLabel.Name = "teamsDescriptionAdminLabel";
+            teamsDescriptionAdminLabel.Size = new Size(67, 15);
+            teamsDescriptionAdminLabel.TabIndex = 5;
+            teamsDescriptionAdminLabel.Text = "Description";
+            // 
+            // teamsNameAdminLabel
+            // 
+            teamsNameAdminLabel.AutoSize = true;
+            teamsNameAdminLabel.Location = new Point(312, 10);
+            teamsNameAdminLabel.Name = "teamsNameAdminLabel";
+            teamsNameAdminLabel.Size = new Size(70, 15);
+            teamsNameAdminLabel.TabIndex = 4;
+            teamsNameAdminLabel.Text = "Team Name";
+            // 
+            // teamsAddTeamAdminButton
+            // 
+            teamsAddTeamAdminButton.Location = new Point(2, 428);
+            teamsAddTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
+            teamsAddTeamAdminButton.Name = "teamsAddTeamAdminButton";
+            teamsAddTeamAdminButton.Size = new Size(362, 29);
+            teamsAddTeamAdminButton.TabIndex = 1;
+            teamsAddTeamAdminButton.Text = "Add New Team";
+            teamsAddTeamAdminButton.UseVisualStyleBackColor = true;
+            teamsAddTeamAdminButton.Click += teamsAddTeamAdminButton_Click;
+            // 
+            // teamsAdminListbox
+            // 
+            teamsAdminListbox.FormattingEnabled = true;
+            teamsAdminListbox.ItemHeight = 15;
+            teamsAdminListbox.Location = new Point(3, 0);
+            teamsAdminListbox.Margin = new Padding(3, 2, 3, 2);
+            teamsAdminListbox.Name = "teamsAdminListbox";
+            teamsAdminListbox.Size = new Size(281, 409);
+            teamsAdminListbox.TabIndex = 0;
+            teamsAdminListbox.SelectedIndexChanged += teamsAdminListbox_SelectedIndexChanged;
+            // 
             // employeesAdminPanel
             // 
+            employeesAdminPanel.Controls.Add(generateReportButton);
+            employeesAdminPanel.Controls.Add(AssignEmployeeToTeamButton);
             employeesAdminPanel.Controls.Add(employeeHistoryListView);
             employeesAdminPanel.Controls.Add(deleteHistoryRecordButton);
             employeesAdminPanel.Controls.Add(editHistoryRecordButton);
             employeesAdminPanel.Controls.Add(addHistoryRecordButton);
             employeesAdminPanel.Controls.Add(label1);
-            employeesAdminPanel.Controls.Add(generateDetailedReportButton);
-            employeesAdminPanel.Controls.Add(generateSummaryReportButton);
             employeesAdminPanel.Controls.Add(employeesStatusAdminTextbox);
             employeesAdminPanel.Controls.Add(employeesRoleAdminTextbox);
             employeesAdminPanel.Controls.Add(teamNameEmployeesAdminPanel);
@@ -533,16 +817,38 @@
             employeesAdminPanel.Location = new Point(9, 87);
             employeesAdminPanel.Margin = new Padding(3, 2, 3, 2);
             employeesAdminPanel.Name = "employeesAdminPanel";
-            employeesAdminPanel.Size = new Size(1119, 558);
+            employeesAdminPanel.Size = new Size(1119, 601);
             employeesAdminPanel.TabIndex = 15;
             employeesAdminPanel.Visible = false;
+            // 
+            // generateReportButton
+            // 
+            generateReportButton.Location = new Point(377, 545);
+            generateReportButton.Margin = new Padding(3, 4, 3, 4);
+            generateReportButton.Name = "generateReportButton";
+            generateReportButton.Size = new Size(362, 29);
+            generateReportButton.TabIndex = 26;
+            generateReportButton.Text = "Generate Report";
+            generateReportButton.UseVisualStyleBackColor = true;
+            generateReportButton.Click += generateReportButton_Click;
+            // 
+            // AssignEmployeeToTeamButton
+            // 
+            AssignEmployeeToTeamButton.Location = new Point(377, 496);
+            AssignEmployeeToTeamButton.Margin = new Padding(3, 4, 3, 4);
+            AssignEmployeeToTeamButton.Name = "AssignEmployeeToTeamButton";
+            AssignEmployeeToTeamButton.Size = new Size(362, 29);
+            AssignEmployeeToTeamButton.TabIndex = 24;
+            AssignEmployeeToTeamButton.Text = "Modify Which Teams This Employee Belongs To";
+            AssignEmployeeToTeamButton.UseVisualStyleBackColor = true;
+            AssignEmployeeToTeamButton.Click += AssignEmployeeToTeamButton_Click;
             // 
             // employeeHistoryListView
             // 
             employeeHistoryListView.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
             employeeHistoryListView.FullRowSelect = true;
             employeeHistoryListView.GridLines = true;
-            employeeHistoryListView.Location = new Point(428, 243);
+            employeeHistoryListView.Location = new Point(442, 244);
             employeeHistoryListView.Margin = new Padding(3, 4, 3, 4);
             employeeHistoryListView.Name = "employeeHistoryListView";
             employeeHistoryListView.Size = new Size(658, 182);
@@ -568,7 +874,7 @@
             // 
             // deleteHistoryRecordButton
             // 
-            deleteHistoryRecordButton.Location = new Point(886, 197);
+            deleteHistoryRecordButton.Location = new Point(900, 198);
             deleteHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             deleteHistoryRecordButton.Name = "deleteHistoryRecordButton";
             deleteHistoryRecordButton.Size = new Size(200, 29);
@@ -579,7 +885,7 @@
             // 
             // editHistoryRecordButton
             // 
-            editHistoryRecordButton.Location = new Point(656, 197);
+            editHistoryRecordButton.Location = new Point(670, 198);
             editHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             editHistoryRecordButton.Name = "editHistoryRecordButton";
             editHistoryRecordButton.Size = new Size(200, 29);
@@ -590,7 +896,7 @@
             // 
             // addHistoryRecordButton
             // 
-            addHistoryRecordButton.Location = new Point(428, 197);
+            addHistoryRecordButton.Location = new Point(442, 198);
             addHistoryRecordButton.Margin = new Padding(3, 4, 3, 4);
             addHistoryRecordButton.Name = "addHistoryRecordButton";
             addHistoryRecordButton.Size = new Size(200, 29);
@@ -602,39 +908,15 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(313, 204);
+            label1.Location = new Point(327, 205);
             label1.Name = "label1";
             label1.Size = new Size(100, 15);
             label1.TabIndex = 18;
             label1.Text = "Employee History";
             // 
-            // generateDetailedReportButton
-            // 
-            generateDetailedReportButton.Enabled = false;
-            generateDetailedReportButton.Location = new Point(548, 493);
-            generateDetailedReportButton.Margin = new Padding(3, 4, 3, 4);
-            generateDetailedReportButton.Name = "generateDetailedReportButton";
-            generateDetailedReportButton.Size = new Size(538, 29);
-            generateDetailedReportButton.TabIndex = 17;
-            generateDetailedReportButton.Text = "Generate Detailed Report";
-            generateDetailedReportButton.UseVisualStyleBackColor = true;
-            generateDetailedReportButton.Click += generateDetailedReportButton_Click;
-            // 
-            // generateSummaryReportButton
-            // 
-            generateSummaryReportButton.Enabled = false;
-            generateSummaryReportButton.Location = new Point(1, 493);
-            generateSummaryReportButton.Margin = new Padding(3, 4, 3, 4);
-            generateSummaryReportButton.Name = "generateSummaryReportButton";
-            generateSummaryReportButton.Size = new Size(538, 29);
-            generateSummaryReportButton.TabIndex = 16;
-            generateSummaryReportButton.Text = "Generate Summary Report";
-            generateSummaryReportButton.UseVisualStyleBackColor = true;
-            generateSummaryReportButton.Click += generateSummaryReportButton_Click;
-            // 
             // employeesStatusAdminTextbox
             // 
-            employeesStatusAdminTextbox.Location = new Point(428, 150);
+            employeesStatusAdminTextbox.Location = new Point(442, 151);
             employeesStatusAdminTextbox.Margin = new Padding(3, 2, 3, 2);
             employeesStatusAdminTextbox.Name = "employeesStatusAdminTextbox";
             employeesStatusAdminTextbox.ReadOnly = true;
@@ -643,7 +925,7 @@
             // 
             // employeesRoleAdminTextbox
             // 
-            employeesRoleAdminTextbox.Location = new Point(428, 106);
+            employeesRoleAdminTextbox.Location = new Point(442, 107);
             employeesRoleAdminTextbox.Margin = new Padding(3, 2, 3, 2);
             employeesRoleAdminTextbox.Name = "employeesRoleAdminTextbox";
             employeesRoleAdminTextbox.ReadOnly = true;
@@ -654,7 +936,8 @@
             // teamNameEmployeesAdminPanel
             // 
             teamNameEmployeesAdminPanel.AutoEllipsis = true;
-            teamNameEmployeesAdminPanel.Location = new Point(1, 0);
+            teamNameEmployeesAdminPanel.Font = new Font("Segoe UI", 13F);
+            teamNameEmployeesAdminPanel.Location = new Point(15, 1);
             teamNameEmployeesAdminPanel.Name = "teamNameEmployeesAdminPanel";
             teamNameEmployeesAdminPanel.Size = new Size(282, 44);
             teamNameEmployeesAdminPanel.TabIndex = 13;
@@ -663,7 +946,7 @@
             // 
             // employeesEmailAdminTextbox
             // 
-            employeesEmailAdminTextbox.Location = new Point(428, 55);
+            employeesEmailAdminTextbox.Location = new Point(442, 56);
             employeesEmailAdminTextbox.Margin = new Padding(3, 2, 3, 2);
             employeesEmailAdminTextbox.Name = "employeesEmailAdminTextbox";
             employeesEmailAdminTextbox.ReadOnly = true;
@@ -673,7 +956,7 @@
             // 
             // employeesUsernameAdminTexbox
             // 
-            employeesUsernameAdminTexbox.Location = new Point(428, 8);
+            employeesUsernameAdminTexbox.Location = new Point(442, 9);
             employeesUsernameAdminTexbox.Margin = new Padding(3, 2, 3, 2);
             employeesUsernameAdminTexbox.Name = "employeesUsernameAdminTexbox";
             employeesUsernameAdminTexbox.ReadOnly = true;
@@ -684,7 +967,7 @@
             // employeesStatusAdminLabel
             // 
             employeesStatusAdminLabel.AutoSize = true;
-            employeesStatusAdminLabel.Location = new Point(303, 153);
+            employeesStatusAdminLabel.Location = new Point(317, 154);
             employeesStatusAdminLabel.Name = "employeesStatusAdminLabel";
             employeesStatusAdminLabel.Size = new Size(110, 15);
             employeesStatusAdminLabel.TabIndex = 7;
@@ -693,7 +976,7 @@
             // employeesRoleAdminLabel
             // 
             employeesRoleAdminLabel.AutoSize = true;
-            employeesRoleAdminLabel.Location = new Point(383, 114);
+            employeesRoleAdminLabel.Location = new Point(397, 115);
             employeesRoleAdminLabel.Name = "employeesRoleAdminLabel";
             employeesRoleAdminLabel.Size = new Size(30, 15);
             employeesRoleAdminLabel.TabIndex = 6;
@@ -702,7 +985,7 @@
             // employeesEmailAdminLabel
             // 
             employeesEmailAdminLabel.AutoSize = true;
-            employeesEmailAdminLabel.Location = new Point(372, 58);
+            employeesEmailAdminLabel.Location = new Point(386, 59);
             employeesEmailAdminLabel.Name = "employeesEmailAdminLabel";
             employeesEmailAdminLabel.Size = new Size(41, 15);
             employeesEmailAdminLabel.TabIndex = 5;
@@ -711,7 +994,7 @@
             // employeesUsernameAdminLabel
             // 
             employeesUsernameAdminLabel.AutoSize = true;
-            employeesUsernameAdminLabel.Location = new Point(353, 11);
+            employeesUsernameAdminLabel.Location = new Point(367, 12);
             employeesUsernameAdminLabel.Name = "employeesUsernameAdminLabel";
             employeesUsernameAdminLabel.Size = new Size(60, 15);
             employeesUsernameAdminLabel.TabIndex = 4;
@@ -719,7 +1002,7 @@
             // 
             // employeesDeleteEmployeeAdminButton
             // 
-            employeesDeleteEmployeeAdminButton.Location = new Point(726, 445);
+            employeesDeleteEmployeeAdminButton.Location = new Point(740, 446);
             employeesDeleteEmployeeAdminButton.Margin = new Padding(3, 2, 3, 2);
             employeesDeleteEmployeeAdminButton.Name = "employeesDeleteEmployeeAdminButton";
             employeesDeleteEmployeeAdminButton.Size = new Size(360, 28);
@@ -730,7 +1013,7 @@
             // 
             // employeesEditEmployeeAdminButton
             // 
-            employeesEditEmployeeAdminButton.Location = new Point(363, 445);
+            employeesEditEmployeeAdminButton.Location = new Point(377, 446);
             employeesEditEmployeeAdminButton.Margin = new Padding(3, 2, 3, 2);
             employeesEditEmployeeAdminButton.Name = "employeesEditEmployeeAdminButton";
             employeesEditEmployeeAdminButton.Size = new Size(362, 29);
@@ -741,7 +1024,7 @@
             // 
             // employeesAddEmployeeAdminButton
             // 
-            employeesAddEmployeeAdminButton.Location = new Point(0, 445);
+            employeesAddEmployeeAdminButton.Location = new Point(14, 446);
             employeesAddEmployeeAdminButton.Margin = new Padding(3, 2, 3, 2);
             employeesAddEmployeeAdminButton.Name = "employeesAddEmployeeAdminButton";
             employeesAddEmployeeAdminButton.Size = new Size(362, 29);
@@ -754,7 +1037,7 @@
             // 
             employeesAdminListbox.FormattingEnabled = true;
             employeesAdminListbox.ItemHeight = 15;
-            employeesAdminListbox.Location = new Point(3, 60);
+            employeesAdminListbox.Location = new Point(17, 61);
             employeesAdminListbox.Margin = new Padding(3, 2, 3, 2);
             employeesAdminListbox.Name = "employeesAdminListbox";
             employeesAdminListbox.Size = new Size(281, 364);
@@ -763,6 +1046,7 @@
             // 
             // projectsAdminPanel
             // 
+            projectsAdminPanel.Controls.Add(label2);
             projectsAdminPanel.Controls.Add(projectsEndDateAdminDatePicker);
             projectsAdminPanel.Controls.Add(projectsStartDateAdminDatePicker);
             projectsAdminPanel.Controls.Add(projectsEndDateAdminLabel);
@@ -778,9 +1062,18 @@
             projectsAdminPanel.Location = new Point(9, 87);
             projectsAdminPanel.Margin = new Padding(3, 2, 3, 2);
             projectsAdminPanel.Name = "projectsAdminPanel";
-            projectsAdminPanel.Size = new Size(1116, 562);
+            projectsAdminPanel.Size = new Size(1116, 601);
             projectsAdminPanel.TabIndex = 16;
             projectsAdminPanel.Visible = false;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(292, 190);
+            label2.Name = "label2";
+            label2.Size = new Size(91, 15);
+            label2.TabIndex = 16;
+            label2.Text = "Assigned Teams";
             // 
             // projectsEndDateAdminDatePicker
             // 
@@ -825,7 +1118,7 @@
             projectsDescriptionAdminTextbox.Multiline = true;
             projectsDescriptionAdminTextbox.Name = "projectsDescriptionAdminTextbox";
             projectsDescriptionAdminTextbox.ReadOnly = true;
-            projectsDescriptionAdminTextbox.Size = new Size(684, 246);
+            projectsDescriptionAdminTextbox.Size = new Size(684, 111);
             projectsDescriptionAdminTextbox.TabIndex = 11;
             // 
             // projectsDeleteProjectAdminButton
@@ -900,266 +1193,14 @@
             projectsAdminListbox.TabIndex = 0;
             projectsAdminListbox.SelectedIndexChanged += projectsAdminListbox_SelectedIndexChanged;
             // 
-            // tasksAdminPanel
-            // 
-            tasksAdminPanel.Controls.Add(tasksDeleteTaskAdminButton);
-            tasksAdminPanel.Controls.Add(tasksEditTaskAdminButton);
-            tasksAdminPanel.Controls.Add(tasksNameAdminTextbox);
-            tasksAdminPanel.Controls.Add(tasksDescriptionAdminTextbox);
-            tasksAdminPanel.Controls.Add(tasksStatusAdminTextbox);
-            tasksAdminPanel.Controls.Add(tasksProjectNameAdminLabel);
-            tasksAdminPanel.Controls.Add(tasksDueDateAdminDatePicker);
-            tasksAdminPanel.Controls.Add(tasksDueDateLabel);
-            tasksAdminPanel.Controls.Add(tasksStatusAdminLabel);
-            tasksAdminPanel.Controls.Add(tasksDescriptionAdminLabel);
-            tasksAdminPanel.Controls.Add(tasksNameAdminLabel);
-            tasksAdminPanel.Controls.Add(tasksAddTaskAdminButton);
-            tasksAdminPanel.Controls.Add(tasksAdminListbox);
-            tasksAdminPanel.Location = new Point(9, 89);
-            tasksAdminPanel.Margin = new Padding(3, 2, 3, 2);
-            tasksAdminPanel.Name = "tasksAdminPanel";
-            tasksAdminPanel.Size = new Size(1086, 494);
-            tasksAdminPanel.TabIndex = 13;
-            tasksAdminPanel.Visible = false;
-            // 
-            // tasksDeleteTaskAdminButton
-            // 
-            tasksDeleteTaskAdminButton.Location = new Point(728, 437);
-            tasksDeleteTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
-            tasksDeleteTaskAdminButton.Name = "tasksDeleteTaskAdminButton";
-            tasksDeleteTaskAdminButton.Size = new Size(362, 29);
-            tasksDeleteTaskAdminButton.TabIndex = 18;
-            tasksDeleteTaskAdminButton.Text = "Delete Task";
-            tasksDeleteTaskAdminButton.UseVisualStyleBackColor = true;
-            tasksDeleteTaskAdminButton.Click += tasksDeleteTaskAdminButton_Click;
-            // 
-            // tasksEditTaskAdminButton
-            // 
-            tasksEditTaskAdminButton.Location = new Point(363, 437);
-            tasksEditTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
-            tasksEditTaskAdminButton.Name = "tasksEditTaskAdminButton";
-            tasksEditTaskAdminButton.Size = new Size(362, 29);
-            tasksEditTaskAdminButton.TabIndex = 17;
-            tasksEditTaskAdminButton.Text = "Edit Task";
-            tasksEditTaskAdminButton.UseVisualStyleBackColor = true;
-            tasksEditTaskAdminButton.Click += tasksEditTaskAdminButton_Click;
-            // 
-            // tasksNameAdminTextbox
-            // 
-            tasksNameAdminTextbox.Location = new Point(397, 8);
-            tasksNameAdminTextbox.Margin = new Padding(3, 2, 3, 2);
-            tasksNameAdminTextbox.Name = "tasksNameAdminTextbox";
-            tasksNameAdminTextbox.ReadOnly = true;
-            tasksNameAdminTextbox.ScrollBars = ScrollBars.Horizontal;
-            tasksNameAdminTextbox.Size = new Size(684, 23);
-            tasksNameAdminTextbox.TabIndex = 16;
-            // 
-            // tasksDescriptionAdminTextbox
-            // 
-            tasksDescriptionAdminTextbox.Location = new Point(397, 53);
-            tasksDescriptionAdminTextbox.Margin = new Padding(3, 2, 3, 2);
-            tasksDescriptionAdminTextbox.Multiline = true;
-            tasksDescriptionAdminTextbox.Name = "tasksDescriptionAdminTextbox";
-            tasksDescriptionAdminTextbox.ReadOnly = true;
-            tasksDescriptionAdminTextbox.ScrollBars = ScrollBars.Vertical;
-            tasksDescriptionAdminTextbox.Size = new Size(684, 267);
-            tasksDescriptionAdminTextbox.TabIndex = 15;
-            // 
-            // tasksStatusAdminTextbox
-            // 
-            tasksStatusAdminTextbox.Location = new Point(397, 343);
-            tasksStatusAdminTextbox.Margin = new Padding(3, 2, 3, 2);
-            tasksStatusAdminTextbox.Name = "tasksStatusAdminTextbox";
-            tasksStatusAdminTextbox.ReadOnly = true;
-            tasksStatusAdminTextbox.ScrollBars = ScrollBars.Horizontal;
-            tasksStatusAdminTextbox.Size = new Size(684, 23);
-            tasksStatusAdminTextbox.TabIndex = 14;
-            // 
-            // tasksProjectNameAdminLabel
-            // 
-            tasksProjectNameAdminLabel.AutoEllipsis = true;
-            tasksProjectNameAdminLabel.Location = new Point(2, 2);
-            tasksProjectNameAdminLabel.Name = "tasksProjectNameAdminLabel";
-            tasksProjectNameAdminLabel.Size = new Size(282, 40);
-            tasksProjectNameAdminLabel.TabIndex = 13;
-            tasksProjectNameAdminLabel.Text = "selected project name goes here";
-            tasksProjectNameAdminLabel.TextAlign = ContentAlignment.MiddleCenter;
-            // 
-            // tasksDueDateAdminDatePicker
-            // 
-            tasksDueDateAdminDatePicker.Enabled = false;
-            tasksDueDateAdminDatePicker.Location = new Point(397, 392);
-            tasksDueDateAdminDatePicker.Margin = new Padding(3, 2, 3, 2);
-            tasksDueDateAdminDatePicker.Name = "tasksDueDateAdminDatePicker";
-            tasksDueDateAdminDatePicker.Size = new Size(219, 23);
-            tasksDueDateAdminDatePicker.TabIndex = 12;
-            tasksDueDateAdminDatePicker.Value = new DateTime(2025, 8, 1, 0, 0, 0, 0);
-            // 
-            // tasksDueDateLabel
-            // 
-            tasksDueDateLabel.AutoSize = true;
-            tasksDueDateLabel.Location = new Point(327, 397);
-            tasksDueDateLabel.Name = "tasksDueDateLabel";
-            tasksDueDateLabel.Size = new Size(53, 15);
-            tasksDueDateLabel.TabIndex = 7;
-            tasksDueDateLabel.Text = "Deadline";
-            // 
-            // tasksStatusAdminLabel
-            // 
-            tasksStatusAdminLabel.AutoSize = true;
-            tasksStatusAdminLabel.Location = new Point(301, 346);
-            tasksStatusAdminLabel.Name = "tasksStatusAdminLabel";
-            tasksStatusAdminLabel.Size = new Size(82, 15);
-            tasksStatusAdminLabel.TabIndex = 6;
-            tasksStatusAdminLabel.Text = "Current Status";
-            // 
-            // tasksDescriptionAdminLabel
-            // 
-            tasksDescriptionAdminLabel.AutoSize = true;
-            tasksDescriptionAdminLabel.Location = new Point(316, 58);
-            tasksDescriptionAdminLabel.Name = "tasksDescriptionAdminLabel";
-            tasksDescriptionAdminLabel.Size = new Size(67, 15);
-            tasksDescriptionAdminLabel.TabIndex = 5;
-            tasksDescriptionAdminLabel.Text = "Description";
-            // 
-            // tasksNameAdminLabel
-            // 
-            tasksNameAdminLabel.AutoSize = true;
-            tasksNameAdminLabel.Location = new Point(319, 10);
-            tasksNameAdminLabel.Name = "tasksNameAdminLabel";
-            tasksNameAdminLabel.Size = new Size(65, 15);
-            tasksNameAdminLabel.TabIndex = 4;
-            tasksNameAdminLabel.Text = "Task Name";
-            // 
-            // tasksAddTaskAdminButton
-            // 
-            tasksAddTaskAdminButton.Location = new Point(-3, 437);
-            tasksAddTaskAdminButton.Margin = new Padding(3, 2, 3, 2);
-            tasksAddTaskAdminButton.Name = "tasksAddTaskAdminButton";
-            tasksAddTaskAdminButton.Size = new Size(362, 29);
-            tasksAddTaskAdminButton.TabIndex = 1;
-            tasksAddTaskAdminButton.Text = "Add New Task";
-            tasksAddTaskAdminButton.UseVisualStyleBackColor = true;
-            tasksAddTaskAdminButton.Click += tasksAddTaskAdminButton_Click;
-            // 
-            // tasksAdminListbox
-            // 
-            tasksAdminListbox.FormattingEnabled = true;
-            tasksAdminListbox.ItemHeight = 15;
-            tasksAdminListbox.Location = new Point(3, 60);
-            tasksAdminListbox.Margin = new Padding(3, 2, 3, 2);
-            tasksAdminListbox.Name = "tasksAdminListbox";
-            tasksAdminListbox.Size = new Size(281, 349);
-            tasksAdminListbox.TabIndex = 0;
-            tasksAdminListbox.SelectedIndexChanged += tasksAdminListbox_SelectedIndexChanged;
-            // 
-            // teamsAdminPanel
-            // 
-            teamsAdminPanel.Controls.Add(teamsDescriptionAdminTextbox);
-            teamsAdminPanel.Controls.Add(teamsDeleteTeamAdminButton);
-            teamsAdminPanel.Controls.Add(teamsEditTeamAdminButton);
-            teamsAdminPanel.Controls.Add(teamsNameAdminTexbox);
-            teamsAdminPanel.Controls.Add(teamsDescriptionAdminLabel);
-            teamsAdminPanel.Controls.Add(teamsNameAdminLabel);
-            teamsAdminPanel.Controls.Add(teamsAddTeamAdminButton);
-            teamsAdminPanel.Controls.Add(teamsAdminListbox);
-            teamsAdminPanel.Location = new Point(9, 89);
-            teamsAdminPanel.Margin = new Padding(3, 2, 3, 2);
-            teamsAdminPanel.Name = "teamsAdminPanel";
-            teamsAdminPanel.Size = new Size(1119, 558);
-            teamsAdminPanel.TabIndex = 14;
-            teamsAdminPanel.Visible = false;
-            // 
-            // teamsDescriptionAdminTextbox
-            // 
-            teamsDescriptionAdminTextbox.Location = new Point(397, 53);
-            teamsDescriptionAdminTextbox.Margin = new Padding(3, 2, 3, 2);
-            teamsDescriptionAdminTextbox.Multiline = true;
-            teamsDescriptionAdminTextbox.Name = "teamsDescriptionAdminTextbox";
-            teamsDescriptionAdminTextbox.ReadOnly = true;
-            teamsDescriptionAdminTextbox.Size = new Size(684, 352);
-            teamsDescriptionAdminTextbox.TabIndex = 11;
-            // 
-            // teamsDeleteTeamAdminButton
-            // 
-            teamsDeleteTeamAdminButton.Location = new Point(724, 428);
-            teamsDeleteTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
-            teamsDeleteTeamAdminButton.Name = "teamsDeleteTeamAdminButton";
-            teamsDeleteTeamAdminButton.Size = new Size(362, 29);
-            teamsDeleteTeamAdminButton.TabIndex = 10;
-            teamsDeleteTeamAdminButton.Text = "Delete Team";
-            teamsDeleteTeamAdminButton.UseVisualStyleBackColor = true;
-            teamsDeleteTeamAdminButton.Click += teamsDeleteTeamAdminButton_Click;
-            // 
-            // teamsEditTeamAdminButton
-            // 
-            teamsEditTeamAdminButton.Location = new Point(363, 428);
-            teamsEditTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
-            teamsEditTeamAdminButton.Name = "teamsEditTeamAdminButton";
-            teamsEditTeamAdminButton.Size = new Size(362, 29);
-            teamsEditTeamAdminButton.TabIndex = 9;
-            teamsEditTeamAdminButton.Text = "Edit Team";
-            teamsEditTeamAdminButton.UseVisualStyleBackColor = true;
-            teamsEditTeamAdminButton.Click += teamsEditTeamAdminButton_Click;
-            // 
-            // teamsNameAdminTexbox
-            // 
-            teamsNameAdminTexbox.Location = new Point(397, 8);
-            teamsNameAdminTexbox.Margin = new Padding(3, 2, 3, 2);
-            teamsNameAdminTexbox.Name = "teamsNameAdminTexbox";
-            teamsNameAdminTexbox.ReadOnly = true;
-            teamsNameAdminTexbox.ScrollBars = ScrollBars.Horizontal;
-            teamsNameAdminTexbox.Size = new Size(684, 23);
-            teamsNameAdminTexbox.TabIndex = 8;
-            // 
-            // teamsDescriptionAdminLabel
-            // 
-            teamsDescriptionAdminLabel.AutoSize = true;
-            teamsDescriptionAdminLabel.Location = new Point(314, 57);
-            teamsDescriptionAdminLabel.Name = "teamsDescriptionAdminLabel";
-            teamsDescriptionAdminLabel.Size = new Size(67, 15);
-            teamsDescriptionAdminLabel.TabIndex = 5;
-            teamsDescriptionAdminLabel.Text = "Description";
-            // 
-            // teamsNameAdminLabel
-            // 
-            teamsNameAdminLabel.AutoSize = true;
-            teamsNameAdminLabel.Location = new Point(312, 10);
-            teamsNameAdminLabel.Name = "teamsNameAdminLabel";
-            teamsNameAdminLabel.Size = new Size(71, 15);
-            teamsNameAdminLabel.TabIndex = 4;
-            teamsNameAdminLabel.Text = "Team Name";
-            // 
-            // teamsAddTeamAdminButton
-            // 
-            teamsAddTeamAdminButton.Location = new Point(2, 428);
-            teamsAddTeamAdminButton.Margin = new Padding(3, 2, 3, 2);
-            teamsAddTeamAdminButton.Name = "teamsAddTeamAdminButton";
-            teamsAddTeamAdminButton.Size = new Size(362, 29);
-            teamsAddTeamAdminButton.TabIndex = 1;
-            teamsAddTeamAdminButton.Text = "Add New Team";
-            teamsAddTeamAdminButton.UseVisualStyleBackColor = true;
-            teamsAddTeamAdminButton.Click += teamsAddTeamAdminButton_Click;
-            // 
-            // teamsAdminListbox
-            // 
-            teamsAdminListbox.FormattingEnabled = true;
-            teamsAdminListbox.ItemHeight = 15;
-            teamsAdminListbox.Location = new Point(3, 0);
-            teamsAdminListbox.Margin = new Padding(3, 2, 3, 2);
-            teamsAdminListbox.Name = "teamsAdminListbox";
-            teamsAdminListbox.Size = new Size(281, 409);
-            teamsAdminListbox.TabIndex = 0;
-            teamsAdminListbox.SelectedIndexChanged += teamsAdminListbox_SelectedIndexChanged;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1140, 650);
+            ClientSize = new Size(1140, 692);
+            Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
-            Controls.Add(adminViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
@@ -1169,14 +1210,14 @@
             teamsUserPanel.ResumeLayout(false);
             tasksUserPanel.ResumeLayout(false);
             adminViewPanel.ResumeLayout(false);
-            employeesAdminPanel.ResumeLayout(false);
-            employeesAdminPanel.PerformLayout();
-            projectsAdminPanel.ResumeLayout(false);
-            projectsAdminPanel.PerformLayout();
             tasksAdminPanel.ResumeLayout(false);
             tasksAdminPanel.PerformLayout();
             teamsAdminPanel.ResumeLayout(false);
             teamsAdminPanel.PerformLayout();
+            employeesAdminPanel.ResumeLayout(false);
+            employeesAdminPanel.PerformLayout();
+            projectsAdminPanel.ResumeLayout(false);
+            projectsAdminPanel.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -1273,8 +1314,6 @@
         private Label tasksDoneUserLabel;
         private Button helpButtonUser;
         private Button helpButtonAdmin;
-        private Button generateDetailedReportButton;
-        private Button generateSummaryReportButton;
         private Label label1;
         private Button deleteHistoryRecordButton;
         private Button editHistoryRecordButton;
@@ -1286,6 +1325,11 @@
         private ColumnHeader columnHeader1;
         private ColumnHeader columnHeader2;
         private ColumnHeader columnHeader3;
+        private Button AssignEmployeeToTeamButton;
+        private Button AssignTaskToEmployeeButton;
+        private Button AssignTeamToProjectButton;
+        private Button generateReportButton;
+        private Label label2;
         private ListView teamsMembersUserListview;
         private ColumnHeader userName;
         private ColumnHeader userEmail;
