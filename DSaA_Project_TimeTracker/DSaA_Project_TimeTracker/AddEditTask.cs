@@ -43,6 +43,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             addTaskPanel.Visible = false;
             editTaskPanel.Visible = false;
         }
