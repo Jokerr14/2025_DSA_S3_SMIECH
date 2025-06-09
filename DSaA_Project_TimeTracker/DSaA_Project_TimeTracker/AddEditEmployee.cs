@@ -211,6 +211,7 @@ namespace DSaA_Project_TimeTracker
             {
 
                 var password = ((User)ItemToEdit).PasswordHash;
+                if (editEmployeePasswordTextBox.Text != string.Empty) { password = editEmployeePasswordTextBox.Text; }
                 var role = editEmployeeRoleComboBox.Text.ToString();
                 int roleNum;
                 if (role == "Admin")
