@@ -1,4 +1,6 @@
-﻿using DSaA_Project_TimeTracker.Database.Entities;
+﻿using System.Linq;
+using System.Security.Policy;
+using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.DTOs.User;
 using DSaA_Project_TimeTracker.Utils;
 using Microsoft.EntityFrameworkCore;
@@ -55,11 +57,10 @@ public class UserRepo
                 Email = addUserDto.Email,
                 EmploymentStatus = addUserDto.EmploymentStatus,
                 RoleId = 2,
-
             };
 
-            user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password);
-
+            user.PasswordHash = PasswordHasher.HashPasword(addUserDto.Password, out var salt);
+            user.Salt = Convert.ToHexString(salt);
             await context.Users.AddAsync(user);
             await context.SaveChangesAsync();
 
@@ -81,7 +82,8 @@ public class UserRepo
                 user.Username = updateUserDto.Username;
                 user.Email = updateUserDto.Email;
                 user.EmploymentStatus = updateUserDto.EmploymentStatus;
-                user.PasswordHash = updateUserDto.Password;
+                user.PasswordHash = PasswordHasher.HashPasword(updateUserDto.Password, out var salt);
+                user.Salt = Convert.ToHexString(salt);
                 user.RoleId = updateUserDto.RoleId;
                 context.Users.Update(user);
                 await context.SaveChangesAsync();
@@ -115,7 +117,7 @@ public class UserRepo
             if (user == null)
                 return null;
 
-            if (!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash))
+            if (!PasswordHasher.VerifyPassword(loginUserDto.Password, user.PasswordHash, user.Salt))
                 return null;
 
             return user;
