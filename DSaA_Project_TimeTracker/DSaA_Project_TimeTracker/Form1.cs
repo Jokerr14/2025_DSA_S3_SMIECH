@@ -548,6 +548,7 @@ namespace DSaA_Project_TimeTracker
             employeesAdminButton.Enabled = false;
             teamsEditTeamAdminButton.Enabled = false;
             teamsDeleteTeamAdminButton.Enabled = false;
+            AssignTeamToProjectButton.Enabled = false;
             tasksAdminButton.Enabled = false;
             teamsNameAdminTexbox.Text = "";
             teamsDescriptionAdminTextbox.Text = "";
