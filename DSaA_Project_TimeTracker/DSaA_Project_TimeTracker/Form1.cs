@@ -1,10 +1,5 @@
-using DSaA_Project_TimeTracker.Database;
-using DSaA_Project_TimeTracker.DTOs;
-using DSaA_Project_TimeTracker.Database.Repos;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using DSaA_Project_TimeTracker.Database.Entities;
-using DSaA_Project_TimeTracker.DTOs.Team;
+using DSaA_Project_TimeTracker.Database.Repos;
 using DSaA_Project_TimeTracker.DTOs.User;
 
 
@@ -57,6 +52,9 @@ namespace DSaA_Project_TimeTracker
             InitializeComponent();
             InitializeHelpLabels();
 
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
             tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
             tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
         }
@@ -74,7 +72,6 @@ namespace DSaA_Project_TimeTracker
 
         private void InitializeHelpLabels()
         {
-            // Initialize the dictionary to group help labels by sub-panel or context
             subPanelHelpLabels = new Dictionary<Control, Label[]>
             {
                 {
@@ -116,7 +113,9 @@ namespace DSaA_Project_TimeTracker
 
                         CreateHelpLabel(tasksAddTaskAdminButton, "Click to add a new task.", tasksAdminPanel),
                         CreateHelpLabel(tasksEditTaskAdminButton, "Click to edit the selected task.", tasksAdminPanel),
-                        CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel)
+                        CreateHelpLabel(tasksDeleteTaskAdminButton, "Click to delete the selected task.", tasksAdminPanel),
+
+                        CreateHelpLabel(AssignTaskToEmployeeButton, "Click to select which employees should work on the selected task.", tasksAdminPanel),
                     }
                 },
                 {
@@ -128,7 +127,9 @@ namespace DSaA_Project_TimeTracker
 
                         CreateHelpLabel(teamsAddTeamAdminButton, "Click to add a new team.", teamsAdminPanel),
                         CreateHelpLabel(teamsEditTeamAdminButton, "Click to edit the selected team.", teamsAdminPanel),
-                        CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel)
+                        CreateHelpLabel(teamsDeleteTeamAdminButton, "Click to delete the selected team.", teamsAdminPanel),
+
+                        CreateHelpLabel(AssignTeamToProjectButton, "Click to change which project(s) this team is assigned to.", teamsAdminPanel),
                     }
                 },
                 {
@@ -150,8 +151,9 @@ namespace DSaA_Project_TimeTracker
                         CreateHelpLabel(employeesAddEmployeeAdminButton, "Click to add a new employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesEditEmployeeAdminButton, "Click to edit the selected employee.", employeesAdminPanel),
                         CreateHelpLabel(employeesDeleteEmployeeAdminButton, "Click to delete the selected employee.", employeesAdminPanel),
-                        CreateHelpLabel(generateSummaryReportButton, "Click to generate a summary report.", employeesAdminPanel),
-                        CreateHelpLabel(generateDetailedReportButton, "Click to generate a detailed report.", employeesAdminPanel)
+                        CreateHelpLabel(generateReportButton, "Click to generate a report.", employeesAdminPanel),
+
+                        CreateHelpLabel(AssignEmployeeToTeamButton, "Click to assign/unassign this employee to/from certain teams", employeesAdminPanel),
                     }
                 },
                 {
@@ -185,7 +187,7 @@ namespace DSaA_Project_TimeTracker
                 foreach (var label in subPanelLabels)
                 {
                     label.Visible = false;
-                    label.BringToFront(); // Ensure the label is on top of other controls
+                    label.BringToFront();
                 }
             }
         }
@@ -193,8 +195,8 @@ namespace DSaA_Project_TimeTracker
         private Label CreateHelpLabel(Control control, string text, Control parentPanel)
         {
             // Adjust position for specific controls
-            int offsetX = 0; // Align horizontally with the control
-            int offsetY = control.Height; // Place the label just below the control with a small gap
+            int offsetX = 0;
+            int offsetY = control.Height;
 
 
             // Create a label and position it near the control
@@ -212,7 +214,7 @@ namespace DSaA_Project_TimeTracker
 
             // Add the label to the specified panel
             parentPanel.Controls.Add(label);
-            label.BringToFront(); // Ensure the label is on top of other controls
+            label.BringToFront();
             return label;
         }
 
@@ -440,6 +442,7 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = true;
             tasksEditTaskAdminButton.Enabled = false;
             tasksDeleteTaskAdminButton.Enabled = false;
+            AssignTaskToEmployeeButton.Enabled = false;
             tasksNameAdminTextbox.Text = "";
             tasksDescriptionAdminTextbox.Text = "";
             tasksStatusAdminTextbox.Text = "";
@@ -482,6 +485,7 @@ namespace DSaA_Project_TimeTracker
                 tasksDueDateAdminDatePicker.Value = selectedTask.DueDate ?? DateTime.Now;
                 tasksEditTaskAdminButton.Enabled = true;
                 tasksDeleteTaskAdminButton.Enabled = true;
+                AssignTaskToEmployeeButton.Enabled = true;
             }
         }
 
@@ -525,6 +529,16 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
+        private void AssignTaskToEmployeesButton_Click(object sender, EventArgs e)
+        {
+            var selectedTask = tasksAdminListbox.SelectedItem as TaskToDo;
+            AssignUnassignTaskToEmployee assignUnassignTaskToEmployees = new AssignUnassignTaskToEmployee(selectedTask)
+            {
+                PanelToShow = "AssignEmployeeToTask"
+            };
+            assignUnassignTaskToEmployees.ShowDialog();
+        }
+
         ///////////////////////////////////////TEAMS//////////////////////////////////////
 
         private async void loadTeams()
@@ -534,6 +548,7 @@ namespace DSaA_Project_TimeTracker
             employeesAdminButton.Enabled = false;
             teamsEditTeamAdminButton.Enabled = false;
             teamsDeleteTeamAdminButton.Enabled = false;
+            AssignTeamToProjectButton.Enabled = false;
             tasksAdminButton.Enabled = false;
             teamsNameAdminTexbox.Text = "";
             teamsDescriptionAdminTextbox.Text = "";
@@ -570,6 +585,7 @@ namespace DSaA_Project_TimeTracker
                 teamsEditTeamAdminButton.Enabled = true;
                 teamsDeleteTeamAdminButton.Enabled = true;
                 employeesAdminButton.Enabled = true;
+                AssignTeamToProjectButton.Enabled = true;
             }
         }
 
@@ -607,6 +623,16 @@ namespace DSaA_Project_TimeTracker
             confirmDelete.ShowDialog();
         }
 
+        private void AssignTeamToProjectsButton_Click(object sender, EventArgs e)
+        {
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            AssignUnassignTeamToProject assignUnassignTeamToProject = new AssignUnassignTeamToProject(selectedTeam)
+            {
+                PanelToShow = "AssignTeamToProject"
+            };
+            assignUnassignTeamToProject.ShowDialog();
+        }
+
         ///////////////////////////////////////EMPLOYEES//////////////////////////////////////
         private async void loadEmployees()
         {
@@ -615,6 +641,7 @@ namespace DSaA_Project_TimeTracker
             employeesDeleteEmployeeAdminButton.Enabled = false;
             editHistoryRecordButton.Enabled = false;
             deleteHistoryRecordButton.Enabled = false;
+            AssignEmployeeToTeamButton.Enabled = false;
             employeesEmailAdminTextbox.Text = "";
             employeesUsernameAdminTexbox.Text = "";
             employeesRoleAdminTextbox.Text = "";
@@ -645,6 +672,7 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             loadEmployees();
+            
         }
         private void employeesAdminListbox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -676,6 +704,7 @@ namespace DSaA_Project_TimeTracker
                     employeesEditEmployeeAdminButton.Enabled = true;
                     employeesDeleteEmployeeAdminButton.Enabled = true;
                     employeesAdminButton.Enabled = true;
+                    AssignEmployeeToTeamButton.Enabled = true;
                 }
             }
         }
@@ -773,6 +802,17 @@ namespace DSaA_Project_TimeTracker
                     confirmDelete.ShowDialog();
                 }
             }
+        }
+
+        private void AssignEmployeeToTeamButton_Click(object sender, EventArgs e)
+        {
+            var selectedEmployee = employeesAdminListbox.SelectedItem as User;
+            AssignUnassignEmployeeToTeam assignUnassignEmployeeToTeam = new AssignUnassignEmployeeToTeam(selectedEmployee)
+            {
+                PanelToShow = "AssignEmployeeToTeam"
+            };
+            assignUnassignEmployeeToTeam.FormClosed += (s, args) => loadEmployees();
+            assignUnassignEmployeeToTeam.ShowDialog();
         }
         ///////////////////////////////////////////////////////USER BUTTONS///////////////////////////////////////
         private async void tasksUserButton_Click(object sender, EventArgs e)
@@ -938,14 +978,15 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-        private void generateSummaryReportButton_Click(object sender, EventArgs e)
+
+
+
+
+
+        private void generateReportButton_Click(object sender, EventArgs e)
         {
-
-        }
-
-        private void generateDetailedReportButton_Click(object sender, EventArgs e)
-        {
-
+            var generateReport = new GenerateReport();
+            generateReport.ShowDialog();
         }
 
 
