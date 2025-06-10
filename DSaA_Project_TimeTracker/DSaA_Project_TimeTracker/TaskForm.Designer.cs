@@ -49,9 +49,10 @@
             // 
             popupTaskNameLabel.AutoSize = true;
             popupTaskNameLabel.Font = new Font("Segoe UI", 16.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            popupTaskNameLabel.Location = new Point(12, 24);
+            popupTaskNameLabel.Location = new Point(17, 40);
+            popupTaskNameLabel.Margin = new Padding(4, 0, 4, 0);
             popupTaskNameLabel.Name = "popupTaskNameLabel";
-            popupTaskNameLabel.Size = new Size(118, 30);
+            popupTaskNameLabel.Size = new Size(176, 45);
             popupTaskNameLabel.TabIndex = 0;
             popupTaskNameLabel.Text = "Task Name";
             // 
@@ -60,10 +61,10 @@
             popupDoneCheckbox.AutoSize = true;
             popupDoneCheckbox.CheckAlign = ContentAlignment.MiddleRight;
             popupDoneCheckbox.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            popupDoneCheckbox.Location = new Point(478, 67);
-            popupDoneCheckbox.Margin = new Padding(3, 2, 3, 2);
+            popupDoneCheckbox.Location = new Point(683, 112);
+            popupDoneCheckbox.Margin = new Padding(4, 3, 4, 3);
             popupDoneCheckbox.Name = "popupDoneCheckbox";
-            popupDoneCheckbox.Size = new Size(76, 29);
+            popupDoneCheckbox.Size = new Size(110, 42);
             popupDoneCheckbox.TabIndex = 1;
             popupDoneCheckbox.Text = "Done";
             popupDoneCheckbox.TextAlign = ContentAlignment.MiddleRight;
@@ -72,48 +73,50 @@
             // popupProjectNameLabel
             // 
             popupProjectNameLabel.AutoSize = true;
-            popupProjectNameLabel.Location = new Point(12, 76);
+            popupProjectNameLabel.Location = new Point(17, 127);
+            popupProjectNameLabel.Margin = new Padding(4, 0, 4, 0);
             popupProjectNameLabel.Name = "popupProjectNameLabel";
-            popupProjectNameLabel.Size = new Size(155, 15);
+            popupProjectNameLabel.Size = new Size(235, 25);
             popupProjectNameLabel.TabIndex = 2;
             popupProjectNameLabel.Text = "(name of proj. it belongs to)";
             // 
             // popupTaskDescriptionTexbox
             // 
-            popupTaskDescriptionTexbox.Location = new Point(22, 115);
-            popupTaskDescriptionTexbox.Margin = new Padding(3, 2, 3, 2);
+            popupTaskDescriptionTexbox.Location = new Point(31, 192);
+            popupTaskDescriptionTexbox.Margin = new Padding(4, 3, 4, 3);
             popupTaskDescriptionTexbox.Multiline = true;
             popupTaskDescriptionTexbox.Name = "popupTaskDescriptionTexbox";
             popupTaskDescriptionTexbox.ReadOnly = true;
             popupTaskDescriptionTexbox.ScrollBars = ScrollBars.Vertical;
-            popupTaskDescriptionTexbox.Size = new Size(532, 282);
+            popupTaskDescriptionTexbox.Size = new Size(758, 467);
             popupTaskDescriptionTexbox.TabIndex = 4;
             // 
             // popupTimerDescriptionLabel
             // 
             popupTimerDescriptionLabel.AutoSize = true;
-            popupTimerDescriptionLabel.Location = new Point(22, 419);
+            popupTimerDescriptionLabel.Location = new Point(31, 698);
+            popupTimerDescriptionLabel.Margin = new Padding(4, 0, 4, 0);
             popupTimerDescriptionLabel.Name = "popupTimerDescriptionLabel";
-            popupTimerDescriptionLabel.Size = new Size(125, 15);
+            popupTimerDescriptionLabel.Size = new Size(188, 25);
             popupTimerDescriptionLabel.TabIndex = 5;
             popupTimerDescriptionLabel.Text = "Track Time of Working";
             // 
             // popupTimerStartStopButton
             // 
-            popupTimerStartStopButton.Location = new Point(22, 457);
-            popupTimerStartStopButton.Margin = new Padding(3, 2, 3, 2);
+            popupTimerStartStopButton.Location = new Point(31, 762);
+            popupTimerStartStopButton.Margin = new Padding(4, 3, 4, 3);
             popupTimerStartStopButton.Name = "popupTimerStartStopButton";
-            popupTimerStartStopButton.Size = new Size(90, 22);
+            popupTimerStartStopButton.Size = new Size(129, 37);
             popupTimerStartStopButton.TabIndex = 6;
             popupTimerStartStopButton.Text = "START/STOP";
             popupTimerStartStopButton.UseVisualStyleBackColor = true;
             // 
             // popupTimerPauseButton
             // 
-            popupTimerPauseButton.Location = new Point(22, 500);
-            popupTimerPauseButton.Margin = new Padding(3, 2, 3, 2);
+            popupTimerPauseButton.Location = new Point(31, 833);
+            popupTimerPauseButton.Margin = new Padding(4, 3, 4, 3);
             popupTimerPauseButton.Name = "popupTimerPauseButton";
-            popupTimerPauseButton.Size = new Size(90, 22);
+            popupTimerPauseButton.Size = new Size(129, 37);
             popupTimerPauseButton.TabIndex = 7;
             popupTimerPauseButton.Text = "PAUSE";
             popupTimerPauseButton.UseVisualStyleBackColor = true;
@@ -121,34 +124,35 @@
             // popupRecordDescriptionLabel
             // 
             popupRecordDescriptionLabel.AutoSize = true;
-            popupRecordDescriptionLabel.Location = new Point(317, 419);
+            popupRecordDescriptionLabel.Location = new Point(453, 698);
+            popupRecordDescriptionLabel.Margin = new Padding(4, 0, 4, 0);
             popupRecordDescriptionLabel.Name = "popupRecordDescriptionLabel";
-            popupRecordDescriptionLabel.Size = new Size(187, 15);
+            popupRecordDescriptionLabel.Size = new Size(280, 25);
             popupRecordDescriptionLabel.TabIndex = 8;
             popupRecordDescriptionLabel.Text = "Log time spent working manually:";
             // 
             // popupRecordStartDatePicker
             // 
-            popupRecordStartDatePicker.Location = new Point(317, 455);
-            popupRecordStartDatePicker.Margin = new Padding(3, 2, 3, 2);
+            popupRecordStartDatePicker.Location = new Point(453, 758);
+            popupRecordStartDatePicker.Margin = new Padding(4, 3, 4, 3);
             popupRecordStartDatePicker.Name = "popupRecordStartDatePicker";
-            popupRecordStartDatePicker.Size = new Size(214, 23);
+            popupRecordStartDatePicker.Size = new Size(304, 31);
             popupRecordStartDatePicker.TabIndex = 10;
             // 
             // popupRecordEndDatePicker
             // 
-            popupRecordEndDatePicker.Location = new Point(317, 498);
-            popupRecordEndDatePicker.Margin = new Padding(3, 2, 3, 2);
+            popupRecordEndDatePicker.Location = new Point(453, 830);
+            popupRecordEndDatePicker.Margin = new Padding(4, 3, 4, 3);
             popupRecordEndDatePicker.Name = "popupRecordEndDatePicker";
-            popupRecordEndDatePicker.Size = new Size(214, 23);
+            popupRecordEndDatePicker.Size = new Size(304, 31);
             popupRecordEndDatePicker.TabIndex = 11;
             // 
             // popupRecordButton
             // 
-            popupRecordButton.Location = new Point(317, 542);
-            popupRecordButton.Margin = new Padding(3, 2, 3, 2);
+            popupRecordButton.Location = new Point(453, 903);
+            popupRecordButton.Margin = new Padding(4, 3, 4, 3);
             popupRecordButton.Name = "popupRecordButton";
-            popupRecordButton.Size = new Size(109, 23);
+            popupRecordButton.Size = new Size(156, 38);
             popupRecordButton.TabIndex = 12;
             popupRecordButton.Text = "Record Time";
             popupRecordButton.UseVisualStyleBackColor = true;
@@ -156,35 +160,39 @@
             // popupRecordStartLabel
             // 
             popupRecordStartLabel.AutoSize = true;
-            popupRecordStartLabel.Location = new Point(268, 459);
+            popupRecordStartLabel.Location = new Point(383, 765);
+            popupRecordStartLabel.Margin = new Padding(4, 0, 4, 0);
             popupRecordStartLabel.Name = "popupRecordStartLabel";
-            popupRecordStartLabel.Size = new Size(38, 15);
+            popupRecordStartLabel.Size = new Size(61, 25);
             popupRecordStartLabel.TabIndex = 13;
             popupRecordStartLabel.Text = "START";
             // 
             // popupRecordEndLabel
             // 
             popupRecordEndLabel.AutoSize = true;
-            popupRecordEndLabel.Location = new Point(278, 502);
+            popupRecordEndLabel.Location = new Point(397, 837);
+            popupRecordEndLabel.Margin = new Padding(4, 0, 4, 0);
             popupRecordEndLabel.Name = "popupRecordEndLabel";
-            popupRecordEndLabel.Size = new Size(30, 15);
+            popupRecordEndLabel.Size = new Size(47, 25);
             popupRecordEndLabel.TabIndex = 14;
             popupRecordEndLabel.Text = "END";
             // 
             // popupTimerLabel
             // 
             popupTimerLabel.AutoSize = true;
-            popupTimerLabel.Location = new Point(22, 550);
+            popupTimerLabel.Location = new Point(31, 917);
+            popupTimerLabel.Margin = new Padding(4, 0, 4, 0);
             popupTimerLabel.Name = "popupTimerLabel";
-            popupTimerLabel.Size = new Size(99, 15);
+            popupTimerLabel.Size = new Size(88, 25);
             popupTimerLabel.TabIndex = 15;
-            popupTimerLabel.Text = "timer will go here";
+            popupTimerLabel.Text = "hh:mm:ss";
             // 
             // helpButton
             // 
-            helpButton.Location = new Point(506, 12);
+            helpButton.Location = new Point(723, 20);
+            helpButton.Margin = new Padding(4, 5, 4, 5);
             helpButton.Name = "helpButton";
-            helpButton.Size = new Size(48, 23);
+            helpButton.Size = new Size(69, 38);
             helpButton.TabIndex = 16;
             helpButton.Text = "Help";
             helpButton.UseVisualStyleBackColor = true;
@@ -192,9 +200,9 @@
             // 
             // TaskForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(573, 606);
+            ClientSize = new Size(819, 1010);
             Controls.Add(helpButton);
             Controls.Add(popupTimerLabel);
             Controls.Add(popupRecordEndLabel);
@@ -210,7 +218,7 @@
             Controls.Add(popupProjectNameLabel);
             Controls.Add(popupDoneCheckbox);
             Controls.Add(popupTaskNameLabel);
-            Margin = new Padding(3, 2, 3, 2);
+            Margin = new Padding(4, 3, 4, 3);
             Name = "TaskForm";
             Text = "Detailed Information about the Task";
             ResumeLayout(false);
