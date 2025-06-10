@@ -1,3 +1,4 @@
+using AutoMapper.Execution;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.Database.Repos;
 using DSaA_Project_TimeTracker.DTOs.User;
@@ -93,10 +94,10 @@ namespace DSaA_Project_TimeTracker
             {
                 Name = "projectTeamsAdminListBox",
                 Width = projectsDescriptionAdminTextbox.Width,
-                Height = (int)(projectsDescriptionAdminTextbox.Height), 
+                Height = (int)(projectsDescriptionAdminTextbox.Height),
                 Location = new System.Drawing.Point(
                 projectsDescriptionAdminTextbox.Left,
-                projectsDescriptionAdminTextbox.Top + projectsDescriptionAdminTextbox.Height +20
+                projectsDescriptionAdminTextbox.Top + projectsDescriptionAdminTextbox.Height + 20
                 )
             };
             projectsAdminPanel.Controls.Add(projectTeamsAdminListBox);
@@ -108,22 +109,22 @@ namespace DSaA_Project_TimeTracker
                 View = View.Details,
                 FullRowSelect = true,
                 Width = tasksDescriptionAdminTextbox.Width,
-                Height = tasksDescriptionAdminTextbox.Height, 
+                Height = tasksDescriptionAdminTextbox.Height,
                 Location = new System.Drawing.Point(
                     tasksDescriptionAdminTextbox.Left,
-                    tasksDescriptionAdminTextbox.Top + tasksDescriptionAdminTextbox.Height + 20 
+                    tasksDescriptionAdminTextbox.Top + tasksDescriptionAdminTextbox.Height + 20
                 )
             };
             taskAssignmentsAdminListView.Columns.Add("Assigned User", (int)(taskAssignmentsAdminListView.Width * 0.6));
             taskAssignmentsAdminListView.Columns.Add("Time Spent (hours)", (int)(taskAssignmentsAdminListView.Width * 0.35));
             tasksAdminPanel.Controls.Add(taskAssignmentsAdminListView);
 
-            
+
 
             tasksTodoUserListbox.DoubleClick += tasksTodoUserListbox_DoubleClick_Handler;
             tasksDoneUserListbox.DoubleClick += tasksDoneUserListbox_DoubleClick_Handler;
 
-            
+
             InitializeHelpLabels();
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -393,7 +394,7 @@ namespace DSaA_Project_TimeTracker
         private void logOutAdminButton_Click(object sender, EventArgs e)
         {
             ResetHelpState();
-            
+
             adminViewPanel.Visible = false;
             userViewPanel.Visible = false;
             projectsAdminPanel.Visible = false;
@@ -778,7 +779,7 @@ namespace DSaA_Project_TimeTracker
             tasksAdminPanel.Visible = false;
             teamsAdminPanel.Visible = false;
             loadEmployees();
-            
+
         }
         private void employeesAdminListbox_SelectedIndexChanged_1(object sender, EventArgs e)
         {
@@ -861,7 +862,7 @@ namespace DSaA_Project_TimeTracker
 
         private void addHistoryRecordButton_Click(object sender, EventArgs e)
         {
-            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as Database.Entities.User)
+            AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User)
             {
                 PanelToShow = "AddHistoryRecord"
             };
@@ -882,7 +883,7 @@ namespace DSaA_Project_TimeTracker
                 var selectedUserHistory = selectedListViewItem.Tag as UserHistory;
                 if (selectedUserHistory != null)
                 {
-                    AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as Database.Entities.User, selectedUserHistory)
+                    AddEditHistoryRecord addEditHistoryRecord = new AddEditHistoryRecord(employeesAdminListbox.SelectedItem as User, selectedUserHistory)
                     {
                         PanelToShow = "EditHistoryRecord"
                     };
@@ -985,6 +986,7 @@ namespace DSaA_Project_TimeTracker
 
         private async void teamsNameUserListview_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             var _taskRepo = new TaskRepo();
             var _taskAssignRepo = new TaskAssignmentRepo();
 
@@ -1003,23 +1005,23 @@ namespace DSaA_Project_TimeTracker
                             continue;
                         var item = new ListViewItem(member.User.Username);
                         item.SubItems.Add(member.User.Email);
+                        item.Tag = member.User;
+                        /*                        var teamUserTasks = taskAssignments.Where(x => x.UserId == member.UserId).ToList();
+                                                var taskList = "";
+                                                if (teamUserTasks != null && tasks != null)
+                                                {
 
-                        var teamUserTasks = taskAssignments.Where(x => x.UserId == member.UserId).ToList();
-                        var taskList = "";
-                        if (teamUserTasks != null && tasks != null)
-                        {
-
-                            var userTaskIds = teamUserTasks.Select(x => x.TaskId).ToHashSet();
-                            var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
-                            var taskNames = new List<string>();
-                            foreach (var task in userTasks)
-                            {
-                                if (task.Status == "ToDo")
-                                    taskNames.Add(task.Title);
-                            }
-                            taskList = string.Join(", ", taskNames);
-                        }
-                        item.SubItems.Add(taskList);
+                                                    var userTaskIds = teamUserTasks.Select(x => x.TaskId).ToHashSet();
+                                                    var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+                                                    var taskNames = new List<string>();
+                                                    foreach (var task in userTasks)
+                                                    {
+                                                        if (task.Status == "ToDo")
+                                                            taskNames.Add(task.Title);
+                                                    }
+                                                    taskList = string.Join(", ", taskNames);
+                                                }
+                                                item.SubItems.Add(taskList);*/
 
                         teamsMembersUserListview.Items.Add(item);
                     }
@@ -1115,15 +1117,27 @@ namespace DSaA_Project_TimeTracker
 
         }
 
-
-
-
-
-
         private void generateReportButton_Click(object sender, EventArgs e)
         {
             var generateReport = new GenerateReport();
             generateReport.ShowDialog();
+        }
+
+        private void teamsMembersUserListview_DoubleClick(object sender, EventArgs e)
+        {
+
+            if (teamsMembersUserListview.SelectedItems.Count > 0)
+            {
+                var selectedListViewItem = teamsMembersUserListview.SelectedItems[0];
+                var selectedUser = selectedListViewItem.Tag as User;
+                if (selectedUser != null)
+                {
+                    userForm UserForm = new userForm(selectedUser);
+                    UserForm.ShowDialog();
+
+                }
+            }
+
         }
 
 
