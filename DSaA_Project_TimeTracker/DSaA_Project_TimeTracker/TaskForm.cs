@@ -19,6 +19,8 @@ namespace DSaA_Project_TimeTracker
 
     public partial class TaskForm : Form
     {
+        public event EventHandler StatusChanged;
+
         private bool isHelpVisible = false;
         private Label[] helpLabels;
         private TaskToDo _task;
@@ -50,6 +52,7 @@ namespace DSaA_Project_TimeTracker
             popupTimerPauseButton.Click += popupTimerPauseButton_Click;
             popupRecordButton.Click += popupRecordButton_Click;
             addManualTimeButton.Click += addManualTimeButton_Click;
+            popupDoneCheckbox.CheckedChanged += PopupDoneCheckbox_CheckedChanged;
 
 
 
@@ -239,7 +242,7 @@ namespace DSaA_Project_TimeTracker
         private async void addManualTimeButton_Click(object sender, EventArgs e)
         {
             int minutes = (int)manualMinutesInput.Value;
-            decimal hoursToAdd = Math.Round((decimal)minutes / 60, 2); // Convert to hours
+            decimal hoursToAdd = Math.Round((decimal)minutes / 60, 2);
 
             try
             {
@@ -265,6 +268,31 @@ namespace DSaA_Project_TimeTracker
             catch (Exception ex)
             {
                 MessageBox.Show("Error saving manual time: " + ex.Message);
+            }
+        }
+
+        private async void PopupDoneCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var context = new TTDbContext())
+                {
+                    var taskToUpdate = await context.Tasks.FindAsync(_task.Id);
+
+                    if (taskToUpdate != null)
+                    {
+                        taskToUpdate.Status = popupDoneCheckbox.Checked ? "Done" : "ToDo";
+                        await context.SaveChangesAsync();
+
+                        _task.Status = taskToUpdate.Status;
+
+                        StatusChanged?.Invoke(this, EventArgs.Empty);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error updating task status: " + ex.Message);
             }
         }
 
