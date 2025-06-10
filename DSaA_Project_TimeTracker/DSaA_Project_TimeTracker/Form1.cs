@@ -1056,6 +1056,7 @@ namespace DSaA_Project_TimeTracker
             if (user != null)
             {
                 userId = user.Id;
+                Globals.LoggedInUserId = user.Id;
                 if (user.Role.RoleName == "Admin")
                 {
                     //show admin panel
