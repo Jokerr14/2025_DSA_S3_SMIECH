@@ -133,7 +133,7 @@
             // 
             // popupRecordButton
             // 
-            popupRecordButton.Location = new Point(31, 921);
+            popupRecordButton.Location = new Point(31, 932);
             popupRecordButton.Margin = new Padding(4, 3, 4, 3);
             popupRecordButton.Name = "popupRecordButton";
             popupRecordButton.Size = new Size(156, 38);
@@ -144,7 +144,7 @@
             // popupTimerLabel
             // 
             popupTimerLabel.AutoSize = true;
-            popupTimerLabel.Location = new Point(31, 883);
+            popupTimerLabel.Location = new Point(31, 873);
             popupTimerLabel.Margin = new Padding(4, 0, 4, 0);
             popupTimerLabel.Name = "popupTimerLabel";
             popupTimerLabel.Size = new Size(88, 25);
