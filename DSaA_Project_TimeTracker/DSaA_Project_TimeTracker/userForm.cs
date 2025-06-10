@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using AutoMapper.Execution;
 using DSaA_Project_TimeTracker.Database.Entities;
 using DSaA_Project_TimeTracker.Database.Repos;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace DSaA_Project_TimeTracker
 {
@@ -18,6 +20,7 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private Label[] helpLabels;
         public object SelectedUser { get; set; }
+
 
         public userForm(object selectedUser)
         {
@@ -28,19 +31,31 @@ namespace DSaA_Project_TimeTracker
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             SelectedUser = selectedUser;
 
+            userForm_Load(selectedUser);
+
+        }
+
+        private async void userForm_Load(object selectedUser)
+        {
+            var _taskRepo = new TaskRepo();
+            var _taskAssignRepo = new TaskAssignmentRepo();
+            var tasks = await _taskRepo.GetAll();
+            var taskAssignments = await _taskAssignRepo.GetAll();
             if (SelectedUser is User user)
             {
                 userNameLabel.Text = user.Username;
-
-                userTasksListBox.Items.Clear();
-                var taskTitles = user.TaskAssignments?
-                    .Select(ta => ta.TaskToDo?.Title)
-                    .Where(title => !string.IsNullOrEmpty(title))
-                    .ToList() ?? new List<string>();
-
-                foreach (var title in taskTitles)
+                var teamUserTasks = taskAssignments.Where(x => x.UserId == user.Id).ToList();
+                
+                var taskList = "";
+                if (teamUserTasks != null)
                 {
-                    userTasksListBox.Items.Add(title);
+                    var userTaskIds = teamUserTasks.Select(x => x.TaskId).ToHashSet();
+                    var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+                    var taskNames = new List<string>();
+                    foreach (var task in userTasks)
+                    {
+                        userTasksListBox.Items.Add(task.Title);
+                    }
                 }
             }
             else
