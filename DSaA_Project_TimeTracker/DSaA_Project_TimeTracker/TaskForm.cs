@@ -22,6 +22,9 @@ namespace DSaA_Project_TimeTracker
         private bool isHelpVisible = false;
         private Label[] helpLabels;
         private TaskToDo _task;
+        private TaskAssignmentRepo _taskAssignmentRepo = new();
+        private int _currentTaskId;
+        private int _currentUserId;
 
         private TimeSpan _pausedTime = TimeSpan.Zero;
         private TimeSpan _sessionTime = TimeSpan.Zero;
@@ -41,11 +44,18 @@ namespace DSaA_Project_TimeTracker
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
             _task = task;
+            _currentUserId = Globals.LoggedInUserId;
+
+            popupTimerStartStopButton.Click += popupTimerStartStopButton_Click;
+            popupTimerPauseButton.Click += popupTimerPauseButton_Click;
+            popupRecordButton.Click += popupRecordButton_Click;
+            addManualTimeButton.Click += addManualTimeButton_Click;
+
+
 
             popupTaskNameLabel.Text = task.Title;
             popupTaskDescriptionTexbox.Text = task.Description;
             popupDoneCheckbox.Checked = task.Status == "Done";
-            popupRecordStartDatePicker.Value = task.DueDate ?? DateTime.Now;
             workTimer = new System.Windows.Forms.Timer();
             workTimer.Interval = 1000;
             workTimer.Tick += WorkTimer_Tick;
@@ -64,8 +74,8 @@ namespace DSaA_Project_TimeTracker
                 CreateHelpLabel(popupDoneCheckbox, "Check once the task is done."),
                 CreateHelpLabel(popupTimerStartStopButton, "Click to start/stop the timer."),
                 CreateHelpLabel(popupTimerPauseButton, "Click to pause the timer."),
-                CreateHelpLabel(popupRecordStartDatePicker, "Mark when you started the task."),
-                CreateHelpLabel(popupRecordEndDatePicker, "Mark when you finished the task."),
+                CreateHelpLabel(addManualTimeButton, "Click to manually add the time spent."),
+                CreateHelpLabel(manualMinutesInput, "Input the amount of minutes you have spent working."),
                 CreateHelpLabel(popupRecordButton, "Click to save the time you spent on task.")
             };
 
@@ -202,7 +212,7 @@ namespace DSaA_Project_TimeTracker
                 using (var context = new TTDbContext())
                 {
                     var assignment = await context.TaskAssignments
-                        .FirstOrDefaultAsync(a => a.TaskId == _task.Id && a.UserId == Globals.LoggedInUserId);
+                        .FirstOrDefaultAsync(a => a.TaskId == _task.Id && a.UserId == _currentUserId);
 
                     if (assignment != null)
                     {
@@ -225,6 +235,39 @@ namespace DSaA_Project_TimeTracker
                 MessageBox.Show("Error saving data: " + ex.Message);
             }
         }
+
+        private async void addManualTimeButton_Click(object sender, EventArgs e)
+        {
+            int minutes = (int)manualMinutesInput.Value;
+            decimal hoursToAdd = Math.Round((decimal)minutes / 60, 2); // Convert to hours
+
+            try
+            {
+                using (var context = new TTDbContext())
+                {
+                    var assignment = await context.TaskAssignments
+                        .FirstOrDefaultAsync(a => a.TaskId == _task.Id && a.UserId == _currentUserId);
+
+                    if (assignment != null)
+                    {
+                        assignment.TimeSpentHours += hoursToAdd;
+                        await context.SaveChangesAsync();
+
+                        MessageBox.Show($"Added {hoursToAdd:F2} hours manually.");
+                        manualMinutesInput.Value = 1;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Assignment not found for this task and user.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving manual time: " + ex.Message);
+            }
+        }
+
 
     }
 }
