@@ -36,13 +36,13 @@
             popupTimerStartStopButton = new Button();
             popupTimerPauseButton = new Button();
             popupRecordDescriptionLabel = new Label();
-            popupRecordStartDatePicker = new DateTimePicker();
-            popupRecordEndDatePicker = new DateTimePicker();
             popupRecordButton = new Button();
-            popupRecordStartLabel = new Label();
-            popupRecordEndLabel = new Label();
             popupTimerLabel = new Label();
             helpButton = new Button();
+            manualMinutesInput = new NumericUpDown();
+            pageSetupDialog1 = new PageSetupDialog();
+            addManualTimeButton = new Button();
+            ((System.ComponentModel.ISupportInitialize)manualMinutesInput).BeginInit();
             SuspendLayout();
             // 
             // popupTaskNameLabel
@@ -121,31 +121,15 @@
             // popupRecordDescriptionLabel
             // 
             popupRecordDescriptionLabel.AutoSize = true;
-            popupRecordDescriptionLabel.Location = new Point(317, 419);
+            popupRecordDescriptionLabel.Location = new Point(278, 419);
             popupRecordDescriptionLabel.Name = "popupRecordDescriptionLabel";
-            popupRecordDescriptionLabel.Size = new Size(187, 15);
+            popupRecordDescriptionLabel.Size = new Size(254, 15);
             popupRecordDescriptionLabel.TabIndex = 8;
-            popupRecordDescriptionLabel.Text = "Log time spent working manually:";
-            // 
-            // popupRecordStartDatePicker
-            // 
-            popupRecordStartDatePicker.Location = new Point(317, 455);
-            popupRecordStartDatePicker.Margin = new Padding(3, 2, 3, 2);
-            popupRecordStartDatePicker.Name = "popupRecordStartDatePicker";
-            popupRecordStartDatePicker.Size = new Size(214, 23);
-            popupRecordStartDatePicker.TabIndex = 10;
-            // 
-            // popupRecordEndDatePicker
-            // 
-            popupRecordEndDatePicker.Location = new Point(317, 498);
-            popupRecordEndDatePicker.Margin = new Padding(3, 2, 3, 2);
-            popupRecordEndDatePicker.Name = "popupRecordEndDatePicker";
-            popupRecordEndDatePicker.Size = new Size(214, 23);
-            popupRecordEndDatePicker.TabIndex = 11;
+            popupRecordDescriptionLabel.Text = "Log time spent working manually (in minutes):";
             // 
             // popupRecordButton
             // 
-            popupRecordButton.Location = new Point(317, 542);
+            popupRecordButton.Location = new Point(22, 559);
             popupRecordButton.Margin = new Padding(3, 2, 3, 2);
             popupRecordButton.Name = "popupRecordButton";
             popupRecordButton.Size = new Size(109, 23);
@@ -153,32 +137,14 @@
             popupRecordButton.Text = "Record Time";
             popupRecordButton.UseVisualStyleBackColor = true;
             // 
-            // popupRecordStartLabel
-            // 
-            popupRecordStartLabel.AutoSize = true;
-            popupRecordStartLabel.Location = new Point(268, 459);
-            popupRecordStartLabel.Name = "popupRecordStartLabel";
-            popupRecordStartLabel.Size = new Size(38, 15);
-            popupRecordStartLabel.TabIndex = 13;
-            popupRecordStartLabel.Text = "START";
-            // 
-            // popupRecordEndLabel
-            // 
-            popupRecordEndLabel.AutoSize = true;
-            popupRecordEndLabel.Location = new Point(278, 502);
-            popupRecordEndLabel.Name = "popupRecordEndLabel";
-            popupRecordEndLabel.Size = new Size(30, 15);
-            popupRecordEndLabel.TabIndex = 14;
-            popupRecordEndLabel.Text = "END";
-            // 
             // popupTimerLabel
             // 
             popupTimerLabel.AutoSize = true;
-            popupTimerLabel.Location = new Point(22, 550);
+            popupTimerLabel.Location = new Point(22, 524);
             popupTimerLabel.Name = "popupTimerLabel";
-            popupTimerLabel.Size = new Size(99, 15);
+            popupTimerLabel.Size = new Size(59, 15);
             popupTimerLabel.TabIndex = 15;
-            popupTimerLabel.Text = "timer will go here";
+            popupTimerLabel.Text = "hh:mm:ss";
             // 
             // helpButton
             // 
@@ -190,18 +156,37 @@
             helpButton.UseVisualStyleBackColor = true;
             helpButton.Click += helpButton_Click;
             // 
+            // manualMinutesInput
+            // 
+            manualMinutesInput.Location = new Point(317, 457);
+            manualMinutesInput.Margin = new Padding(2, 2, 2, 2);
+            manualMinutesInput.Maximum = new decimal(new int[] { 1440, 0, 0, 0 });
+            manualMinutesInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            manualMinutesInput.Name = "manualMinutesInput";
+            manualMinutesInput.Size = new Size(126, 23);
+            manualMinutesInput.TabIndex = 17;
+            manualMinutesInput.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // addManualTimeButton
+            // 
+            addManualTimeButton.Location = new Point(317, 502);
+            addManualTimeButton.Margin = new Padding(2, 2, 2, 2);
+            addManualTimeButton.Name = "addManualTimeButton";
+            addManualTimeButton.Size = new Size(126, 20);
+            addManualTimeButton.TabIndex = 18;
+            addManualTimeButton.Text = "Record Manually";
+            addManualTimeButton.UseVisualStyleBackColor = true;
+            // 
             // TaskForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(573, 606);
+            Controls.Add(addManualTimeButton);
+            Controls.Add(manualMinutesInput);
             Controls.Add(helpButton);
             Controls.Add(popupTimerLabel);
-            Controls.Add(popupRecordEndLabel);
-            Controls.Add(popupRecordStartLabel);
             Controls.Add(popupRecordButton);
-            Controls.Add(popupRecordEndDatePicker);
-            Controls.Add(popupRecordStartDatePicker);
             Controls.Add(popupRecordDescriptionLabel);
             Controls.Add(popupTimerPauseButton);
             Controls.Add(popupTimerStartStopButton);
@@ -213,6 +198,7 @@
             Margin = new Padding(3, 2, 3, 2);
             Name = "TaskForm";
             Text = "Detailed Information about the Task";
+            ((System.ComponentModel.ISupportInitialize)manualMinutesInput).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -227,12 +213,11 @@
         private Button popupTimerStartStopButton;
         private Button popupTimerPauseButton;
         private Label popupRecordDescriptionLabel;
-        private DateTimePicker popupRecordStartDatePicker;
-        private DateTimePicker popupRecordEndDatePicker;
         private Button popupRecordButton;
-        private Label popupRecordStartLabel;
-        private Label popupRecordEndLabel;
         private Label popupTimerLabel;
         private Button helpButton;
+        private NumericUpDown manualMinutesInput;
+        private PageSetupDialog pageSetupDialog1;
+        private Button addManualTimeButton;
     }
 }

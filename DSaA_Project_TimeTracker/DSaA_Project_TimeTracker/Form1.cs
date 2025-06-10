@@ -3,6 +3,7 @@ using DSaA_Project_TimeTracker.Database.Repos;
 using DSaA_Project_TimeTracker.DTOs.User;
 //using Microsoft.VisualBasic.ApplicationServices;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 
 namespace DSaA_Project_TimeTracker
@@ -22,11 +23,45 @@ namespace DSaA_Project_TimeTracker
                 if (taskDetails != null)
                 {
                     var taskForm = new TaskForm(taskDetails);
+                    taskForm.StatusChanged += (s, e) => RefreshUserTasks();
                     taskForm.ShowDialog();
                 }
                 else
                 {
                     MessageBox.Show("Could not load task details.");
+                }
+            }
+        }
+
+        //refresh her 
+        private async void RefreshUserTasks()
+        {
+            tasksTodoUserListbox.Items.Clear();
+            tasksDoneUserListbox.Items.Clear();
+
+            var taskRepo = new TaskRepo();
+            var taskAssignRepo = new TaskAssignmentRepo();
+
+            var tasks = await taskRepo.GetAll();
+            var assignments = await taskAssignRepo.GetAll();
+            var loggedUserTasks = assignments.Where(x => x.UserId == userId).ToList();
+
+            if (loggedUserTasks != null && tasks != null)
+            {
+                tasksTodoUserListbox.DisplayMember = "Title";
+                tasksTodoUserListbox.ValueMember = "Id";
+                tasksDoneUserListbox.DisplayMember = "Title";
+                tasksDoneUserListbox.ValueMember = "Id";
+
+                var userTaskIds = loggedUserTasks.Select(x => x.TaskId).ToHashSet();
+                var userTasks = tasks.Where(t => userTaskIds.Contains(t.Id));
+
+                foreach (var task in userTasks)
+                {
+                    if (task.Status == "ToDo")
+                        tasksTodoUserListbox.Items.Add(task);
+                    else if (task.Status == "Done")
+                        tasksDoneUserListbox.Items.Add(task);
                 }
             }
         }
@@ -41,6 +76,7 @@ namespace DSaA_Project_TimeTracker
                 if (taskDetails != null)
                 {
                     var taskForm = new TaskForm(taskDetails);
+                    taskForm.StatusChanged += (s, e) => RefreshUserTasks();
                     taskForm.ShowDialog();
                 }
                 else
@@ -1056,6 +1092,7 @@ namespace DSaA_Project_TimeTracker
             if (user != null)
             {
                 userId = user.Id;
+                Globals.LoggedInUserId = user.Id;
                 if (user.Role.RoleName == "Admin")
                 {
                     //show admin panel

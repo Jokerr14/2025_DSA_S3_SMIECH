@@ -5,40 +5,42 @@ USE ProjectManagementDB;
 GO
 
 CREATE TABLE Roles (
-    RoleID INT PRIMARY KEY IDENTITY(1,1),
+    Id INT PRIMARY KEY,
     RoleName NVARCHAR(100) NOT NULL UNIQUE
 );
 GO
 
 CREATE TABLE Users (
-    UserID INT PRIMARY KEY IDENTITY(1,1),
+    Id INT PRIMARY KEY IDENTITY(1,1),
     Username NVARCHAR(100) NOT NULL UNIQUE,
     Email NVARCHAR(150) NOT NULL UNIQUE,
     PasswordHash NVARCHAR(255) NOT NULL,
-    RoleID INT NOT NULL,
+    RoleId INT NOT NULL,
+    Salt NVARCHAR(150) NOT NULL,
     EmploymentStatus NVARCHAR(50) NOT NULL,
-    CONSTRAINT FK_Users_Roles FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
+    CONSTRAINT FK_Users_Roles FOREIGN KEY (RoleId) REFERENCES Roles(Id)
+    ON DELETE NO ACTION
 );
 GO
 
 CREATE TABLE Teams (
-    TeamID INT PRIMARY KEY IDENTITY(1,1),
+    Id INT PRIMARY KEY IDENTITY(1,1),
     TeamName NVARCHAR(100) NOT NULL UNIQUE,
     Description NVARCHAR(255)
 );
 GO
 
 CREATE TABLE TeamMembers (
-    TeamID INT,
-    UserID INT,
-    PRIMARY KEY (TeamID, UserID),
-    CONSTRAINT FK_TeamMembers_Teams FOREIGN KEY (TeamID) REFERENCES Teams(TeamID),
-    CONSTRAINT FK_TeamMembers_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    TeamId INT,
+    UserId INT,
+    PRIMARY KEY (TeamId, UserId),
+    CONSTRAINT FK_TeamMembers_Teams FOREIGN KEY (TeamId) REFERENCES Teams(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_TeamMembers_Users FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE Projects (
-    ProjectID INT PRIMARY KEY IDENTITY(1,1),
+    Id INT PRIMARY KEY IDENTITY(1,1),
     ProjectName NVARCHAR(150) NOT NULL,
     Description NVARCHAR(500),
     StartDate DATE,
@@ -47,50 +49,41 @@ CREATE TABLE Projects (
 GO
 
 CREATE TABLE TeamProjects (
-    TeamID INT,
-    ProjectID INT,
-    PRIMARY KEY (TeamID, ProjectID),
-    CONSTRAINT FK_TeamProjects_Teams FOREIGN KEY (TeamID) REFERENCES Teams(TeamID),
-    CONSTRAINT FK_TeamProjects_Projects FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+    TeamId INT,
+    ProjectId INT,
+    PRIMARY KEY (TeamId, ProjectId),
+    CONSTRAINT FK_TeamProjects_Teams FOREIGN KEY (TeamId) REFERENCES Teams(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_TeamProjects_Projects FOREIGN KEY (ProjectId) REFERENCES Projects(Id) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE Tasks (
-    TaskID INT PRIMARY KEY IDENTITY(1,1),
+    Id INT PRIMARY KEY IDENTITY(1,1),
     Title NVARCHAR(150) NOT NULL,
     Description NVARCHAR(500),
     Status NVARCHAR(50) NOT NULL,
     DueDate DATE,
-    ProjectID INT NOT NULL,
-    CONSTRAINT FK_Tasks_Projects FOREIGN KEY (ProjectID) REFERENCES Projects(ProjectID)
+    ProjectId INT NOT NULL,
+    CONSTRAINT FK_Tasks_Projects FOREIGN KEY (ProjectId) REFERENCES Projects(Id) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE TaskAssignments (
-    TaskID INT,
-    UserID INT,
-    PRIMARY KEY (TaskID, UserID),
-    CONSTRAINT FK_TaskAssignments_Tasks FOREIGN KEY (TaskID) REFERENCES Tasks(TaskID),
-    CONSTRAINT FK_TaskAssignments_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    TaskId INT,
+    UserId INT,
+    TimeSpentHours DECIMAL(5, 2) NULL,
+    PRIMARY KEY (TaskId, UserId),
+    CONSTRAINT FK_TaskAssignments_Tasks FOREIGN KEY (TaskId) REFERENCES Tasks(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_TaskAssignments_Users FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
 );
 GO
 
 CREATE TABLE UserHistory (
-    HistoryID INT PRIMARY KEY IDENTITY(1,1),
-    UserID INT NOT NULL,
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    UserId INT NOT NULL,
     EventType NVARCHAR(50) NOT NULL,
     EventDate DATE NOT NULL,
     Notes NVARCHAR(500),
-    CONSTRAINT FK_UserHistory_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
-);
-GO
-
-CREATE TABLE TaskAssignments (
-    TaskID INT,
-    UserID INT,
-    TimeSpentHours DECIMAL(5, 2) NULL,
-    PRIMARY KEY (TaskID, UserID),
-    CONSTRAINT FK_TaskAssignments_Tasks FOREIGN KEY (TaskID) REFERENCES Tasks(TaskID),
-    CONSTRAINT FK_TaskAssignments_Users FOREIGN KEY (UserID) REFERENCES Users(UserID)
+    CONSTRAINT FK_UserHistory_Users FOREIGN KEY (UserId) REFERENCES Users(Id) ON DELETE CASCADE
 );
 GO
