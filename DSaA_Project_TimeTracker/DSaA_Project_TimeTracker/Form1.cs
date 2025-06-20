@@ -1122,7 +1122,8 @@ namespace DSaA_Project_TimeTracker
 
         private void generateReportButton_Click(object sender, EventArgs e)
         {
-            var generateReport = new GenerateReport();
+            var selectedTeam = teamsAdminListbox.SelectedItem as Team;
+            var generateReport = new GenerateReport(selectedTeam);
             generateReport.ShowDialog();
         }
 
