@@ -45,8 +45,8 @@ namespace DSaA_Project_TimeTracker
             {
                 userNameLabel.Text = user.Username;
                 var teamUserTasks = taskAssignments.Where(x => x.UserId == user.Id).ToList();
-                
-                var taskList = "";
+
+                userTasksListBox.Items.Clear();
                 if (teamUserTasks != null)
                 {
                     var userTaskIds = teamUserTasks.Select(x => x.TaskId).ToHashSet();
@@ -54,7 +54,8 @@ namespace DSaA_Project_TimeTracker
                     var taskNames = new List<string>();
                     foreach (var task in userTasks)
                     {
-                        userTasksListBox.Items.Add(task.Title);
+                        string projectName = task.Project?.ProjectName ?? "Unknown Project";
+                        userTasksListBox.Items.Add($"{projectName} - {task.Title}");
                     }
                 }
             }
@@ -71,7 +72,7 @@ namespace DSaA_Project_TimeTracker
             helpLabels = new Label[]
             {
                    CreateHelpLabel(userNameLabel, "Name of selected employee."),
-                   CreateHelpLabel(userTasksListBox, "List of tasks the selected employee completed."),
+                   CreateHelpLabel(userTasksListBox, "List of tasks the selected employee has been assigned."),
                    CreateHelpLabel(helpButton, "Show help."),
 
             };
