@@ -429,10 +429,10 @@
             adminViewPanel.Controls.Add(teamsAdminButton);
             adminViewPanel.Controls.Add(tasksAdminButton);
             adminViewPanel.Controls.Add(projectsAdminButton);
-            adminViewPanel.Controls.Add(tasksAdminPanel);
-            adminViewPanel.Controls.Add(teamsAdminPanel);
             adminViewPanel.Controls.Add(employeesAdminPanel);
             adminViewPanel.Controls.Add(projectsAdminPanel);
+            adminViewPanel.Controls.Add(tasksAdminPanel);
+            adminViewPanel.Controls.Add(teamsAdminPanel);
             adminViewPanel.Location = new Point(0, 2);
             adminViewPanel.Margin = new Padding(3, 2, 3, 2);
             adminViewPanel.Name = "adminViewPanel";
@@ -650,7 +650,7 @@
             tasksNameAdminLabel.AutoSize = true;
             tasksNameAdminLabel.Location = new Point(319, 10);
             tasksNameAdminLabel.Name = "tasksNameAdminLabel";
-            tasksNameAdminLabel.Size = new Size(64, 15);
+            tasksNameAdminLabel.Size = new Size(65, 15);
             tasksNameAdminLabel.TabIndex = 4;
             tasksNameAdminLabel.Text = "Task Name";
             // 
@@ -762,7 +762,7 @@
             teamsNameAdminLabel.AutoSize = true;
             teamsNameAdminLabel.Location = new Point(312, 10);
             teamsNameAdminLabel.Name = "teamsNameAdminLabel";
-            teamsNameAdminLabel.Size = new Size(70, 15);
+            teamsNameAdminLabel.Size = new Size(71, 15);
             teamsNameAdminLabel.TabIndex = 4;
             teamsNameAdminLabel.Text = "Team Name";
             // 
@@ -1067,7 +1067,7 @@
             label2.AutoSize = true;
             label2.Location = new Point(292, 190);
             label2.Name = "label2";
-            label2.Size = new Size(91, 15);
+            label2.Size = new Size(92, 15);
             label2.TabIndex = 16;
             label2.Text = "Assigned Teams";
             // 
