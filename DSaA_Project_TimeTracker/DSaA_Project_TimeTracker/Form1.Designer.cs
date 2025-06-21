@@ -47,7 +47,6 @@
             teamsMembersUserListview = new ListView();
             userName = new ColumnHeader();
             userEmail = new ColumnHeader();
-            userTasks = new ColumnHeader();
             teamsMembersUserLabel = new Label();
             teamsNameUserListbox = new ListBox();
             label5 = new Label();
@@ -319,28 +318,25 @@
             // 
             // teamsMembersUserListview
             // 
-            teamsMembersUserListview.Columns.AddRange(new ColumnHeader[] { userName, userEmail, userTasks });
+            teamsMembersUserListview.Columns.AddRange(new ColumnHeader[] { userName, userEmail });
+            teamsMembersUserListview.FullRowSelect = true;
             teamsMembersUserListview.Location = new Point(381, 31);
             teamsMembersUserListview.Name = "teamsMembersUserListview";
             teamsMembersUserListview.Size = new Size(705, 454);
             teamsMembersUserListview.TabIndex = 4;
             teamsMembersUserListview.UseCompatibleStateImageBehavior = false;
             teamsMembersUserListview.View = View.Details;
+            teamsMembersUserListview.DoubleClick += teamsMembersUserListview_DoubleClick;
             // 
             // userName
             // 
             userName.Text = "User";
-            userName.Width = 120;
+            userName.Width = 350;
             // 
             // userEmail
             // 
             userEmail.Text = "Email";
-            userEmail.Width = 200;
-            // 
-            // userTasks
-            // 
-            userTasks.Text = "Tasks";
-            userTasks.Width = 300;
+            userEmail.Width = 355;
             // 
             // teamsMembersUserLabel
             // 
@@ -1198,9 +1194,9 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1140, 692);
-            Controls.Add(adminViewPanel);
             Controls.Add(userViewPanel);
             Controls.Add(loginPanel);
+            Controls.Add(adminViewPanel);
             Margin = new Padding(3, 2, 3, 2);
             Name = "Form1";
             Text = "Time Tracker - DSaA Project";
@@ -1333,6 +1329,5 @@
         private ListView teamsMembersUserListview;
         private ColumnHeader userName;
         private ColumnHeader userEmail;
-        private ColumnHeader userTasks;
     }
 }
