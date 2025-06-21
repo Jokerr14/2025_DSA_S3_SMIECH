@@ -13,6 +13,7 @@ using QuestPDF.Fluent;
 using QuestPDF.Elements;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using AutoMapper.Execution;
 
 
 namespace DSaA_Project_TimeTracker
@@ -93,113 +94,130 @@ namespace DSaA_Project_TimeTracker
 
         private async void generateSummaryReportButton_Click(object sender, EventArgs e)
         {
-            QuestPDF.Settings.License = LicenseType.Community;  //without this it doesnt work
+            QuestPDF.Settings.License = LicenseType.Community;
+
             TaskAssignmentRepo taskAssignmentRepo = new TaskAssignmentRepo();
             UserRepo userRepo = new UserRepo();
             TaskRepo taskRepo = new TaskRepo();
-            List<TaskAssignment> taskAssignments = new List<TaskAssignment>(); ;
-            foreach (var item in checkedListBox.CheckedItems)
+
+            var taskAssignments = new List<TaskAssignment>();
+
+            // Get all task assignments
+            var allAssignments = await taskAssignmentRepo.GetAll();
+
+            // Select all checked users
+            List<User> selectedUsers = new List<User>();
+            bool selectAll = checkedListBox.CheckedItems.Contains("Select All Employees");
+
+            if (selectAll && selectedTeam != null)
             {
-                if (item.ToString() == "Select All Employees")
+                selectedUsers = selectedTeam.TeamMembers.Select(tm => tm.User).ToList();
+            }
+            else
+            {
+                foreach (var item in checkedListBox.CheckedItems)
                 {
-                    // If "Select All Employees" is checked, select all users in the team
-                    if(selectedTeam != null)
-                    {
-                        foreach (var member in selectedTeam.TeamMembers)
-                        {
-                            if (!checkedListBox.CheckedItems.Contains(member.User))
-                            {
-                                checkedListBox.SetItemChecked(checkedListBox.Items.IndexOf(member.User), true);
-                                taskAssignments.Add(await taskAssignmentRepo.GetById(selectedTeam.Id, member.UserId));
-                            }
-                        }
-                        break; // Exit the loop after processing "Select All Employees"
-                    }
-                    
-                }
-                else if (item is User user)
-                {
-                    if (selectedTeam != null)
-                        taskAssignments.Add(await taskAssignmentRepo.GetById(selectedTeam.Id, user.Id));
+                    if (item is User user)
+                        selectedUsers.Add(user);
                 }
             }
+
+            if (selectedTeam == null)
+                return;
+
+            // Filter only assignments that match: user is in selected users, and task.ProjectId is in team projects
+            var teamProjectIds = selectedTeam.TeamProjects.Select(tp => tp.ProjectId).ToHashSet();
+
+            foreach (var assignment in allAssignments)
+            {
+                if (!selectedUsers.Any(u => u.Id == assignment.UserId))
+                    continue;
+
+                var task = await taskRepo.GetById(assignment.TaskId);
+                if (task != null && teamProjectIds.Contains(task.ProjectId))
+                {
+                    taskAssignments.Add(assignment);
+                }
+            }
+
+            // Build report items
             var reportItems = new List<(string Username, string TaskTitle, decimal TimeSpentHours)>();
             foreach (var assignment in taskAssignments)
             {
-                if (assignment.UserId == 0 || assignment.TaskId == 0)
-                    continue;
                 var user = await userRepo.GetById(assignment.UserId);
                 var task = await taskRepo.GetById(assignment.TaskId);
-                reportItems.Add((user.Username, task.Title, assignment.TimeSpentHours));
-            }
-            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+
+                if (user != null && task != null)
                 {
-                    saveFileDialog.Title = "Save PDF Report";
-                    saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
-                    saveFileDialog.FileName = "report.pdf";
-
-                    if (saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        string filePath = saveFileDialog.FileName;
-
-                        Document.Create(container =>
-                        {
-                            container.Page(page =>
-                            {
-                                page.Size(PageSizes.A4);
-                                page.Margin(2, Unit.Centimetre);
-                                page.PageColor(Colors.White);
-                                page.DefaultTextStyle(x => x.FontSize(14));
-
-                                page.Header()
-                                    .Text("Task Report")
-                                    .SemiBold().FontSize(24).FontColor(Colors.Blue.Darken2);
-
-                                page.Content()
-                                    .Table(async table =>
-                                    {
-                                        table.ColumnsDefinition(columns =>
-                                        {
-                                            columns.RelativeColumn(); // Username
-                                            columns.RelativeColumn(); // Task Title
-                                            columns.ConstantColumn(100); // Time Spent
-                                        });
-
-                                        // Table header
-                                        table.Header(header =>
-                                        {
-                                            header.Cell().Text("Username").SemiBold();
-                                            header.Cell().Text("Task Title").SemiBold();
-                                            header.Cell().AlignRight().Text("Time (hrs)").SemiBold();
-
-                                        });
-
-                                        // Table rows
-                                        foreach (var item in reportItems)
-                                        {
-                                            table.Cell().Text(item.Username);
-                                            table.Cell().Text(item.TaskTitle);
-                                            table.Cell().AlignRight().Text(item.TimeSpentHours.ToString("0.##"));
-                                        }
-                                    });
-
-                                page.Footer()
-                                    .AlignCenter()
-                                    .Text(x =>
-                                    {
-                                        x.Span("Page ");
-                                        x.CurrentPageNumber();
-                                    });
-                            });
-                        }).GeneratePdf(filePath);
-                        System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                        {
-                            FileName = filePath,
-                            UseShellExecute = true // required to open with default PDF viewer
-                        });
-                    }
-
+                    reportItems.Add((user.Username, task.Title, assignment.TimeSpentHours));
                 }
+            }
+
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
+            {
+                saveFileDialog.Title = "Save PDF Report";
+                saveFileDialog.Filter = "PDF files (*.pdf)|*.pdf";
+                saveFileDialog.FileName = "report.pdf";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    string filePath = saveFileDialog.FileName;
+
+                    Document.Create(container =>
+                    {
+                        container.Page(page =>
+                        {
+                            page.Size(PageSizes.A4);
+                            page.Margin(2, Unit.Centimetre);
+                            page.PageColor(Colors.White);
+                            page.DefaultTextStyle(x => x.FontSize(14));
+
+                            page.Header()
+                                .Text("Task Report")
+                                .SemiBold().FontSize(24).FontColor(Colors.Blue.Darken2);
+
+                            page.Content()
+                                .Table(table =>
+                                {
+                                    table.ColumnsDefinition(columns =>
+                                    {
+                                        columns.RelativeColumn();
+                                        columns.RelativeColumn();
+                                        columns.ConstantColumn(100);
+                                    });
+
+                                    table.Header(header =>
+                                    {
+                                        header.Cell().Text("Username").SemiBold();
+                                        header.Cell().Text("Task Title").SemiBold();
+                                        header.Cell().AlignRight().Text("Time (hrs)").SemiBold();
+                                    });
+
+                                    foreach (var item in reportItems)
+                                    {
+                                        table.Cell().Text(item.Username);
+                                        table.Cell().Text(item.TaskTitle);
+                                        table.Cell().AlignRight().Text(item.TimeSpentHours.ToString("0.##"));
+                                    }
+                                });
+
+                            page.Footer()
+                                .AlignCenter()
+                                .Text(x =>
+                                {
+                                    x.Span("Page ");
+                                    x.CurrentPageNumber();
+                                });
+                        });
+                    }).GeneratePdf(filePath);
+
+                    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                    {
+                        FileName = filePath,
+                        UseShellExecute = true
+                    });
+                }
+            }
         }
 
         private void generateDetailedReportButton_Click(object sender, EventArgs e)
